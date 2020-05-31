@@ -1,0 +1,48 @@
+name: hw1
+
+on:
+  push:
+    branches:
+      - '**hw1**'
+  pull_request:
+    branches:
+      - hw1
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+        matrix:
+          os: [ubuntu-18.04]
+
+        fail-fast: false
+
+    steps:
+
+    - name: setup
+      run: |
+        echo "::add-path::${HOME}/opt/conda/bin"
+        echo $GITHUB_REPOSITORY
+        echo $GITHUB_REF
+        echo ${{ github.event.pull_request.head.ref }}
+        echo ${{ github.event.pull_request.head }}
+        echo ${{ github.event.pull_request.user.login }}
+        echo ${{ github.event.pull_request.head.user.login }}
+
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: dependency (ubuntu)
+      if: matrix.os != 'macos-latest'
+      run: |
+        sudo apt-get -qy install python
+
+    - name: grade
+      run: |
+        username=$( [ -z "${{ github.event.pull_request.user.login }}" ] && echo $GITHUB_REPOSITORY | cut -d '/' -f 1 || echo ${{ github.event.pull_request.user.login }})
+        echo "cd hw1/$username"
+        cd hw1/$username
+        ../validate.sh
