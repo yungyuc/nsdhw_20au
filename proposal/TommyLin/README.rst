@@ -112,7 +112,7 @@ Schedule
 References
 ==========
 
-# https://en.wikipedia.org/wiki/Focus_stacking
-# https://en.wikipedia.org/wiki/Depth_of_field
-# https://en.wikipedia.org/wiki/Circle_of_confusion
-# https://en.wikipedia.org/wiki/Structural_similarity
+1. https://en.wikipedia.org/wiki/Focus_stacking
+2. https://en.wikipedia.org/wiki/Depth_of_field
+3. https://en.wikipedia.org/wiki/Circle_of_confusion
+4. https://en.wikipedia.org/wiki/Structural_similarity
