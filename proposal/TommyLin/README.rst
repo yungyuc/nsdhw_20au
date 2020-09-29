@@ -20,8 +20,13 @@ Problem To Solve
 When macro photography, the short depth of field (DOF) makes clear image only
 in a small area because of very short distance to subject. To get a clear
 (focused) image in a wide range, the photographer can shrink and use small
-aperture size. But shrinking aperture increase diffraction effect that also
-cause image blurry. So there are limit to get a clear photo with one shot.
+aperture size. But shrinking aperture has two side effects as follow:
+
+* 1. Increase diffraction effect that causes image blurry
+* 2. Decrease exposure energy that makes noise relatively increase
+
+So there are limit to get a clear photo by just shrinking aperture with one 
+shot. Here are three photos to show the effect of aperture size.
 
 +-------------------------------------+-------------------------------------+------------------------------------+
 | .. image:: wiki/Dof_blocks_f1_4.jpg | .. image:: wiki/Dof_blocks_f4_0.jpg | .. image:: wiki/Dof_blocks_f22.jpg |
@@ -30,7 +35,7 @@ cause image blurry. So there are limit to get a clear photo with one shot.
 *. Source: https://en.wikipedia.org/wiki/Depth_of_field
 
 Fortunately, photographer can take multiple **"digital"** photos and stack these
-photos together to make a photo focused.
+photos together to make a focused photo in large area.
 
 +-------------------------------------------------------+
 | .. image:: wiki/750px-Focus_stacking_Tachinid_fly.jpg |
