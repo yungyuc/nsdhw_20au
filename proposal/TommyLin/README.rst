@@ -113,11 +113,14 @@ will scan directory and determinate the groups of photos.
 Engineering Infrastructure
 ==========================
 
-Describe how you plan to put together the build system, testing framework, and
-documentation.  Show how you will do version control.
+To evaluate the algorism performance, this project will create images from a
+focused image. Through these image 
 
-You may use continuous integration, but it is not required.  If you use it,
-describe how it works in your code development.
+1. Get a clear and focused source image (image1)
+2. Divide source image into serveral sections and blur with Gaussian smoothing
+3. Through the focus stacking API to combine these blurred imaged (image2)
+4. Calculate SSIM of image1 and image2
+
 
 Schedule
 ========
