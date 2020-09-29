@@ -50,18 +50,28 @@ Definition of depth of field (DOF)
 
 Algorithm
 =========
+
 Steps to perform focus stacking
-1. Perform a Gaussian blur on each image with following kernel:
-   1 2 1
-   2 4 2
-   1 2 1
-2. Perform a Laplacian Edge Detection kernel on each Gaussian Blurred image:
+
+1. Perform a **Gaussian blur** on each image with following kernel:
+
+::
+
+   1  2  1
+   2  4  2
+   1  2  1
+
+2. Perform a **Laplacian Edge Detection** kernel on each Gaussian Blurred image:
+
+::
+
    -1 -1 -1
    -1  8 -1
    -1 -1 -1
+
 3. Take absolute value of Laplacian of Gaussian (LoG) result. This will quantify
    the strength of edges with respect to the size and strength of kernel.
-4. Create a blank image, loop through each pixel and fine the strongest edge in
+4. Create a blank image, loop through each pixel and find the strongest edge in
    the LoG(i.e. the highest value in the image stack) and take the RGB value for
    that pixel from the corresponding image.
 
