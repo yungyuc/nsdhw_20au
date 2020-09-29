@@ -34,9 +34,6 @@ shot. Here are three photos to show the effect of aperture size.
 +-------------------------------------+-------------------------------------+------------------------------------+
 *. Source: https://en.wikipedia.org/wiki/Depth_of_field
 
-Fortunately, photographer can take multiple **"digital"** photos and stack these
-photos together to make a focused photo in large area.
-
 Definition of depth of field (DOF)
 
 .. image:: DOF_equation.png
@@ -55,6 +52,9 @@ Definition of depth of field (DOF)
 For example: A Canon APS-C camera with conditions in previous will result:
 
 **DOF = 0.36mm**, (assume N=10, u=10cm=100mm)
+
+Fortunately, photographer can take multiple **"digital"** photos and stack these
+photos together to make a focused photo in large area.
 
 +-------------------------------------------------------+
 | .. image:: wiki/750px-Focus_stacking_Tachinid_fly.jpg |
