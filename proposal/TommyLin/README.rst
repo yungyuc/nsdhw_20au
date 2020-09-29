@@ -34,12 +34,18 @@ source: https://en.wikipedia.org/wiki/Circle_of_confusion
 
 Definition of depth of field (DOF)
 ![DOF Equation](./DOF_equation.png  "DOF = 2 x u^2 x N x c / f^2")
-| Symbol |    Definition       |  Example                       |
-|--------|:-------------------:|-------------------------------:|
-| c      | circle of confusion | Canon APS-C camera CoC=0.018mm |
-| f      | focal length        | EF100mm f/2.8L MACRO IS USM    |
-| N      | f-number (N=f/D)    | f/2.8, f/4, f/10, f/16         |
-| u      | distance to subject | 5cm ~ 20cm for Camera          |
+
++--------+----------------------+--------------------------------+
+| Symbol | Definition           | Example                        |
++========+======================+================================+
+| c      | circle of confusion  | Canon APS-C camera CoC=0.018mm |
++--------+----------------------+--------------------------------+
+| f      |  focal length        | EF100mm f/2.8L MACRO IS USM    |
++--------+----------------------+--------------------------------+
+| N      |  f-number (N=f/D)    | f/2.8, f/4, f/10, f/16         |
++--------+----------------------+--------------------------------+
+| u      |  distance to subject | 5cm ~ 20cm for Camera          |
++--------+----------------------+--------------------------------+
 
 
 Algorithm
