@@ -92,11 +92,11 @@ Macro photography and optical microscopy users.
 System Architecture
 ===================
 
-Input: Directory that store images with different focus distance.
-Step 1: Read image from files
-Step 2: Gaussian blur
-Step 3: Laplacian Edge Detection
-Step 4: Image stacking
+1. Input: Directory that store images with different focus distance.
+2. Read image from files
+3. Gaussian blur
+4. Laplacian Edge Detection
+5. Image stacking
 
 
 API Description
