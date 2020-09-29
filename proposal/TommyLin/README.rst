@@ -22,18 +22,25 @@ in a small area because of very short distance to subject. To get a clear
 (focused) image in a wide range, the photographer can shrink and use small
 aperture size. But shrinking aperture increase diffraction effect that also
 cause image blurry. So there are limit to get a clear photo with one shot.
-<img src="./wiki/Dof_blocks_f1_4.jpg" width="200"><img src="./wiki/Dof_blocks_f4_0.jpg" width="200"><img src="./wiki/Dof_blocks_f22.jpg" width="200">
-![]<(./wiki/Dof_blocks_f1_4.jpg =200x125)
-Aperture size: f/1.4 - f/4.0 - f/22
-source: https://en.wikipedia.org/wiki/Depth_of_field
 
-Fortunately, photographer can take multiple "digital" photos and stack these
++-------------------------------------+-------------------------------------+------------------------------------+
+| .. image:: wiki/Dof_blocks_f1_4.jpg | .. image:: wiki/Dof_blocks_f4_0.jpg | .. image:: wiki/Dof_blocks_f22.jpg |
+| Aperture size: f/1.4                | Aperture size: f/4.0                | Aperture size: f/22                |
++-------------------------------------+-------------------------------------+------------------------------------+
+*. Source: https://en.wikipedia.org/wiki/Depth_of_field
+
+Fortunately, photographer can take multiple **"digital"** photos and stack these
 photos together to make a photo focused.
-<img src="./wiki/750px-Focus_stacking_Tachinid_fly.jpg" width="600">
-source: https://en.wikipedia.org/wiki/Circle_of_confusion
+
++-------------------------------------------------------+
+| .. image:: wiki/750px-Focus_stacking_Tachinid_fly.jpg |
++-------------------------------------------------------+
+*. Source: https://en.wikipedia.org/wiki/Focus_stacking
+
 
 Definition of depth of field (DOF)
-![DOF Equation](./DOF_equation.png  "DOF = 2 x u^2 x N x c / f^2")
+
+.. image:: DOF_equation.png
 
 +--------+----------------------+--------------------------------+
 | Symbol | Definition           | Example                        |
