@@ -30,18 +30,12 @@ shot. Here are three photos to show the effect of aperture size.
 
 +-------------------------------------+-------------------------------------+------------------------------------+
 | .. image:: wiki/Dof_blocks_f1_4.jpg | .. image:: wiki/Dof_blocks_f4_0.jpg | .. image:: wiki/Dof_blocks_f22.jpg |
-| Aperture size: f/1.4                | Aperture size: f/4.0                | Aperture size: f/22                |
+| Aperture=/1.4, DOF=0.8cm            | Aperture=f/4.0, DOF=2.2cm           | Aperture=f/22, DOF=12.4cm          |
 +-------------------------------------+-------------------------------------+------------------------------------+
 *. Source: https://en.wikipedia.org/wiki/Depth_of_field
 
 Fortunately, photographer can take multiple **"digital"** photos and stack these
 photos together to make a focused photo in large area.
-
-+-------------------------------------------------------+
-| .. image:: wiki/750px-Focus_stacking_Tachinid_fly.jpg |
-+-------------------------------------------------------+
-*. Source: https://en.wikipedia.org/wiki/Focus_stacking
-
 
 Definition of depth of field (DOF)
 
@@ -61,6 +55,11 @@ Definition of depth of field (DOF)
 For example: A Canon APS-C camera with conditions in previous will result:
 
 **DOF = 0.36mm**, (assume N=10, u=10cm=100mm)
+
++-------------------------------------------------------+
+| .. image:: wiki/750px-Focus_stacking_Tachinid_fly.jpg |
++-------------------------------------------------------+
+*. Source: https://en.wikipedia.org/wiki/Focus_stacking
 
 
 Algorithm
