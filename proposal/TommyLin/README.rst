@@ -54,10 +54,13 @@ Definition of depth of field (DOF)
 +--------+----------------------+--------------------------------+
 | f      |  focal length        | EF100mm f/2.8L MACRO IS USM    |
 +--------+----------------------+--------------------------------+
-| N      |  f-number (N=f/D)    | f/2.8, f/4, f/10, f/16         |
+| N      |  f-number            | f/2.8, f/4, f/10, f/16         |
 +--------+----------------------+--------------------------------+
 | u      |  distance to subject | 5cm ~ 20cm for Camera          |
 +--------+----------------------+--------------------------------+
+For example: A Canon APS-C camera with conditions in previous will result:
+
+**DOF = 0.36mm**, (assume N=10, u=10cm=100mm)
 
 
 Algorithm
