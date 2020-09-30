@@ -197,19 +197,23 @@ Types and Strcutures
 Engineering Infrastructure
 ==========================
 
-To evaluate the algorism performance, this project will create images from a
-focused image. Through these image 
+Algorism Performance Evaluation
+_______________________________
+
+To evaluate the algorism performance in this project, testing images are created 
+from a source image(focused). This also prevent aligment procedure to do focus
+stacking. Here is the steps to evaluate algorism performance.
 
 1. Get a clear and focused source image (image1)
-2. Divide source image into serveral sections and blur with Gaussian smoothing
-3. Through the focus stacking API to combine these blurred imaged (image2)
+2. Smooth souce image with a set of mask by Gaussian blur kernel
+3. Through the focus stacking API(scan_dir) to combine these blurred images into image2
 4. Calculate SSIM of image1 and image2
 
 
 Schedule
 ========
 
-* Week 1: [Python] Generate defocused photos
+* Week 1: [Python] Generate defocused photos (Gaussian blur)
 * Week 2: [C++] Evaluate SSIM of two photos
 * Week 3: [Python] Setup testing environment
 * Week 4: [Python] Browse directory and read image
