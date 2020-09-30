@@ -146,19 +146,22 @@ API Description
 User APIs: (Open to users)
 __________________________
 
-int scan_dir(path target_path, fd* image_fd)
-  Auto scan mode: Users select specific directory that contain photos. This API
-  will scan directory and determinate the groups of photos depend on SSIM value.
+.. [focus_stacking] Auto scan mode: Users select specific directory that contain photos. This API
+  will scan directory and determinate the groups of photos depend on SSIM value. Then stack these
+  images together within one group.
+
+int focus_stacking(path target_path, fd* image_fd)
+  Do focus stacking in specified folder
 
 Return value:
   0: Success
 
   Others: Fail
 
-target_path
+target_path:
   Folder to store photos
 
-image_fd
+image_fd:
   Photo file descriptors
 
 
@@ -169,7 +172,7 @@ ________________________________________
 
 **image edge_detect(image input, kernel laplacian)**
 
-**image focus_stacking(image* source, image* log_mask)**
+**image stacking(image* source, image* log_mask)**
 
 **int get_ssim(image* image1, image* image2)**
 
@@ -205,7 +208,7 @@ stacking. Here is the steps to evaluate algorism performance.
 
 1. Get a clear and focused source image (image1)
 2. Smooth souce image with a set of mask by Gaussian blur kernel
-3. Through the focus stacking API(scan_dir) to combine these blurred images into image2
+3. Through the focus stacking API [focus_stacking]_ to combine these blurred images into image2
 4. Calculate SSIM of image1 and image2
 
 
