@@ -22,8 +22,8 @@ in a small area because of very short distance to subject. To get a clear
 (focused) image in a wide range, the photographer can shrink and use small
 aperture size. But shrinking aperture size has two side effects as follow:
 
-* 1. Increase diffraction effect that causes image blurry
-* 2. Decrease exposure energy that makes noise relatively increase
+1. Increase diffraction effect that causes image blurry
+2. Decrease exposure energy that makes noise relatively increase
 
 So there are limits to get a clear photo by just shrinking aperture with one
 shot. Here are three photos to show the effect of aperture size.
@@ -35,6 +35,7 @@ shot. Here are three photos to show the effect of aperture size.
 *. Source: https://en.wikipedia.org/wiki/Depth_of_field
 
 Definition of depth of field (DOF)
+__________________________________
 
 .. image:: DOF_equation.png
 
@@ -49,10 +50,12 @@ Definition of depth of field (DOF)
 +--------+----------------------+--------------------------------+
 | u      |  distance to subject | 5cm ~ 20cm for Camera          |
 +--------+----------------------+--------------------------------+
-For example: A Canon APS-C camera with conditions in previous will result:
+For example: A Canon APS-C camera with conditions in previous table and assume 
+N=10, u=10cm=100mm, this will result:
 
-**DOF = 0.36mm**, (assume N=10, u=10cm=100mm)
+**DOF = 0.36mm**
 
+The value of DOF=0.36mm is too small to get a clear image for object.
 Fortunately, photographer can take multiple **"digital"** photos and stack these
 photos together to make a focused photo in large area.
 
@@ -103,11 +106,16 @@ between two images.
 
 .. image:: https://wikimedia.org/api/rest_v1/media/math/render/svg/1783c17346b8f4c822ed206798bb6769a845c417
 
+The resultant SSIM index is a decimal value between -1 and 1, and value 1 is
+only reachable in the case of two identical sets of data and therefore indicates
+perfect structural similarity. A value of 0 indicates no structural similarity.
 
 Prospective Users
 =================
 
-Macro photography and optical microscopy users.
+Macro photography or optical microscopy users who wants to take a clear image.
+They must have equipment to take multiple digital photos. This project could
+help to stack photos took with stepped focus distances.
 
 
 System Architecture
