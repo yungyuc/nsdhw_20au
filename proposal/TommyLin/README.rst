@@ -124,22 +124,21 @@ System Architecture
 **Image capture** (hardware)
 ____________________________
 
-[Camera] --- PTP ---- [Control (*1)]
+[Camera] --- PTP ---- [Control [#]_]
 
-"**Control**" Command camera to shoot photos with stepped focus distances.
-But the hardware part is not included in this project.
+"**Control**" Command [#]_ camera to shoot photos with stepped focus distances,
+but the hardware part is not included in this project.
 
-*1. PC or embedded system such as Raspberry PI.
-
-*2. This can be achived by using `Canon Digital Camera Software Development Kit (CD-SDK) <https://asia.canon/en/campaign/developerresources>`_.
+.. [#] Control could be PC or embedded system such as Raspberry PI.
+.. [#] This can be achived by using `Canon Digital Camera Software Development Kit (CD-SDK) <https://asia.canon/en/campaign/developerresources>`_.
 
 
 **Focus stacking** (software)
 _____________________________
 
-[Scan for image files] ==> [Grouping] ==> [Edge detect] ==> [*Aligment* (*3)] ==> [Focus stacking]
+[**Scan for images**] ==> [**Grouping**] ==> [**Edge detect**] ==> [*Aligment* [#]_] ==> [*White Balance*] ==> [**Focus stacking**]
 
-*3. Aligment is not included in this project. Tested images are created and always aligned.
+.. [#] Aligment and white balance are not included in this project. Tested images are created and always aligned and white balanced.
 
 API Description
 ===============
