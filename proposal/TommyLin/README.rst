@@ -65,9 +65,14 @@ photos together to make a focused photo in large area.
 Algorithm
 =========
 
-Steps to perform focus stacking
+Edge detection
+______________
 
-1. Perform a **Gaussian blur** on each image with following kernel:
+Pixel values change fast (sharp) in the focused area. Pixel values chage gentlely
+(soft) in the defocused aread. The sharp aread consider as edge that pixel value
+varies fast. Follow steps aim to find the edges in a photo.
+
+1. Perform a **Gaussian blur** on image with following kernel:
 
 ::
 
@@ -75,7 +80,7 @@ Steps to perform focus stacking
    2  4  2
    1  2  1
 
-2. Perform a **Laplacian Edge Detection** kernel on each Gaussian Blurred image:
+2. Perform a **Laplacian Edge Detection kernel** on Gaussian Blurred image:
 
 ::
 
@@ -88,6 +93,10 @@ Steps to perform focus stacking
 4. Create a blank image, loop through each pixel and find the strongest edge in
    the LoG(i.e. the highest value in the image stack) and take the RGB value for
    that pixel from the corresponding image.
+
+Structural Similarity Index Measure (SSIM)
+__________________________________________
+
 
 
 Prospective Users
