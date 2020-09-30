@@ -121,12 +121,25 @@ help to stack photos took with stepped focus distances.
 System Architecture
 ===================
 
-1. Input: Directory that store images with different focus distance.
-2. Read image from files
-3. Gaussian blur
-4. Laplacian Edge Detection
-5. Image stacking
+**Image capture** (hardware)
+____________________________
 
+[Camera] --- PTP ---- [Control (*1)]
+
+"**Control**" Command camera to shoot photos with stepped focus distances.
+But the hardware part is not included in this project.
+
+*1. PC or embedded system such as Raspberry PI.
+
+*2. This can be achived by using `Canon Digital Camera Software Development Kit (CD-SDK) <https://asia.canon/en/campaign/developerresources>`_.
+
+
+**Focus stacking** (software)
+_____________________________
+
+[Scan for image files] ==> [Grouping] ==> [Edge detect] ==> [*Aligment* (*3)] ==> [Focus stacking]
+
+*3. Aligment is not included in this project. Tested images are created and always aligned.
 
 API Description
 ===============
