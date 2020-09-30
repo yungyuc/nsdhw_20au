@@ -132,14 +132,14 @@ focused image. Through these image
 Schedule
 ========
 
-* Week 1: [Python] Browse directory and read image
-* Week 2: [C++] Gaussian blur
-* Week 3: [C++] Laplacian edge detection
-* Week 4: [C++] Image stacking
-* Week 5: [Python] Generate defocused photos
-* Week 6: [C++] Compare stacked photo with source photo (SSIM)
-* Week 7: Setup testing environment
-* Week 8: CI integration
+* Week 1: [Python] Generate defocused photos
+* Week 2: [C++] Evaluate SSIM of two photos
+* Week 3: [Python] Setup testing environment
+* Week 4: [Python] Browse directory and read image
+* Week 5: [C++] Gaussian blur & Laplacian edge detection
+* Week 6: [C++] Image stacking
+* Week 7: [Python/C++] Debug and optimization
+* Week 8: Github CI
 
 
 References
