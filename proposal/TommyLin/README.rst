@@ -168,13 +168,13 @@ image_fd:
 Private APIs (Internal used only)
 ________________________________________
 
-**image gaussian_blur(image input, kernel gaussian)**
+*image gaussian_blur(image input, kernel gaussian)*
 
-**image edge_detect(image input, kernel laplacian)**
+*image edge_detect(image input, kernel laplacian)*
 
-**image stacking(image* source, image* log_mask)**
+*image stacking(image* source, image* log_mask)*
 
-**int get_ssim(image* image1, image* image2)**
+*int get_ssim(image* image1, image* image2)*
 
 
 Types and Strcutures
