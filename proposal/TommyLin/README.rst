@@ -134,10 +134,9 @@ API Description
 User APIs: (Open to users)
 __________________________
 
-**int scan_dir(path target_path, fd* image_fd)**
-
-Auto scan mode: Users select specific directory that contain photos. This API
-will scan directory and determinate the groups of photos depend on SSIM value.
+int scan_dir(path target_path, fd* image_fd)
+  Auto scan mode: Users select specific directory that contain photos. This API
+  will scan directory and determinate the groups of photos depend on SSIM value.
 
 Return value:
   0: Success
