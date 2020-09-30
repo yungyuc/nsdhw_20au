@@ -25,7 +25,7 @@ aperture size. But shrinking aperture size has two side effects as follow:
 * 1. Increase diffraction effect that causes image blurry
 * 2. Decrease exposure energy that makes noise relatively increase
 
-So there are limits to get a clear photo by just shrinking aperture with one 
+So there are limits to get a clear photo by just shrinking aperture with one
 shot. Here are three photos to show the effect of aperture size.
 
 +-------------------------------------+-------------------------------------+------------------------------------+
@@ -123,12 +123,55 @@ System Architecture
 API Description
 ===============
 
-Show how your system can be programmed.  You are supposed to implement the
-system using both C++ and Python.  Describe how a user writes a script in the
-system.
+User APIs: (Open to users)
+__________________________
 
-Auto scan mode: Users select specific directory that contain photos. The system 
-will scan directory and determinate the groups of photos.
+**int scan_dir(path target_path, fd* image_fd)**
+
+Auto scan mode: Users select specific directory that contain photos. This API
+will scan directory and determinate the groups of photos depend on SSIM value.
+
+Return value:
+  0: Success
+
+  Others: Fail
+
+target_path
+  Folder to store photos
+
+image_fd
+  Photo file descriptors
+
+
+Private APIs (Internal used only)
+________________________________________
+
+**image gaussian_blur(image input, kernel gaussian)**
+
+**image edge_detect(image input, kernel laplacian)**
+
+**image focus_stacking(image* source, image* log_mask)**
+
+**int get_ssim(image* image1, image* image2)**
+
+
+Types and Strcutures
+====================
+
+::
+
+  struct image_t {
+      int   hight;
+      int   width;
+      char** raw_data;
+  }
+
+::
+
+  struct kernel_t {
+      int   rank;
+      char* kernel;
+  }
 
 
 Engineering Infrastructure
