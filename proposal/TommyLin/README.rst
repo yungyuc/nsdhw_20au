@@ -20,12 +20,12 @@ Problem To Solve
 When macro photography, the short depth of field (DOF) makes clear image only
 in a small area because of very short distance to subject. To get a clear
 (focused) image in a wide range, the photographer can shrink and use small
-aperture size. But shrinking aperture has two side effects as follow:
+aperture size. But shrinking aperture size has two side effects as follow:
 
 * 1. Increase diffraction effect that causes image blurry
 * 2. Decrease exposure energy that makes noise relatively increase
 
-So there are limit to get a clear photo by just shrinking aperture with one 
+So there are limits to get a clear photo by just shrinking aperture with one 
 shot. Here are three photos to show the effect of aperture size.
 
 +-------------------------------------+-------------------------------------+------------------------------------+
