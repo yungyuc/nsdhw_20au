@@ -96,7 +96,12 @@ varies fast. Follow steps aim to find the edges in a photo.
 
 Structural Similarity Index Measure (SSIM)
 __________________________________________
+The structural similarity index measure (SSIM) is a method for predicting the
+perceived quality of digital television and cinematic pictures, as well as other
+kinds of digital images and videos. SSIM is used for measuring the similarity
+between two images.
 
+.. image:: https://wikimedia.org/api/rest_v1/media/math/render/svg/1783c17346b8f4c822ed206798bb6769a845c417
 
 
 Prospective Users
