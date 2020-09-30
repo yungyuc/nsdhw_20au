@@ -172,9 +172,9 @@ ________________________________________
 
 *image edge_detect(image input, kernel laplacian)*
 
-*image stacking(image* source, image* log_mask)*
+*image stacking(image_ptr source, image_ptr log_mask)*
 
-*int get_ssim(image* image1, image* image2)*
+*int ssim(image image1, image image2)*
 
 
 Types and Strcutures
