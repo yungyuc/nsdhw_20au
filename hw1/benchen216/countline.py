@@ -1,4 +1,15 @@
-#!/usr/bin/env python3
+#!/usr/bin/env bash
+"true" '''\'
+if [ "$PYTHON_BIN" = "python2" ] || [ "$PYTHON_BIN" = "python3" ];
+then
+    exec "$PYTHON_BIN" "$0" "$1"
+else
+    echo "exec: $PYTHON_BIN: not found"
+    exit 1
+fi
+exit 0
+'''
+
 import os
 import sys
 
