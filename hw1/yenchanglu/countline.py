@@ -1,6 +1,6 @@
 #!/bin/bash
 ''':'
-if [ ! -f $PYTHON_BIN ]
+if [ -f $PYTHON_BIN ]
 then
     PYTHON_BIN=python
 fi
