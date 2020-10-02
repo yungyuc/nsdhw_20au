@@ -1,10 +1,16 @@
-#!/usr/bin/env python2
-import os
+#!/bin/bash
+
+''':'
+if [ "$PYTHON_BIN" == "" ]
+then
+    PYTHON_BIN=python
+fi
+exec $PYTHON_BIN $0 "$@"
+':'''
+
 import sys
 import os.path
 
-if os.environ['PYTHON_BIN'] not in ('python2', 'python3'):
-    sys.exit('exec: {}: not found\n'.format(os.environ['PYTHON_BIN']))
 
 if len(sys.argv) < 2:
     sys.stdout.write('missing file name\n')
