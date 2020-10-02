@@ -1,12 +1,7 @@
 #!/bin/bash
 # handled by shell
 """:"
-pybin=$PYTHON_BIN
-if [[ -x "$(command -v $pybin)" ]]; then
-    exec $pybin $0 "$@"
-else
-    exit 127
-fi
+exec $PYTHON_BIN $0 "$@"
 ":"""
 
 # Python
