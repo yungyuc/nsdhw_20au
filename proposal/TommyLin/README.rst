@@ -18,8 +18,8 @@ Problem To Solve
 ================
 
 When macro photography, the short depth of field (DOF) makes clear image only
-in a small area because of very short distance to subject. To get a clear
-(focused) image in a wide range, the photographer can shrink and use small
+in a small area because of very short distance to subject. **To get a clear
+(focused) image in a wide range**, the photographer can shrink and use small
 aperture size. But shrinking aperture size has two side effects as follow:
 
 1. Increase diffraction effect that causes image blurry
