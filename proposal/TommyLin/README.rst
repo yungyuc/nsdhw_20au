@@ -209,7 +209,29 @@ stacking. Here is the steps to evaluate algorism performance.
 1. Get a clear and focused source image (image1)
 2. Smooth souce image with a set of mask by Gaussian blur kernel
 3. Through the focus stacking API [focus_stacking]_ to combine these blurred images into image2
-4. Calculate SSIM of image1 and image2
+4. Calculate SSIM of image1 and image2 to tell the performance of focus stacking algorism.
+
+Coding Style Check
+__________________
+
+checkpatch.pl
+
+::
+
+    $ $(kernel)/scripts/checkpatch.pl -f source.cpp
+
+Static Analysis Tool
+____________________
+
+`cppcheck <http://cppcheck.sourceforge.net/>`_
+
+A static analysis tool for C/C++ code
+
+
+
+::
+
+    $ cppcheck .
 
 
 Schedule
