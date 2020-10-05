@@ -4,9 +4,10 @@ Homework assignment #2
 
 To turn in your homework, you need **a PR** and **an E3 entry for the PR URL**.
 
-Your PR needs to be created against the ``hw2`` branch.  (Not ``master``!) You
-need to create a sub-directory using exactly your GitHub username as your
-working directory (``nsdhw_20au/hw2/$username/``).  The hierarchy should be::
+Your PR needs to be created against the ``hw2`` branch.  Please note that you
+should also branch out from ``hw2``.  (Not ``master``!)  You need to create a
+sub-directory using exactly your GitHub username as your working directory
+(``nsdhw_20au/hw2/$username/``).  The hierarchy should be::
 
   - nsdhw_20au (<- repository root)
     - hw2
