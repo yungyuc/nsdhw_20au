@@ -6,8 +6,8 @@ OUTPUT = result.txt
 .PHONY: run check clean
 default: $(TARGET)
 
-$(TARGET): $(TARGET).o
-	$(CC) $? $(CFLGAS) -o $@
+$(TARGET): $(TARGET).cpp
+	$(CC) $(CFLAGS) $? -o $@
 
 run:
 	./$(TARGET)
@@ -16,4 +16,4 @@ check:
 	./$(TARGET) > $(OUTPUT)
 
 clean:
-	rm -f $(TARGET) $(TARGET).o $(OUTPUT)
+	rm -f $(TARGET) $(OUTPUT)
