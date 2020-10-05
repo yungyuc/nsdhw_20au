@@ -1,20 +1,26 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Line
 {
 public:
-    Line();
-    Line(Line const & );
-    Line(Line       &&);
-    Line & operator=(Line const & );
-    Line & operator=(Line       &&);
-    Line(size_t size);
-    ~Line();
-    size_t size() const;
-    float & x(size_t it) const;
-    float & x(size_t it);
-    float & y(size_t it) const;
-    float & y(size_t it);
+    Line() { };
+    Line(Line const& line ) : m_x(line.m_x), m_y(line.m_y) { };
+    Line & operator = (Line const & );
+    Line & operator = (Line       &&);
+    Line(size_t size) { m_x.assign(size, 0); m_y.assign(size, 0); };
+    ~Line() { m_x.clear(); m_y.clear(); };
+    size_t size() const { return m_x.size(); };
+    float const& x(size_t it) const { return m_x[it]; };
+    float      & x(size_t it)       { return m_x[it]; };
+    float const& y(size_t it) const { return m_y[it]; };
+    float      & y(size_t it)       { return m_y[it]; };
+
 private:
-    // Member data.
+    vector<float> m_x;
+    vector<float> m_y;
 }; /* end class Line */
 
 int main(int, char **)
