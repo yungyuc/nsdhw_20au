@@ -6,12 +6,12 @@ class Line
 {
 	public:
 		Line();
-		Line(Line const & );
-		Line(Line       &&);
+		Line(Line const & other) : m_size(other.m_size), m_coord(other.m_coord) {}
+		Line(Line      && other) : m_size(other.m_size), m_coord(move(other.m_coord)) {}
 		Line & operator=(Line const & );
 		Line & operator=(Line       &&);
 		Line(size_t size) { m_size = size; for (size_t t=0; t<m_size*2; t++) { m_coord.push_back(0); }}
-		~Line();
+		~Line() {}
 		size_t size() const { return m_size; }
 		int   x(size_t it) const { check_range(it); return m_coord[it*2  ]; }
 		int & x(size_t it)       { check_range(it); return m_coord[it*2  ]; }
@@ -24,7 +24,8 @@ class Line
 		std::vector<int> m_coord;
 };
 
-Line::Line(Line const &rhs)
+
+Line & Line::operator=(Line const & rhs)
 {
 	if (this != &rhs)
 	{
@@ -35,9 +36,14 @@ Line::Line(Line const &rhs)
 }
 
 
-Line::Line(Line && other )
+Line & Line:: operator=(Line && rhs)
 {
-	std::swap(other.m_size, m_size);
-	std::swap(other.m_coord, m_coord);
+	if ( this != &rhs)
+	{
+		m_size = rhs.m_size;
+		m_coord = move(rhs.m_coord);
+	}
+	return *this;
 }
 
+#endif
