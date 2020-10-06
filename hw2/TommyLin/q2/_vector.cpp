@@ -15,12 +15,7 @@ float angle(std::array<float, 2> vec1, std::array<float, 2> vec2) {
     float dot_product = vec1[0] * vec2[0] + vec1[1] * vec2[1];
     float value = dot_product / sqrt(len1 * len2);
 
-    if (value >= 1.0)
-        return 0.0;
-    else if (value <= -1.0)
-        return M_PI;
-    else
-        return acos(value);
+    return acos(value);
 }
 
 PYBIND11_MODULE(_vector, m) {
