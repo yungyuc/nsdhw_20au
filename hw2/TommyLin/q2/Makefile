@@ -18,6 +18,12 @@ $(LIBRARY): $(TARGET).cpp
 test: $(LIBRARY)
 	python3 -m pytest -v
 
+# For ubuntu, please install lcov first.
+# $ sudo apt install lcov
+# Steps to produce code coverage report
+# $ make GCOV=1 test
+# $ make lcov
+# Then open file ./output/index.html with browser.
 lcov:
 	lcov --capture --directory . --output-file $(TARGET).info --test-name $(TARGET)
 	genhtml $(TARGET).info --output-directory output --title "$(TARGET)" --show-details --legend
