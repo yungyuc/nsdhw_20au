@@ -9,10 +9,10 @@ default: $(TARGET)
 $(TARGET): $(TARGET).cpp
 	$(CC) $(CFLAGS) $? -o $@
 
-run:
+run: $(TARGET)
 	./$(TARGET)
 
-check:
+check: $(TARGET)
 	./$(TARGET) > $(OUTPUT)
 
 clean:
