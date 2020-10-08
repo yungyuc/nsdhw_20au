@@ -13,15 +13,15 @@ class Line
 		Line(size_t size) { m_size = size; for (size_t t=0; t<m_size*2; t++) { m_coord.push_back(0); }}
 		~Line() {}
 		size_t size() const { return m_size; }
-		int   x(size_t it) const { check_range(it); return m_coord[it*2  ]; }
-		int & x(size_t it)       { check_range(it); return m_coord[it*2  ]; }
-		int   y(size_t it) const { check_range(it); return m_coord[it*2+1]; }
-		int & y(size_t it)	   { check_range(it); return m_coord[it*2+1]; }
+		const double & x(size_t it) const { check_range(it); return m_coord[it*2  ]; }
+		double & x(size_t it)       { check_range(it); return m_coord[it*2  ]; }
+		const double & y(size_t it) const { check_range(it); return m_coord[it*2+1]; }
+		double & y(size_t it)	    { check_range(it); return m_coord[it*2+1]; }
 	private:
 		void check_range(size_t it) const
 		{ if (it >= m_size) { throw std::out_of_range("Line index out of range");}}
 		size_t m_size = 0;
-		std::vector<int> m_coord;
+		std::vector<double> m_coord;
 };
 
 
