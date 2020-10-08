@@ -180,6 +180,8 @@ ________________________________________
 Types and Strcutures
 ====================
 
+C style
+
 ::
 
   struct image_t {
@@ -195,6 +197,22 @@ Types and Strcutures
       char* kernel;
   }
 
+C++ style (prefer this style to use modern C++ technology)
+
+::
+
+  class image {
+     int hight;
+     int width;
+     <array> raw_data
+  }
+
+::
+
+  class kernel {
+     int rank;
+     vector<vector<int> > matrix(3);
+  }
 
 Engineering Infrastructure
 ==========================
