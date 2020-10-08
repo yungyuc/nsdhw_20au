@@ -14,4 +14,4 @@ test: $(SOFILE)
 	@pytest
 
 clean:
-	@rm -rf _vector`python3-config --extension-suffix` __pycache__ .pytest_cache
+	@rm -rf $(SOFILE) __pycache__ .pytest_cache

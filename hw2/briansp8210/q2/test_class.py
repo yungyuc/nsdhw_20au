@@ -4,7 +4,7 @@ import _vector
 import math
 
 class TestClass:
-    def helper(self, v1, v2, deg):
+    def equal_helper(self, v1, v2, deg):
         rst = _vector.cal_angle(v1, v2)
         assert math.isclose(rst, math.radians(deg), rel_tol=1e-6)
 
@@ -15,12 +15,12 @@ class TestClass:
 
     '''Test for zero angle.'''
     def test_zero_angle(self):
-        self.helper([1, 0], [1, 0], 0)
+        self.equal_helper([1, 0], [1, 0], 0)
 
     '''Test for right angle (90-deg).'''
     def test_right_angle(self):
-        self.helper([0, 1], [1, 0], 90)
+        self.equal_helper([0, 1], [1, 0], 90)
 
     '''Test for one other angle.'''
     def test_other_degree(self):
-        self.helper([1, 0], [-1, 1], 135)
+        self.equal_helper([1, 0], [-1, 1], 135)
