@@ -1,6 +1,7 @@
 // Line class definitions and functions
 #pragma once
 #include <cstddef>
+#include <vector>
 
 class Line
 {
@@ -18,7 +19,7 @@ class Line
     private:
         // Member data.
         size_t m_size = 0;
-        float * m_elements_x;
-        float * m_elements_y;
+        std::vector<float> m_elements_x;
+        std::vector<float> m_elements_y;
 };
 
