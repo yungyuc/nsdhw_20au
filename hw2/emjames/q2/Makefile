@@ -11,5 +11,5 @@ calcAngle.o: calcAngle.cpp
 
 .PHONY:
 clean:
-	rm -rf q2 *.o
+	rm -rf calcAngle *.o
 

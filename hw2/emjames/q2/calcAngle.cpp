@@ -2,26 +2,33 @@
 
 #include <iostream>
 #include <vector>
+#include <numeric>
+#include <math.h>
 
 std::vector<float> str2VecFloat(std::string str);
+double findAngle2d(std::vector<float> v1, std::vector<float> v2);
 
 
 int main(int, char **)
 {
 
-    std::string v1 = "";
-    std::string v2 = "";
+    std::string v1_str = "";
+    std::string v2_str = "";
 
 
     std::cout << "Enter first vector (i.e: 0,1): ";
-    std::cin >> v1;
+    std::cin >> v1_str;
 
     std::cout << "Enter second vector (i.e: 1,0): ";
-    std::cin >> v2;
+    std::cin >> v2_str;
 
 
-    str2VecFloat(v1);
-    str2VecFloat(v2);
+    std::vector<float> v1 = str2VecFloat(v1_str);
+    std::vector<float> v2 = str2VecFloat(v2_str);
+
+    double angle = findAngle2d(v1, v2);
+    std::cout << "Angle: " << angle << std::endl;
+
 
     return 0;
 }
@@ -37,4 +44,20 @@ std::vector<float> str2VecFloat(std::string str)
     std::vector <float> vec = {n1, n2};
 
     return vec;
+}
+
+double findAngle2d(std::vector<float> v1, std::vector<float> v2)
+{
+    // 1. Compute a dot product
+    double product = std::inner_product(v1.begin(), v1.end(), v2.begin(), 0);
+
+    // 2. Compute vectors magnitude
+    double mag_v1 = sqrt((v1.at(0) * v1.at(0)) + (v1.at(1) * v1.at(1)));
+    double mag_v2 = sqrt((v2.at(0) * v2.at(0)) + (v2.at(1) * v2.at(1)));
+
+    // 3. Compute the angle
+    double angle = product / (mag_v1 * mag_v2);
+
+    /* return product; */
+    return angle;
 }
