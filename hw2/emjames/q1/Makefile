@@ -14,4 +14,8 @@ main.o: main.cpp
 
 .PHONY: clean
 clean:
-	rm -rf main *.o
+	rm -rf main *.o *.txt
+run:
+	make && ./main
+check:
+	make && ./main > result.txt
