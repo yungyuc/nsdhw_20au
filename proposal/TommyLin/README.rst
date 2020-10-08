@@ -257,12 +257,12 @@ Schedule
 
 * Week 1: [Python] Generate defocused photos (Gaussian blur)
 * Week 2: [C++] Evaluate SSIM of two photos
-* Week 3: [Python] Setup testing environment
-* Week 4: [Python] Browse directory and read image
-* Week 5: [C++] Gaussian blur & Laplacian edge detection
-* Week 6: [C++] Image stacking
-* Week 7: [Python/C++] Debug and optimization
-* Week 8: Github CI
+* Week 3: Github CI
+* Week 4: [Python] Setup testing environment
+* Week 5: [Python] Browse directory and read image
+* Week 6: [C++] Gaussian blur & Laplacian edge detection
+* Week 7: [C++] Image stacking
+* Week 8: [Python/C++] Debug and optimization
 
 
 References
