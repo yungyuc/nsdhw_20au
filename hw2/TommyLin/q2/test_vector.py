@@ -14,14 +14,20 @@ def angle(vec1, vec2):
 def testInvalidVector():
     with pytest.raises(TypeError):
         _vector.angle([0, 0], [])
+    with pytest.raises(TypeError):
         _vector.angle([], [0, 0])
+    with pytest.raises(TypeError):
         _vector.angle([], [])
+    with pytest.raises(TypeError):
+        _vector.angle(["1", 2], [1, 1])
 
 # Test for zero-length 2-vector (invalid input).
 def testZeroLengthVector():
     with pytest.raises(ValueError):
         _vector.angle([1, 1], [0, 0])
+    with pytest.raises(ValueError):
         _vector.angle([0, 0], [1, 1])
+    with pytest.raises(ValueError):
         _vector.angle([0, 0], [0, 0])
 
 # Test for zero angle.
