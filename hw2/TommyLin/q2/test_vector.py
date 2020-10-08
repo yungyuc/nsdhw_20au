@@ -56,3 +56,9 @@ def testArbitraryVector():
         vec1 = np.random.randint(1, 10, 2)
         vec2 = np.random.randint(1, 10, 2)
         pytest.approx(_vector.angle(vec1, vec2), angle(vec1, vec2))
+
+def testAngle():
+    for i in range(10):
+        theta = 1 / np.random.randint(1, 10)
+        pytest.approx(theta, _vector.angle([np.cos(theta), np.sin(theta)], [1, 0]))
+        pytest.approx(theta, _vector.angle([np.cos(theta), np.sin(-theta)], [1, 0]))
