@@ -11,6 +11,6 @@ def test_right_angle():
     assert int(tem) == 90
 
 
-def test_angle180():
+def test_angle45():
     tem = _vector.angle((0, 1), (1, 1))
-    assert int(tem) == 180
+    assert int(tem) == 45
