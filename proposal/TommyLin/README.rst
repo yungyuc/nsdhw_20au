@@ -150,8 +150,8 @@ __________________________
   will scan directory and determinate the groups of photos depend on SSIM value. Then stack these
   images together within one group.
 
-int focus_stacking(path target_path, fd* image_fd)
-  Do focus stacking in specified folder
+``int focus_stacking(path target_path, fd* image_fd)``
+    Do focus stacking in specified folder
 
 Return value:
   0: Success
@@ -168,13 +168,13 @@ image_fd:
 Private APIs (Internal used only)
 ________________________________________
 
-*image gaussian_blur(image input, kernel gaussian)*
+``image gaussian_blur(image input, kernel gaussian)``
 
-*image edge_detect(image input, kernel laplacian)*
+``image edge_detect(image input, kernel laplacian)``
 
-*image stacking(image_ptr source, image_ptr log_mask)*
+``image stacking(image source, image log_mask)``
 
-*int ssim(image image1, image image2)*
+``int ssim(image image1, image image2)``
 
 
 Types and Strcutures
