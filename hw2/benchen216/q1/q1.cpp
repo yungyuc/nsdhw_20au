@@ -7,13 +7,16 @@ class Line
 private:
     //vector<int> vec0;
 vector<int> vec0;
+vector<int> vec1;
 public:
     Line(){};
     Line(int p){
         vec0.resize(p);
+        vec1.resize(p);
     }
     ~Line(){
         vec0.clear();
+        vec1.clear();
     }
     int size() {
         return vec0.size();
@@ -25,10 +28,10 @@ public:
         return vec0.at(it);
     }
     void y(int it,int d){
-        vec0[it]=d;
+        vec1[it]=d;
     }
     int y(int it){
-        return vec0.at(it);
+        return vec1.at(it);
     }
 
 };
