@@ -4,9 +4,7 @@
 #include <vector>
 #include <numeric>
 #include <math.h>
-
-std::vector<float> str2VecFloat(std::string str);
-double findAngle2d(std::vector<float> v1, std::vector<float> v2);
+#include "calcAngle.h"
 
 
 int main(int, char **)
@@ -22,11 +20,7 @@ int main(int, char **)
     std::cout << "Enter second vector (i.e: 1,0): ";
     std::cin >> v2_str;
 
-
-    std::vector<float> v1 = str2VecFloat(v1_str);
-    std::vector<float> v2 = str2VecFloat(v2_str);
-
-    double angle = findAngle2d(v1, v2);
+    double angle = findAngle2d(v1_str, v2_str);
     std::cout << "Angle: " << angle << std::endl;
 
 
@@ -46,8 +40,12 @@ std::vector<float> str2VecFloat(std::string str)
     return vec;
 }
 
-double findAngle2d(std::vector<float> v1, std::vector<float> v2)
+double findAngle2d(std::string v1_str, std::string v2_str)
 {
+    // Convert strings to float
+    std::vector<float> v1 = str2VecFloat(v1_str);
+    std::vector<float> v2 = str2VecFloat(v2_str);
+
     // 1. Compute a dot product
     double product = std::inner_product(v1.begin(), v1.end(), v2.begin(), 0);
 
