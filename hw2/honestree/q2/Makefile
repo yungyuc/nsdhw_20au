@@ -2,14 +2,12 @@
 
 CXX=g++
 
-libshared_vector.so: _vector.hpp
-	$(CXX) -c _vector.hpp --std=c++11 -Wall -Wextra -o _vector.o
-	$(CXX) -shared _vector.o --std=c++11 -Wall -Wextra -o libshared_vector.so
-
+_vector.cpython-38-x86_64-linux-gnu.so: _vector.cpp
+	$(CXX) -O3 -Wall -shared -std=c++11 -fPIC `python3 -m pybind11 --includes` _vector.cpp -o _vector`python3-config --extension-suffix`
 
 clean:
 	rm -rf *.o  *.so .pytest_cache __pycache__/
 
-test: libshared_vector.so
+test: _vector.cpython-38-x86_64-linux-gnu.so
 	pytest
 
