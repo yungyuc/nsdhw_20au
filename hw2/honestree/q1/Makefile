@@ -6,5 +6,11 @@ line: Line.hpp main.cpp
 	$(CXX) main.cpp --std=c++11 -Wall -Wextra -o line
 
 clean:
-	rm line
-	rm *.o
+	rm -f line
+	rm -f result.txt
+
+run: line
+	./line
+
+check: line
+	./line > result.txt
