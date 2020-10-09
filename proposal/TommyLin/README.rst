@@ -169,13 +169,16 @@ Private APIs (Internal used only)
 ________________________________________
 
 ``image gaussian_blur(image input, kernel gaussian)``
+  Blur image with gaussian filter
 
 ``image edge_detect(image input, kernel laplacian)``
+  Detect edge with lapacian filter
 
-``image stacking(image source, image log_mask)``
+``image stacking(image source[], image log_mask)``
+  Stcking multiple images with correponding "Laplacian on Gaussian" mask
 
 ``int ssim(image image1, image image2)``
-
+  Calculate SSIM of two input images
 
 Types and Strcutures
 ====================
