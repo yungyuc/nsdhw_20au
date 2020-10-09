@@ -255,6 +255,29 @@ A static analysis tool for C/C++ code
     $ cppcheck .
 
 
+Estimated Computations
+======================
+
+Conditions:
+
+* Image size: 5184x3456 (RGB)
+* Kernel size: 3x3
+* Gaussian / Laplacian filtering => x2
+
+For the focus stacking part:
+
+5184 x 3456 x 3 x (3 x 3) x 2 multiplication and addition per image
+
+Then multiply with how many photos in the directory to stack.
+
+For the SSIM part:
+
+5184 x 3456 x 3 x (9 multiplication , 1 division, 6 addition)
+
+Assume there are 4 photos in directory. To determinate the relationship of each other, above SSIM calculation needs to multiply with (4 x 3 / 2) = 6.
+
+
+
 Schedule
 ========
 
