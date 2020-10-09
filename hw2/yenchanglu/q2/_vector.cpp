@@ -25,7 +25,7 @@ float getAngle(const std::vector<float> v1, const std::vector<float> v2) {
         return M_PI;
     }
 
-    return std::acos(dot / len);
+    return std::acos(res);
 }
 
 PYBIND11_MODULE(_vector, m) {
