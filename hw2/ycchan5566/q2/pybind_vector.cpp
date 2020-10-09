@@ -12,10 +12,8 @@ int angle(std::vector<int> &a, std::vector<int> &b) {
         return -1;
     }
     long long dot = a[0] * b[0] + a[1] * b[1];
-    //long long length = sqrt(a[0]*a[0] + a[1]*a[1]) * sqrt(b[0]*b[0] + b[1]*b[1]);
     long long det = a[0] * b[1] - a[1] * b[0];
 
-    //return double(acos(double(dot / length))) * 180/3.1415926;
     return atan2(det, dot) * 180/3.1415926;
 }
 
