@@ -12,7 +12,7 @@ def testZeroLen():
     assert math.isclose(get_angle, -1, rel_tol=1e-06)
 
 def test45Deg():
-    get_angle = vec2d.getAngle([1,1], [0,1])
+    get_angle = vec2d.getAngle([0,1], [1,1])
     assert math.isclose(get_angle, math.radians(45), rel_tol=1e-06)
 
 def testRightAngle():
