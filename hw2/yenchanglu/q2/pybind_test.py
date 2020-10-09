@@ -1,4 +1,4 @@
-import Vector2D as vec2d
+import _vector as vec2d
 import pytest as pt
 import math
 

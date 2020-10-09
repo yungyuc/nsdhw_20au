@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -O3 -Wall -Wextra -Werror -shared -std=c++11 -fPIC
 PY = python3
 PYTEST = pytest
-MODULE = Vector2D
+MODULE = _vector
 
 $(MODULE): $(MODULE).cpp
 	$(CXX) $(CXXFLAGS) `$(PY) -m pybind11 --includes` $< -o $@`$(PY)-config --extension-suffix`

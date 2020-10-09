@@ -24,7 +24,7 @@ float getAngle(const std::vector<float> v1, const std::vector<float> v2) {
     return std::acos(dot / len);
 }
 
-PYBIND11_MODULE(Vector2D, m) {
-    m.doc() = "Vector2D plugin";
+PYBIND11_MODULE(_vector, m) {
+    m.doc() = "_vector module";
     m.def("getAngle", &getAngle, "a function that calculates the angle (in radians) between two vectors in the 2-dimensional Cartesian coordinate system");
 }
