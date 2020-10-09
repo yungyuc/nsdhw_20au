@@ -9,9 +9,13 @@ q1: q1.o
 q1.o: q1.cpp
 	$(CXX) -c $< -o $@
 
+.PHONY: check
+check:
+	./q1 > result.txt
+
 .PHONY: run
 run:
-	./q1 > result.txt
+	./q1
 
 .PHONY: clean
 clean:
