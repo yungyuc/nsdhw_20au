@@ -1,4 +1,4 @@
-SHARED_OBJ=_vector.so
+SHARED_OBJ=_vector`python3-config --extension-suffix`
 
 CXXFLAGS=-O3 -Wall -shared -std=c++11 -fPIC \
 	`python3 -m pybind11 --includes`
