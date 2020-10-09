@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import _vector as v
 
 def test_two_zero():
