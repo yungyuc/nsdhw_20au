@@ -1,5 +1,6 @@
 // Write a C++ function that calculates the angle (in radians) between two vectors in the 2-dimensional Cartesian coordinate system.  Use `pybind11 to wrap it to Python. Use Python unit-test to check the result is correct.  The test runner should be py.test.
 
+#include <pybind11/pybind11.h>
 #include <iostream>
 #include <vector>
 #include <numeric>
@@ -58,4 +59,9 @@ double findAngle2d(std::string v1_str, std::string v2_str)
 
     /* return product; */
     return angle;
+}
+
+PYBIND11_MODULE(calcAngle, m) {
+    m.doc() = "pybind11 wrapper for calcAngle";
+    m.def("findAngle2d", &findAngle2d, "Compute angle between two vectors");
 }
