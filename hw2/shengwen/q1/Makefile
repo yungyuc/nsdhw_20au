@@ -1,8 +1,9 @@
-EXECUTABLE=../q1/hw2
+EXECUTABLE=hw2
 
-all:
-	mkdir -p ../q1
-	g++ -o $(EXECUTABLE) main.cpp
+SRC=main.cpp
+
+$(EXECUTABLE): $(SRC)
+	g++ -o $(EXECUTABLE) $^
 
 run:
 	./$(EXECUTABLE)
