@@ -8,7 +8,7 @@ LDFLAGS=`python3-config --ldflags`
 SRC=main.cpp
 
 $(SHARED_OBJ): $(SRC)
-	g++ $(CXXFLAGS) -o $(SHARED_OBJ) $^ $(LDFLAGS)
+	g++ $(CXXFLAGS) -o $(SHARED_OBJ) $^
 
 test:
 	pytest
