@@ -19,6 +19,9 @@ class TestClass:
         radian2 = angle(vector2, vector3)
         assert math.isclose(radian2, -127, abs_tol = self.m_abs_tol)
 
+        vector4 = np.array([math.inf, math.inf])
+        radian3 = angle(vector1, vector4)
+        assert math.isnan(radian3)
 
     def test_zero_angle(self):
         coefficient = np.random.randint(1, 10)
