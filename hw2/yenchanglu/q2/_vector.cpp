@@ -11,9 +11,13 @@ float getAngle(const std::vector<float> v1, const std::vector<float> v2) {
         throw std::invalid_argument("Invalid arguments of each vector");
     }
 
-    double dot = (v1[0] * v2[0] + v1[1] * v2[1]);
-    double len = ((v1[0] * v1[0] + v1[1] * v1[1]) * (v2[0] * v2[0] + v2[1] * v2[1]));
-    double res = dot / sqrt(len);
+    if((v1[0] == 0.0f && v1[1] == 0.0f) || (v2[0] == 0.0f && v2[1] == 0.0f)) {
+        return -1;
+    }
+
+    float dot = (v1[0] * v2[0] + v1[1] * v2[1]);
+    float len = ((v1[0] * v1[0] + v1[1] * v1[1]) * (v2[0] * v2[0] + v2[1] * v2[1]));
+    float res = dot / sqrt(len);
 
     if (res >= 1.0f) {
         return 0.0f;
