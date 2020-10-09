@@ -10,7 +10,10 @@ SRC=main.cpp
 $(SHARED_OBJ): $(SRC)
 	g++ $(CXXFLAGS) -o $(SHARED_OBJ) $^ $(LDFLAGS)
 
+test:
+	pytest
+
 clean:
 	rm -rf $(SHARED_OBJ)
 
-.PHONY: all run check clean
+.PHONY: test clean
