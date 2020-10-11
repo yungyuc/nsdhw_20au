@@ -136,9 +136,9 @@ but the hardware part is not included in this project.
 **Focus stacking** (software)
 _____________________________
 
-[**Scan for images**] ==> [**Grouping**] ==> [**Edge detect**] ==> [*Aligment* [#]_] ==> [*White Balance*] ==> [**Focus stacking**]
+[**Scan for images**] ==> [**Grouping**] ==> [**Edge detect**] ==> [*Alignment* [#]_] ==> [*White Balance*] ==> [**Focus stacking**]
 
-.. [#] Aligment and white balance are not included in this project. Tested images are created and always aligned and white balanced.
+.. [#] Alignment and white balance are not included in this project. Tested images are created and always aligned and white balanced.
 
 API Description
 ===============
@@ -224,7 +224,7 @@ Algorism Performance Evaluation
 _______________________________
 
 To evaluate the algorism performance in this project, testing images are created 
-from a source image(focused). This also prevent aligment procedure to do focus
+from a source image(focused). This also prevent alignment procedure to do focus
 stacking. Here is the steps to evaluate algorism performance.
 
 1. Get a clear and focused source image (image1)
