@@ -1,5 +1,5 @@
 ===========================
-Proposal for [project name]
+Proposal for speed up Global Localization 
 ===========================
 
 This is a template for a proposal that specifies what your project is and the
@@ -16,6 +16,8 @@ The GitHub repository (URL) hosting your term project.
 
 Here before everything, you may write a simple statement (preferably one
 sentence) to introduce the project.
+.. image:: image/pbj.png
+.. image:: image/pge.png
 
 Problem to solve
 ================
