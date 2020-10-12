@@ -3,13 +3,13 @@
 #
 CXX = c++
 
-calcAngle:
-	$(CXX) -O3 -Wall -shared -std=c++11 -fPIC `python3 -m pybind11 --includes` calcAngle.cpp -o calcAngle`python3-config --extension-suffix`
+_vector:
+	$(CXX) -O3 -Wall -shared -std=c++11 -fPIC `python3 -m pybind11 --includes` _vector.cpp -o _vector`python3-config --extension-suffix`
 
 
 .PHONY:
 clean:
-	rm -rf calcAngle *.o *so
+	rm -rf _vector*.o *so
 
 test:
 	pytest

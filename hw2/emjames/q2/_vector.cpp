@@ -5,7 +5,7 @@
 #include <vector>
 #include <numeric>
 #include <math.h>
-#include "calcAngle.h"
+#include "_vector.h"
 
 
 int main(int, char **)
@@ -61,7 +61,7 @@ double findAngle2d(std::string v1_str, std::string v2_str)
     return angle;
 }
 
-PYBIND11_MODULE(calcAngle, m) {
+PYBIND11_MODULE(_vector, m) {
     m.doc() = "pybind11 wrapper for calcAngle";
     m.def("findAngle2d", &findAngle2d, "Compute angle between two vectors");
 }
