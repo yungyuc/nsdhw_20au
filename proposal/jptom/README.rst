@@ -1,5 +1,5 @@
 ===========================
-Proposal for speed up Global Localization 
+Proposal for speed up of Global Localization 
 ===========================
 
 This is a template for a proposal that specifies what your project is and the
@@ -12,15 +12,18 @@ more suitable to your project.
 Basic information
 =================
 
-The GitHub repository (URL) hosting your term project.
+`My project repository <https://github.com/jptom/study-probablistic-robotics/tree/main/nsd-term-project>`_
 
 Here before everything, you may write a simple statement (preferably one
 sentence) to introduce the project.
-.. image:: image/pbj.jpg
-   :scale: 10%
-.. image:: image/pbe.jpg
-   :scale: 10%
 
+.. image:: https://images-na.ssl-images-amazon.com/images/I/91C20m7ZgoL.jpg
+   :scale: 20%
+
+
+.. image:: https://images-na.ssl-images-amazon.com/images/I/71wbH9K8d+L.jpg
+   :scale: 20%
+   
 Problem to solve
 ================
 
@@ -33,14 +36,14 @@ Some points may help you organize the problem description:
 2. The physics and/or the mathematics behind the problem.
 3. The algorithm or numerical method that should be applied for solving the
    problem.
+   
+
 
 Perspective users
 =================
 
-Describe the users of your software and how they will use it.
-
-This section may be combined with the previous one (`Problem to solve`_).  It
-should use a subsection.
+A learner of probabilistic robotics.
+This can help expeliment speed.
 
 System architecture
 ===================
@@ -79,4 +82,11 @@ efforts of each item.
 References
 ==========
 
-List the external references for the information provided in the proposal.
+- `詳解 確率ロボティクス Pythonによる基礎アルゴリズムの実装 <https://www.amazon.co.jp/%E8%A9%B3%E8%A7%A3-%E7%A2%BA%E7%8E%87%E3%83%AD%E3%83%9C%E3%83%86%E3%82%A3%E3%82%AF%E3%82%B9-Python%E3%81%AB%E3%82%88%E3%82%8B%E5%9F%BA%E7%A4%8E%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%AE%E5%AE%9F%E8%A3%85-KS%E7%90%86%E5%B7%A5%E5%AD%A6%E5%B0%82%E9%96%80%E6%9B%B8-%E4%B8%8A%E7%94%B0/dp/4065170060>`_
+   materials
+      - https://github.com/ryuichiueda/LNPR_BOOK_CODES 
+      - https://github.com/ryuichiueda/LNPR 
+      - https://github.com/ryuichiueda/LNPR_SLIDES 
+   
+- https://github.com/AtsushiSakai/PythonRobotics
+
