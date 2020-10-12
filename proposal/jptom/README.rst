@@ -17,7 +17,9 @@ The GitHub repository (URL) hosting your term project.
 Here before everything, you may write a simple statement (preferably one
 sentence) to introduce the project.
 .. image:: image/pbj.jpg
-.. image:: image/pge.jpg
+   :scale: 10%
+.. image:: image/pbe.jpg
+   :scale: 10%
 
 Problem to solve
 ================
