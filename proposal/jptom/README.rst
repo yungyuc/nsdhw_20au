@@ -14,14 +14,11 @@ Basic information
 
 `My project repository <https://github.com/jptom/study-probablistic-robotics/tree/main/nsd-term-project>`_
 
-Here before everything, you may write a simple statement (preferably one
-sentence) to introduce the project.
+My base python code is from this book.
+This author translated `Probabilistic Robotics <https://www.amazon.com/Probabilistic-Robotics-INTELLIGENT-ROBOTICS-AUTONOMOUS-ebook/dp/B00DJD9LXC>`_ in 2005.
+This book introduce it's implementation in python by him in 2019.
 
 .. image:: https://images-na.ssl-images-amazon.com/images/I/91C20m7ZgoL.jpg
-   :scale: 20%
-
-
-.. image:: https://images-na.ssl-images-amazon.com/images/I/71wbH9K8d+L.jpg
    :scale: 20%
    
 Problem to solve
@@ -76,13 +73,12 @@ describe how it works in your code development.
 Schedule
 ========
 
-Itemize the work to do and list the work items in a timeline.  Estimate the
-efforts of each item.
-
+- week 6: arrange note book
+- week 7: 
 References
 ==========
 
-- `詳解 確率ロボティクス Pythonによる基礎アルゴリズムの実装 <https://www.amazon.co.jp/%E8%A9%B3%E8%A7%A3-%E7%A2%BA%E7%8E%87%E3%83%AD%E3%83%9C%E3%83%86%E3%82%A3%E3%82%AF%E3%82%B9-Python%E3%81%AB%E3%82%88%E3%82%8B%E5%9F%BA%E7%A4%8E%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%AE%E5%AE%9F%E8%A3%85-KS%E7%90%86%E5%B7%A5%E5%AD%A6%E5%B0%82%E9%96%80%E6%9B%B8-%E4%B8%8A%E7%94%B0/dp/4065170060>`_
+-  `詳解 確率ロボティクス Pythonによる基礎アルゴリズムの実装 <https://www.amazon.co.jp/%E8%A9%B3%E8%A7%A3-%E7%A2%BA%E7%8E%87%E3%83%AD%E3%83%9C%E3%83%86%E3%82%A3%E3%82%AF%E3%82%B9-Python%E3%81%AB%E3%82%88%E3%82%8B%E5%9F%BA%E7%A4%8E%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%AE%E5%AE%9F%E8%A3%85-KS%E7%90%86%E5%B7%A5%E5%AD%A6%E5%B0%82%E9%96%80%E6%9B%B8-%E4%B8%8A%E7%94%B0/dp/4065170060>`_
    materials
       - https://github.com/ryuichiueda/LNPR_BOOK_CODES 
       - https://github.com/ryuichiueda/LNPR 
