@@ -74,7 +74,15 @@ Schedule
 ========
 
 - week 6: arrange note book
-- week 7: 
+- week 7: c++ 
+- week*8:
+- week 9: c++
+- week10:
+- week11:
+- week12:
+- week13:
+- week14:
+- week15: prepare presentation
 References
 ==========
 
