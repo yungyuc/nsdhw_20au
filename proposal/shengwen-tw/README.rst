@@ -74,40 +74,46 @@ API description
 
 we use **qp_t** datatype to store all informations that the solver need to solve the problem
 
-* To set up the optimization variables, we call:
+To set up the optimization variables, we call:
 
 ``void qp_solve_set_optimization_variable(qp_t *qp, vector_t *x);``
 
-* To set up the objective function, we call:
+To set up the objective function, we call:
 
 ``void qp_solve_set_cost_function(qp_t *qp, matrix_t *P, vector_t *q, vector_t *r);``
 
-* To set up the equality constraints, we call:
+To set up the equality constraints, we call:
 
 ``void qp_solve_set_equality_constraints(qp_t *qp, matrix_t *A, matrix_t *b);``
 
-* To set up the upper bound of the inequality constraints, we call:
+To set up the upper bound of the inequality constraints, we call:
 
 ``void qp_solve_set_upper_bound_inequality_constraints(qp_t *qp, vector *ub);``
 
-* TO set up the lower bound of the inequality constraints, we call:
+To set up the lower bound of the inequality constraints, we call:
 
 ``void qp_solve_set_lower_bound_inequality_constraints(qp_t *qp, vector *lb);``
 
-* To start solving the quadratic programming problem, we call:
+To start solving the quadratic programming problem, we call:
 
 bool qp_solve_start(qp_t);
 
 Engineering infrastructure
 ##########################
 
-Linear System Solver (Set up the problem and solve with Intel MKL, we need this for solving QP)
+Algorithms I need:
 
-Newton's method of optimization (A faster method for solving cost minimiation problem)
+1. Linear System Solver (Intel MKL at lower level)
 
-gradient descent (easy method for solving cost minimization problem)
+2. Gradient descent algorithm (easy method for solving cost minimization problem)
 
-barrier method (limit the searching space of optimization with inequality constraints)
+3. Newton's method of optimization (Improved version of gradient descent algorithm)
+
+4. Exact line search algorithm (Deciding the step length for gradient descent)
+
+5. Backtrack line search algorithm (Deciding the step length for gradient descent)
+
+6. Barrier method (limit the searching space of optimization with inequality constraints)
 
 Schedule
 ########
