@@ -22,6 +22,16 @@ Designing a quadratic programming solver for computing resource restricted embed
 
 **What is Quadratic Programming?**
 
+.. image:: qp_formula.PNG
+
+We call the variable x **optimization variables**,
+
+the first term **objective function** or **cost function**,
+
+the second term **equality constraints**,
+
+and the third term **inequality constraints**.
+
 **Why do we need Quadratic Programming**
 
 Perspective users
@@ -40,6 +50,8 @@ so we construct a quadratic cost function to analogize the energy and find the l
 
 System architecture
 ###################
+
+.. image:: architecture.PNG
 
 API description
 ###############
