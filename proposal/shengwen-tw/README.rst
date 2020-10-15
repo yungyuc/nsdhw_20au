@@ -5,15 +5,14 @@ Quadratic Programming Solver
 Basic information
 #################
 
-* A Numerical Optimizer For Quadratic Functions with or without equality/inequality constraints
+* A numerical optimizer for quadratic functions with or without equality/inequality constraints
 
 * The optimizer will be implemented in C. (Not C++ since author will like to integrate it into embedded device later.)
 
 * The future goal of this project is to integrate it in to embedded devices, which requires more optimizations to
-  speed up the code. I will expect myself to finish the first version that can be ran on a normal personal computer
-  for now.
+  speed up the code. I will expect to finish the first version to be ran on a personal computer for this semester
 
-GitHub link: https://github.com/shengwen-tw/qp-solver-c
+GitHub: https://github.com/shengwen-tw/qp-solver-c
 
 Problem to solve
 ################
@@ -24,7 +23,7 @@ Designing a quadratic programming solver for computing resource restricted embed
 
 .. image:: qp_formula.PNG
 
-We call the variable x **optimization variables**,
+We call the variable x **optimization variables** to be minimized,
 
 the first term **objective function** or **cost function**,
 
@@ -36,10 +35,10 @@ and the third term **inequality constraints**.
 
 Quadratic Programming shows up frequently in robotics like control or trajectory planning.
 
-* For example, we may want to map force / torque (6 degree total) to motors number that are greater than 6,
-then we are facing to have infinite choice of motor thrust.
+* For example, if we want to map force and torque (6 degree total) into motors number that are greater than 6,
+then we are facing to have infinite choices of motor thrust.
 
-* To solve the problem, we can choose the one combination which hs the lowest energy (in the sense of quadratic function)
+* To solve the problem, we can choose the combination which has the lowest energy (in the sense of quadratic form)
 
 There are two fantasic examples to illustate this problem:
 
@@ -57,9 +56,9 @@ Perspective users
 
 I will expect the user may have the following backgrounds:
 
-1. Robotics engineers
+1. Robotics
 
-2. Control engineerss
+2. Control
 
 Usually the problem set up will like: We want to make robots to do something, but there are multiple choices to go,
 so we construct a quadratic cost function to analogize the energy and find the least energy costing strategy.
