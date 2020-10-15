@@ -32,12 +32,23 @@ the second term **equality constraints**,
 
 and the third term **inequality constraints**.
 
-**Why do we need Quadratic Programming**
+**Why do we need Quadratic Programming?**
+
+Quadratic Programming shows up frequently in robotics like control or trajectory planning.
+
+* For example, we may want to map force / torque (6 degree total) to motors number that are greater than 6,
+then we are facing to have infinite choice of motor thrust.
+
+* To solve the problem, we can choose the one combination which hs the lowest energy (in the sense of quadratic function)
+
+There are two fantasic example to illustate this problem:
+
+link: https://www.youtube.com/watch?v=uje6iUBbkwM
+
+link: https://www.youtube.com/watch?v=sIi80LMLJSY&t=27s
 
 Perspective users
 #################
-
-Quadratic Programming shows up frequently in robotics like control or trajectory planning,
 
 I will expect the user may have the following backgrounds:
 
