@@ -1,23 +1,21 @@
 ############################
-Quadratic Programming Solver
+libqpsolver: a Quadratic Programming solver library
 ############################
 
 Basic information
 #################
 
-* A numerical optimizer for quadratic functions with or without equality/inequality constraints
+* A numerical optimizer for quadratic cost functions with or without equality/inequality constraints
 
 * The optimizer will be implemented in C. (Not C++ since author will like to integrate it into embedded device later.)
 
 * The future goal of this project is to integrate it in to embedded devices, which requires more optimizations to
   speed up the code. I will expect to finish the first version to be ran on a personal computer for this semester
 
-GitHub: https://github.com/shengwen-tw/qp-solver-c
+GitHub: https://github.com/shengwen-tw/libqpsolver
 
 Problem to solve
 ################
-
-Designing a quadratic programming solver for computing resource restricted embedded system (cpu clock rate ~180Mhz)
 
 **What is Quadratic Programming?**
 
@@ -35,10 +33,10 @@ and the third term **inequality constraints**.
 
 Quadratic Programming shows up frequently in robotics like control or trajectory planning.
 
-* For example, if we want to map force and torque (6 degree total) into motors number that are greater than 6,
-then we are facing to have infinite choices of motor thrust.
+* For example, if we want to map force and torque (6 degrees total) into motors numbers greater than 6,
+then we have infinite combinations for choosing motor thrust.
 
-* To solve the problem, we can choose the combination which has the lowest energy (in the sense of quadratic form)
+* One of the solution is to choose the combination which has the lowest energy (in the sense of quadratic form)
 
 There are two fantasic examples to illustate this problem:
 
@@ -60,8 +58,10 @@ I will expect the user may have the following backgrounds:
 
 2. Control
 
-Usually the problem set up will like: We want to make robots to do something, but there are multiple choices to go,
-so we construct a quadratic cost function to analogize the energy and find the least energy costing strategy.
+Usually the problem set up will like: 
+
+We want robots to do something, but there are multiple choices,
+so we construct a quadratic cost function to analogize the energy and choose the least energy costed strategy.
 
 System architecture
 ###################
@@ -87,15 +87,15 @@ To set up the equality constraints, we call:
 
 To set up the upper bound of the inequality constraints, we call:
 
-``void qp_solve_set_upper_bound_inequality_constraints(qp_t *qp, vector *ub);``
+``void qp_solve_set_upper_bound_inequality_constraints(qp_t *qp, vector_t *ub);``
 
 To set up the lower bound of the inequality constraints, we call:
 
-``void qp_solve_set_lower_bound_inequality_constraints(qp_t *qp, vector *lb);``
+``void qp_solve_set_lower_bound_inequality_constraints(qp_t *qp, vector_t *lb);``
 
 To start solving the quadratic programming problem, we call:
 
-bool qp_solve_start(qp_t);
+``bool qp_solve_start(qp_t);``
 
 Engineering infrastructure
 ##########################
