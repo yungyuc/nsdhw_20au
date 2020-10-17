@@ -1,5 +1,5 @@
 ===========================
-Proposal for speed up of Global Localization 
+Proposal for Kalman filter 
 ===========================
 
 This is a template for a proposal that specifies what your project is and the
@@ -39,8 +39,7 @@ Some points may help you organize the problem description:
 Perspective users
 =================
 
-A learner of probabilistic robotics.
-This can help expeliment speed.
+Beginner of probabilistic robotics
 
 System architecture
 ===================
@@ -77,7 +76,7 @@ Schedule
 - week 7: c++ 
 - week*8:
 - week 9: c++
-- week10:
+- week10: 
 - week11:
 - week12:
 - week13:
