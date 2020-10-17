@@ -1,13 +1,13 @@
-################################################################
-libqpsolver: a library for solving quadratic programming problem
-################################################################
+#################################################################
+libqpsolver: a library for solving quadratic programming problems
+#################################################################
 
 Basic information
 #################
 
 * A numerical optimizer for solving quadratic cost functions with or without equality / inequality constraints
 
-* The optimizer will be implemented in C. (Not C++ since author will like to integrate it into embedded device later.)
+* The optimizer will be implemented in C. (Not C++ since author will like to integrate it into embedded devices later.)
 
 * The future goal of this project is to integrate it in to embedded devices, which requires more improvments to
   speed up the code. I expect myself to finish the first version this semester and able to run it on normal PC.
@@ -62,8 +62,8 @@ I will expect the user may have the following backgrounds:
 
 Usually the problem set up will like: 
 
-We want robots to do something, but there are multiple choices,
-so we construct a quadratic cost function to analogize the energy cost and choose the least one strategy.
+We want robots to do something, but there are multiple choices.
+We then construct a quadratic cost function to analogize the energy cost and choose the least one strategy.
 
 System architecture
 ###################
@@ -110,11 +110,11 @@ Algorithms I need:
 
 3. Newton's method of optimization (an improved version of gradient descent algorithm)
 
-4. Exact line search algorithm (for deciding the step length of gradient descent)
+4. Exact line search algorithm (for deciding the step length of gradient descent (slower but precise))
 
-5. Backtrack line search algorithm (for deciding the step length of gradient descent)
+5. Backtrack line search algorithm (for deciding the step length of gradient descent (faster but less preciese))
 
-6. Barrier method (limit the searching space of optimization to obay the inequality constraints)
+6. Barrier method (limiting the searching space of optimization to obay the inequality constraints)
 
 Schedule
 ########
