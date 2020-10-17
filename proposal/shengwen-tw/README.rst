@@ -1,23 +1,24 @@
-############################
-libqpsolver: a Quadratic Programming solver library
-############################
+################################################################
+libqpsolver: a library for solving quadratic programming problem
+################################################################
 
 Basic information
 #################
 
-* A numerical optimizer for quadratic cost functions with or without equality/inequality constraints
+* A numerical optimizer for solving quadratic cost functions with or without equality / inequality constraints
 
 * The optimizer will be implemented in C. (Not C++ since author will like to integrate it into embedded device later.)
 
-* The future goal of this project is to integrate it in to embedded devices, which requires more optimizations to
-  speed up the code. I will expect to finish the first version to be ran on a personal computer for this semester
+* The future goal of this project is to integrate it in to embedded devices, which requires more improvments to
+  speed up the code. I expect myself to finish the first version this semester and able to run it on normal PC.
 
 GitHub: https://github.com/shengwen-tw/libqpsolver
 
 Problem to solve
 ################
 
-**What is Quadratic Programming?**
+What is Quadratic Programming?
+------------------------------
 
 .. image:: qp_formula.PNG
 
@@ -29,9 +30,10 @@ the second term **equality constraints**,
 
 and the third term **inequality constraints**.
 
-**Why do we need Quadratic Programming?**
+Why do we need Quadratic Programming?
+-------------------------------------
 
-Quadratic Programming shows up frequently in robotics like control or trajectory planning.
+Quadratic Programming shows up frequently in robotics field like control or trajectory planning.
 
 * For example, if we want to map force and torque (6 degrees total) into motors numbers greater than 6,
 then we have infinite combinations for choosing motor thrust.
@@ -61,7 +63,7 @@ I will expect the user may have the following backgrounds:
 Usually the problem set up will like: 
 
 We want robots to do something, but there are multiple choices,
-so we construct a quadratic cost function to analogize the energy and choose the least energy costed strategy.
+so we construct a quadratic cost function to analogize the energy cost and choose the least one strategy.
 
 System architecture
 ###################
@@ -102,17 +104,17 @@ Engineering infrastructure
 
 Algorithms I need:
 
-1. Linear System Solver (Intel MKL at lower level)
+1. Linear algebra functions (Intel MKL): matrix arithmatics, linear system solver, matrix decompositions, etc.
 
-2. Gradient descent algorithm (easy method for solving cost minimization problem)
+2. Gradient descent algorithm (the easest way to do minimization)
 
-3. Newton's method of optimization (Improved version of gradient descent algorithm)
+3. Newton's method of optimization (an improved version of gradient descent algorithm)
 
-4. Exact line search algorithm (Deciding the step length for gradient descent)
+4. Exact line search algorithm (for deciding the step length of gradient descent)
 
-5. Backtrack line search algorithm (Deciding the step length for gradient descent)
+5. Backtrack line search algorithm (for deciding the step length of gradient descent)
 
-6. Barrier method (limit the searching space of optimization with inequality constraints)
+6. Barrier method (limit the searching space of optimization to obay the inequality constraints)
 
 Schedule
 ########
