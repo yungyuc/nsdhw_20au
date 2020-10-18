@@ -24,7 +24,7 @@ This book introduce it's implementation in python by him in 2019.
 Problem to solve
 ================
 
-.. image:: https://github.com/jptom/nsdhw_20au/edit/proposal-jptom-attempt1/proposal/jptom/image/kalman.jpg
+.. image:: image/kalman.png
 
 Describe the problem you want to solve.  Include necessary background
 information without making it a technical paper.
