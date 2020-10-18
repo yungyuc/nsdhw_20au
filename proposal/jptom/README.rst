@@ -22,7 +22,7 @@ Problem to solve
 .. image:: image/kalman.PNG
 
 Kalman filter is a technique of self-localazation of robotics.
-It use mean and covarience of Gaussian distribution.
+It estimale mean and covarience of Gaussian distribution using observation of location of landmarks.
 I am planning to implement whole the calculation as one function in c++.
    
 Perspective users
@@ -45,32 +45,39 @@ API description
 
 Users need to write own robot program which has "one step" and "draw" function.
 My package will support two popular self-localazation algorithm, one is Kalman filter.
-
+I want the package can be use in not only simulator but also real robot.
 
    class Robot:
-      def one_step{ user code }
+      def one_step{ 
+         user code 
+         filter.observation_update()
+      }
+     
       def draw{ user code }
+     
+   class Filter:
+      def observation_update(observation){
+         Implement in C++
+      }
 
 Engineering infrastructure
 ==========================
 
-Describe how you plan to put together the build system, testing framework, and
-documentation.  Show how you will do version control.
-
-You may use continuous integration, but it is not required.  If you use it,
-describe how it works in your code development.
+The package build with cmake.
+The testing use simulation.
+The repository is hosted on GitHub and will use GitHub Action for continuous integration.
 
 Schedule
 ========
 
-- week 6: arrange note book
+- week 6: arrange note book (python)
 - week 7: c++ 
 - week*8:
 - week 9: c++
 - week10: c++
-- week11:
-- week12:
-- week13:
+- week11: testing
+- week12: GitHub Actionon
+- week13: documentati
 - week14:
 - week15: prepare presentation
 
