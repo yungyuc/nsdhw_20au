@@ -63,8 +63,10 @@ I want the package can be use in not only simulator but also real robot.
 Engineering infrastructure
 ==========================
 
-The package build with cmake.
+The package build with cmake. 
+
 The testing use simulation.
+
 The repository is hosted on GitHub and will use GitHub Action for continuous integration.
 
 Schedule
