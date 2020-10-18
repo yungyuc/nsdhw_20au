@@ -24,7 +24,9 @@ This book introduce it's implementation in python by him in 2019.
 Problem to solve
 ================
 
-.. image:: image/kalman.png
+.. raw:: html
+   <img src="image/kalman.png" width="200">
+   
 
 Describe the problem you want to solve.  Include necessary background
 information without making it a technical paper.
