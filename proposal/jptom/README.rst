@@ -2,13 +2,6 @@
 Proposal for Kalman filter 
 ===========================
 
-This is a template for a proposal that specifies what your project is and the
-execution plan.  You are encouraged to use `reStructuredText
-<https://docutils.sourceforge.io/rst.html>`__ (which is employed by this
-template).  The plain-text format makes it easier for the instructor to comment
-in your GitHub pull requests.  You may use another document format if it is
-more suitable to your project.
-
 Basic information
 =================
 
@@ -24,22 +17,14 @@ This book introduce it's implementation in python by him in 2019.
 Problem to solve
 ================
 
-.. raw:: html
-   <img src="image/kalman.png" width="200">
+
+.. image:: image/kalmansim.PNG
+.. image:: image/kalman.PNG
+
+Kalman filter is a technique of self-localazation of robotics.
+It use mean and covarience of Gaussian distribution.
+I am planning to implement whole the calculation as one function in c++.
    
-
-Describe the problem you want to solve.  Include necessary background
-information without making it a technical paper.
-
-Some points may help you organize the problem description:
-
-1. The field or industry of the problem.
-2. The physics and/or the mathematics behind the problem.
-3. The algorithm or numerical method that should be applied for solving the
-   problem.
-   
-
-
 Perspective users
 =================
 
@@ -48,21 +33,23 @@ Beginner of probabilistic robotics
 System architecture
 ===================
 
-Analyze how your system takes input, produces results, and performs any other
-operations.
+This is the simulator architecture.
+.. image:: image/architecture.jpg
 
-Describe the system's work flow.  You may consider to use a flow chart but it
-is not required.
-
-Specify the constraints assume in your system.  Describe how it is modularized.
+Kalman filter is a part of "one step" function of robot object.
+The World call "one step" function then all "one step" function of object who is 
+registered in The World will be called.
 
 API description
 ===============
 
-Show how a user programmatically uses your system.  You are supposed to
-implement the system using both C++ and Python.  Describe how a user writes a
-script in the system.  If you provide API in both C++ and Python, describe
-both.
+Users need to write own robot program which has "one step" and "draw" function.
+My package will support two popular self-localazation algorithm, one is Kalman filter.
+
+
+   class Robot:
+      def one_step{ user code }
+      def draw{ user code }
 
 Engineering infrastructure
 ==========================
@@ -80,12 +67,13 @@ Schedule
 - week 7: c++ 
 - week*8:
 - week 9: c++
-- week10: 
+- week10: c++
 - week11:
 - week12:
 - week13:
 - week14:
 - week15: prepare presentation
+
 References
 ==========
 
