@@ -56,11 +56,9 @@ public:
     size_t ncol() const { return m_ncol; }
 
 private:
-
     size_t m_nrow;
     size_t m_ncol;
     std::vector<double> m_buffer;
-
 };
 
 Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2)
@@ -93,9 +91,7 @@ Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const unsigned int 
 
     Matrix ret(mat1.m_nrow, mat2.m_ncol);
 
-//	unsigned int m = mat1.m_ncol / tsize;
-//	unsigned int n = mat2.m_nrow / tsize;
-
+#if 0
     for (size_t i = 0; i < ret.m_nrow; i += 4) {
         for (size_t k = 0; k < ret.m_ncol; ++k) {
             double v[4] = {0, 0, 0, 0};
@@ -111,6 +107,39 @@ Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const unsigned int 
             ret(i+3,k) = v[3];
         }
     }
+#endif
+    double v[tsize];
+    unsigned int remain = ret.m_nrow % tsize;
+	size_t i, j, k, l;
+
+    for (i = 0; i < ret.m_nrow; i += tsize) {
+        for (k = 0; k < ret.m_ncol; ++k) {
+            for (l = 0; l < tsize; ++l)
+                v[l] = 0;
+
+            for (j = 0; j < mat1.m_ncol; ++j) {
+                for (l = 0; l < tsize; ++l)
+                    v[l] += mat1(i + l,j) * mat2(j,k);
+            }
+
+            for (l = 0; l < tsize; ++l)
+                ret(i + l, k) = v[l];
+        }
+    }
+
+    for (k = 0; k < ret.m_ncol; ++k) {
+        for (l = 0; l < remain; ++l)
+            v[l] = 0;
+
+        for (j = 0; j < mat1.m_ncol; ++j) {
+            for (l = 0; l < remain; ++l)
+                v[l] += mat1(ret.m_nrow - 1 - l, j) * mat2(j, k);
+        }
+
+        for (l = 0; l < remain; ++l)
+            ret(ret.m_nrow - 1 - l, k) = v[l];
+    }
+
     return ret;
 };
 

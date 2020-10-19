@@ -28,7 +28,8 @@ def test_multiply_naive():
 
 def test_multiply_tile():
     __exec__(multiply_tile, 0)
-    __exec__(multiply_tile, 10)
+    __exec__(multiply_tile, 16)
+#    __exec__(multiply_tile, 17)
 
 def test_multiply_mkl():
     __exec__(multiply_mkl, 0)
