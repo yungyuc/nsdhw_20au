@@ -7,7 +7,7 @@ class Matrix {
 public:
 	Matrix();
 	Matrix(int _row, int _column) {
-		this->data = new float[_row * _column];
+		this->data = new double[_row * _column]();
 		this->n_row = _row;
 		this->n_column = _column;
 	}
@@ -24,26 +24,26 @@ public:
 		return this->n_column;
 	}
 
-	float & operator() (int r, int c) {
+	double & operator() (int r, int c) {
 		return data[r * this->n_column + c];
 	}
 
-	const float & operator() (int r, int c) const {
+	const double & operator() (int r, int c) const {
 		return data[r * this->n_column + c];
 	}
 
-	float at(int r, int c) {
+	double at(int r, int c) {
 		return data[r * n_column + c];
 	}
 
-	float *raw_data(void) {
+	double *raw_data(void) {
 		return data;
 	}
 
 private:
 	int n_row;
 	int n_column;
-	float *data;
+	double *data;
 };
 
 #endif
