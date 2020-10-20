@@ -9,17 +9,23 @@ void multiply_naive(Matrix &mat1, Matrix &mat2, Matrix &mat_result)
 {
 	for(int r = 0; r < mat1.row(); r++) {
 		for(int c = 0; c < mat2.column(); c++) {
-			float tmp = 0;
 			for(int i = 0; i < mat1.column(); i++) {
-				tmp += mat1(r, i) * mat2(i, c);
+				mat_result(r, c) += mat1(r, i) * mat2(i, c);
 			}
-			mat_result(r, c) = tmp;
 		}
 	}
 }
 
 void multiply_tile(Matrix &mat1, Matrix &mat2, Matrix &mat_result)
 {
+	for(int r = 0; r < mat1.row(); r++) {
+		for(int i = 0; i < mat1.column(); i++) {
+			for(int c = 0; c < mat2.column(); c++) {
+				mat_result(r, c) += mat1(r, i) * mat2(i, c);
+			}
+		}
+	}
+
 }
 
 void multiply_mkl(Matrix &mat1, Matrix &mat2, Matrix &mat_result)
@@ -64,16 +70,24 @@ int main(void)
 	random_matrix(mat2, 1000);
 
 	Matrix m_naive(2, 2);
+	m_naive(0, 0) = 0; m_naive(0, 1) = 0;
+	m_naive(1, 0) = 0; m_naive(1, 1) = 0;
+
 	Matrix m_tile(2, 2);
+	m_tile(0, 0) = 0; m_tile(0, 1) = 0;
+	m_tile(1, 0) = 0; m_tile(1, 1) = 0;
+
 	Matrix m_mkl(2, 2);
 
 	multiply_naive(mat1, mat2, m_naive);
+	multiply_tile(mat1, mat2, m_tile);
 	multiply_mkl(mat1, mat2, m_mkl);
 
 	print_matrix("mat1", mat1);
 	print_matrix("mat2", mat2);
 
 	print_matrix("m_naive", m_naive);
+	print_matrix("m_tile", m_tile);
 	print_matrix("m_mkl", m_mkl);
 
 	return 0;
