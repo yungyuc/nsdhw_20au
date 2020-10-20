@@ -1,9 +1,23 @@
 #include <iostream>
+#include <sys/time.h>
 #include <mkl.h>
 #include <mkl_lapacke.h>
 #include "matrix.h"
 
+#define N 4
+#define BLOCK_SIZE 2
+
 using namespace std;
+
+double time(void)
+{
+        static int sec = -1;
+        struct timeval tv;
+        gettimeofday(&tv, NULL);
+
+        if (sec < 0) sec = tv.tv_sec;
+        return (tv.tv_sec - sec) + 1.0e-6 * tv.tv_usec;
+}
 
 void multiply_naive(Matrix &mat1, Matrix &mat2, Matrix &mat_result)
 {
@@ -18,14 +32,17 @@ void multiply_naive(Matrix &mat1, Matrix &mat2, Matrix &mat_result)
 
 void multiply_tile(Matrix &mat1, Matrix &mat2, Matrix &mat_result)
 {
-	for(int r = 0; r < mat1.row(); r++) {
-		for(int i = 0; i < mat1.column(); i++) {
-			for(int c = 0; c < mat2.column(); c++) {
-				mat_result(r, c) += mat1(r, i) * mat2(i, c);
+	for(int r = 0; r < mat1.row(); r+=BLOCK_SIZE) {
+		for(int c = 0; c < mat2.column(); c+=BLOCK_SIZE) {
+			for(int br = r; br < r + BLOCK_SIZE; br++) {
+				for(int bc = c; bc < c + BLOCK_SIZE; bc++) {
+					for(int i = 0; i < mat1.column(); i++) {
+						mat_result(br, bc) += mat1(br, i) * mat2(i, bc);
+					}
+				}
 			}
 		}
 	}
-
 }
 
 void multiply_mkl(Matrix &mat1, Matrix &mat2, Matrix &mat_result)
@@ -59,36 +76,46 @@ void print_matrix(const char *prompt, Matrix &mat)
 		}
 		cout << "\n";
 	}
+	cout << "\n";
 }
 
 int main(void)
 {
-	Matrix mat1(2, 2);
+	Matrix mat1(N, N);
 	random_matrix(mat1, 1000);
 
-	Matrix mat2(2, 2);
+	Matrix mat2(N, N);
 	random_matrix(mat2, 1000);
 
-	Matrix m_naive(2, 2);
-	m_naive(0, 0) = 0; m_naive(0, 1) = 0;
-	m_naive(1, 0) = 0; m_naive(1, 1) = 0;
+	Matrix m_naive(N, N);
+	Matrix m_tile(N, N);
+	Matrix m_mkl(N, N);
 
-	Matrix m_tile(2, 2);
-	m_tile(0, 0) = 0; m_tile(0, 1) = 0;
-	m_tile(1, 0) = 0; m_tile(1, 1) = 0;
+	double start_time, end_time;
 
-	Matrix m_mkl(2, 2);
-
+	start_time = time();
 	multiply_naive(mat1, mat2, m_naive);
-	multiply_tile(mat1, mat2, m_tile);
-	multiply_mkl(mat1, mat2, m_mkl);
+	end_time = time();
+	cout << "naive " << end_time - start_time << " seconds\n";
 
+	start_time = time();
+	multiply_tile(mat1, mat2, m_tile);
+	end_time = time();
+	cout << "tiled " << end_time - start_time << " seconds\n";
+
+	start_time = time();
+	multiply_mkl(mat1, mat2, m_mkl);
+	end_time = time();
+	cout << "mkl " << end_time - start_time << " seconds\n";
+
+#if 1
 	print_matrix("mat1", mat1);
 	print_matrix("mat2", mat2);
 
 	print_matrix("m_naive", m_naive);
 	print_matrix("m_tile", m_tile);
 	print_matrix("m_mkl", m_mkl);
+#endif
 
 	return 0;
 }
