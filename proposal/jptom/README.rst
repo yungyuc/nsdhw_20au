@@ -47,6 +47,8 @@ Users need to write own robot program which has "one step" and "draw" function.
 My package will support two popular self-localazation algorithm, one is Kalman filter.
 I want the package can be use in not only simulator but also real robot.
 
+.. code-block:: python
+
    class Robot:
       def one_step{ 
          user code 
