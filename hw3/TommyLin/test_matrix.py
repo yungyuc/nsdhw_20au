@@ -60,6 +60,13 @@ def test_performance():
         end = time.time()
         naive_timing.append(end - start)
 
+    tile_timing = []
+    for i in range(5):
+        start = time.time()
+        multiply_tile(mat1, mat2, 8)
+        end = time.time()
+        tile_timing.append(end - start)
+
     mkl_timing = []
     for i in range(5):
         start = time.time()
@@ -69,7 +76,10 @@ def test_performance():
 
     with open('performance.txt', 'w') as f:
         naivesec = np.min(naive_timing)
+        tilesec = np.min(tile_timing)
         mklsec = np.min(mkl_timing)
         print('multiply_naive runtime = {0:2.4f} seconds'.format(naivesec), file=f)
+        print('multiply_tile runtime = {0:2.4f} seconds'.format(tilesec), file=f)
         print('multiply_mkl runtime = {0:2.4f} seconds'.format(mklsec), file=f)
+        print('Tile speed-up over naive: {0:2.2f} x'.format(naivesec/tilesec), file=f)
         print('MKL speed-up over naive: {0:2.2f} x'.format(naivesec/mklsec), file=f)
