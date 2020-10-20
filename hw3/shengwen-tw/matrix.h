@@ -3,6 +3,9 @@
 
 #include <string>
 
+#define N 1024
+#define BLOCK_SIZE 64
+
 class Matrix {
 public:
 	Matrix();
@@ -45,5 +48,11 @@ private:
 	int n_column;
 	double *data;
 };
+
+void random_matrix(Matrix &mat, double max_val);
+void multiply_naive(Matrix &mat1, Matrix &mat2, Matrix &mat_result);
+void multiply_tile(Matrix &mat1, Matrix &mat2, Matrix &mat_result);
+int matrix_compare(Matrix &mat1, Matrix &mat2);
+void multiply_mkl(Matrix &mat1, Matrix &mat2, Matrix &mat_result);
 
 #endif

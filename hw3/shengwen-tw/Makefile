@@ -12,7 +12,8 @@ LDFLAGS=-lm
 
 CFLAGS+=-I$(MKL_PATH)/include
 
-SRC=main.cpp
+SRC=main.cpp \
+	matrix.cpp
 
 OBJS=$(SRC:.cpp=.o)
 DEPEND=$(SRC:.cpp=.d)
