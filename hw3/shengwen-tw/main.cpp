@@ -29,22 +29,24 @@ int main(void)
 	Matrix m_tile(N, N);
 	Matrix m_mkl(N, N);
 
+	printf("program has been started, do not leave...\n");
+
 	double start_time, end_time;
 
 	start_time = time();
-	multiply_naive(mat1, mat2, m_naive);
+	m_naive = multiply_naive(mat1, mat2);
 	end_time = time();
 	double cost_naive = end_time - start_time;
 	printf("time cost of the naive multiply: %lf seconds\n", cost_naive);
 
 	start_time = time();
-	multiply_tile(mat1, mat2, m_tile);
+	m_tile = multiply_tile(mat1, mat2, BLOCK_SIZE);
 	end_time = time();
 	double cost_tile = end_time - start_time;
 	printf("time cost of the tile multiply: %lf seconds\n", cost_tile);
 
 	start_time = time();
-	multiply_mkl(mat1, mat2, m_mkl);
+	m_mkl = multiply_mkl(mat1, mat2);
 	end_time = time();
 	double cost_mkl = end_time - start_time;;
 	printf("time cost of the mkl multiply: %lf seconds\n", cost_mkl);

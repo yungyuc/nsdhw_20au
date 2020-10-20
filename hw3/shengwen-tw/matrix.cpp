@@ -7,8 +7,10 @@
 
 using namespace std;
 
-void multiply_naive(Matrix &mat1, Matrix &mat2, Matrix &mat_result)
+Matrix multiply_naive(Matrix &mat1, Matrix &mat2)
 {
+	Matrix mat_result(mat1.row(), mat2.column());
+
 	for(int r = 0; r < mat1.row(); r++) {
 		for(int c = 0; c < mat2.column(); c++) {
 			for(int i = 0; i < mat1.column(); i++) {
@@ -16,23 +18,29 @@ void multiply_naive(Matrix &mat1, Matrix &mat2, Matrix &mat_result)
 			}
 		}
 	}
+
+	return mat_result;
 }
 
-void multiply_tile(Matrix &mat1, Matrix &mat2, Matrix &mat_result)
+Matrix multiply_tile(Matrix &mat1, Matrix &mat2, int tile_size)
 {
+	Matrix mat_result(mat1.row(), mat2.column());
+
 	int DIM = mat1.row();
 
-	for(int r = 0; r < DIM; r+=BLOCK_SIZE) {
-		for(int c = 0; c < DIM; c+=BLOCK_SIZE) {
+	for(int r = 0; r < DIM; r+=tile_size) {
+		for(int c = 0; c < DIM; c+=tile_size) {
 			for(int i = 0; i < DIM; i++) {
-				for(int br = r; br < r + BLOCK_SIZE; br++) {
-					for(int bc = c; bc < c + BLOCK_SIZE; bc++) {
+				for(int br = r; br < r + tile_size; br++) {
+					for(int bc = c; bc < c + tile_size; bc++) {
 						mat_result(br, bc + 0) += mat1(br, i) * mat2(i, bc + 0);
 					}
 				}
 			}
 		}
 	}
+
+	return mat_result;
 }
 
 int matrix_compare(Matrix &mat1, Matrix &mat2)
@@ -52,8 +60,10 @@ int matrix_compare(Matrix &mat1, Matrix &mat2)
 	return difference;
 }
 
-void multiply_mkl(Matrix &mat1, Matrix &mat2, Matrix &mat_result)
+Matrix multiply_mkl(Matrix &mat1, Matrix &mat2)
 {
+	Matrix mat_result(mat1.row(), mat2.column());
+
         cblas_dgemm(CblasRowMajor,
 		    CblasNoTrans,
 		    CblasNoTrans,
@@ -67,7 +77,9 @@ void multiply_mkl(Matrix &mat1, Matrix &mat2, Matrix &mat_result)
 		    mat_result.column(),
 		    0,
 		    mat_result.raw_data(),
-                    mat_result.column());	
+                    mat_result.column());
+
+	return mat_result;
 }
 
 double random_double(double max)

@@ -16,6 +16,9 @@ public:
 	}
 
 	~Matrix() {
+	}
+
+	void clean(void) {
 		if(data != nullptr) delete[] data;
 	}
 
@@ -83,9 +86,9 @@ private:
 };
 
 void random_matrix(Matrix &mat, double max_val);
-void multiply_naive(Matrix &mat1, Matrix &mat2, Matrix &mat_result);
-void multiply_tile(Matrix &mat1, Matrix &mat2, Matrix &mat_result);
+Matrix multiply_naive(Matrix &mat1, Matrix &mat2);
+Matrix  multiply_tile(Matrix &mat1, Matrix &mat2, int tile_size);
 int matrix_compare(Matrix &mat1, Matrix &mat2);
-void multiply_mkl(Matrix &mat1, Matrix &mat2, Matrix &mat_result);
+Matrix multiply_mkl(Matrix &mat1, Matrix &mat2);
 
 #endif
