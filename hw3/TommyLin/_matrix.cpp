@@ -1,8 +1,8 @@
 #include <iostream>
+#include <pybind11/numpy.h>
+#include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <pybind11/operators.h>
-#include <pybind11/numpy.h>
 #include "mkl.h"
 
 namespace py = pybind11;
@@ -72,9 +72,9 @@ Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2)
         for (size_t k = 0; k < ret.m_ncol; ++k) {
             double v = 0;
             for (size_t j = 0; j < mat1.m_ncol; ++j) {
-                v += mat1(i,j) * mat2(j,k);
+                v += mat1(i, j) * mat2(j, k);
             }
-            ret(i,k) = v;
+            ret(i, k) = v;
         }
     }
 
@@ -86,58 +86,48 @@ Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const unsigned int 
     if (mat1.m_ncol != mat2.m_nrow)
         throw std::invalid_argument("Input matrix rank didn't match");
 
-    if ((tsize == 0) || (tsize > mat1.m_ncol))
-        return multiply_mkl(mat1, mat2);
+    if ((tsize == 0) || (tsize > mat1.m_nrow) || (mat1.m_nrow < 8))
+        return multiply_naive(mat1, mat2);
 
     Matrix ret(mat1.m_nrow, mat2.m_ncol);
+    unsigned int remain = ret.m_nrow % 8;
+    size_t i, i_max = remain ? ret.m_nrow - 8: ret.m_nrow;
 
-#if 0
-    for (size_t i = 0; i < ret.m_nrow; i += 4) {
+    for (i = 0; i < i_max; i += 8) {
         for (size_t k = 0; k < ret.m_ncol; ++k) {
-            double v[4] = {0, 0, 0, 0};
+            double v[8] = {0, 0, 0, 0, 0, 0, 0, 0};
             for (size_t j = 0; j < mat1.m_ncol; ++j) {
-                v[0] += mat1(i,j) * mat2(j,k);
-                v[1] += mat1(i+1,j) * mat2(j,k);
-                v[2] += mat1(i+2,j) * mat2(j,k);
-                v[3] += mat1(i+3,j) * mat2(j,k);
+                v[0] += mat1(i    , j) * mat2(j, k);
+                v[1] += mat1(i + 1, j) * mat2(j, k);
+                v[2] += mat1(i + 2, j) * mat2(j, k);
+                v[3] += mat1(i + 3, j) * mat2(j, k);
+                v[4] += mat1(i + 4, j) * mat2(j, k);
+                v[5] += mat1(i + 5, j) * mat2(j, k);
+                v[6] += mat1(i + 6, j) * mat2(j, k);
+                v[7] += mat1(i + 7, j) * mat2(j, k);
             }
-            ret(i  ,k) = v[0];
-            ret(i+1,k) = v[1];
-            ret(i+2,k) = v[2];
-            ret(i+3,k) = v[3];
-        }
-    }
-#endif
-    double v[tsize];
-    unsigned int remain = ret.m_nrow % tsize;
-	size_t i, j, k, l;
-
-    for (i = 0; i < ret.m_nrow; i += tsize) {
-        for (k = 0; k < ret.m_ncol; ++k) {
-            for (l = 0; l < tsize; ++l)
-                v[l] = 0;
-
-            for (j = 0; j < mat1.m_ncol; ++j) {
-                for (l = 0; l < tsize; ++l)
-                    v[l] += mat1(i + l,j) * mat2(j,k);
-            }
-
-            for (l = 0; l < tsize; ++l)
-                ret(i + l, k) = v[l];
+            ret(i     , k) = v[0];
+            ret(i + 1 , k) = v[1];
+            ret(i + 2 , k) = v[2];
+            ret(i + 3 , k) = v[3];
+            ret(i + 4 , k) = v[4];
+            ret(i + 5 , k) = v[5];
+            ret(i + 6 , k) = v[6];
+            ret(i + 7 , k) = v[7];
         }
     }
 
-    for (k = 0; k < ret.m_ncol; ++k) {
-        for (l = 0; l < remain; ++l)
-            v[l] = 0;
-
-        for (j = 0; j < mat1.m_ncol; ++j) {
-            for (l = 0; l < remain; ++l)
-                v[l] += mat1(ret.m_nrow - 1 - l, j) * mat2(j, k);
+    if (remain) {
+        i -= 8;
+        for (; i < ret.m_nrow; ++i) {
+            for (size_t k = 0; k < ret.m_ncol; ++k) {
+                double v = 0;
+                for (size_t j = 0; j < mat1.m_ncol; ++j) {
+                    v += mat1(i, j) * mat2(j, k);
+                }
+                ret(i, k) = v;
+            }
         }
-
-        for (l = 0; l < remain; ++l)
-            ret(ret.m_nrow - 1 - l, k) = v[l];
     }
 
     return ret;
@@ -168,7 +158,6 @@ PYBIND11_MODULE(_matrix, m) {
         .def(py::init<size_t, size_t>())
         .def(py::init<Matrix const &>())
         .def(py::init<std::vector<std::vector<double>>&>())
-        //.def(py::init<Matrix &&>())
         .def_property("nrow", &Matrix::nrow, nullptr)
         .def_property("ncol", &Matrix::ncol, nullptr)
         .def_buffer([] (Matrix &m) -> py::buffer_info {
@@ -178,7 +167,7 @@ PYBIND11_MODULE(_matrix, m) {
                 py::format_descriptor<double>::format(),
                 2,
                 { m.nrow(), m.ncol() },
-                { sizeof(double) * m.ncol(), sizeof(double)}
+                { sizeof(double) * m.ncol(), sizeof(double) }
             );
         })
         .def("__eq__", &Matrix::operator==)
