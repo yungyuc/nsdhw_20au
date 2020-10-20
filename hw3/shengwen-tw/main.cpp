@@ -4,8 +4,8 @@
 #include <mkl_lapacke.h>
 #include "matrix.h"
 
-#define N 4
-#define BLOCK_SIZE 2
+#define N 1024
+#define BLOCK_SIZE 64
 
 using namespace std;
 
@@ -33,10 +33,10 @@ void multiply_naive(Matrix &mat1, Matrix &mat2, Matrix &mat_result)
 void multiply_tile(Matrix &mat1, Matrix &mat2, Matrix &mat_result)
 {
 	for(int r = 0; r < mat1.row(); r+=BLOCK_SIZE) {
-		for(int c = 0; c < mat2.column(); c+=BLOCK_SIZE) {
-			for(int br = r; br < r + BLOCK_SIZE; br++) {
-				for(int bc = c; bc < c + BLOCK_SIZE; bc++) {
-					for(int i = 0; i < mat1.column(); i++) {
+		for(int i = 0; i < mat1.column(); i++) {
+			for(int c = 0; c < mat2.column(); c+=BLOCK_SIZE) {
+				for(int br = r; br < r + BLOCK_SIZE; br++) {
+					for(int bc = c; bc < c + BLOCK_SIZE; bc++) {
 						mat_result(br, bc) += mat1(br, i) * mat2(i, bc);
 					}
 				}
@@ -108,7 +108,7 @@ int main(void)
 	end_time = time();
 	cout << "mkl " << end_time - start_time << " seconds\n";
 
-#if 1
+#if 0
 	print_matrix("mat1", mat1);
 	print_matrix("mat2", mat2);
 
