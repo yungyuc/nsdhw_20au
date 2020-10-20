@@ -27,6 +27,35 @@ public:
 		return this->n_column;
 	}
 
+	bool operator== (const Matrix &rhs) {
+		if(rhs.n_row != n_row) return false;
+		if(rhs.n_column != n_column) return false;
+
+		for(int r = 0; r < n_row; r++) {
+			for(int c = 0; c < n_column; c++) {
+				if(fabs(rhs.data[r * n_column + c] - data[r * n_column + c]) > 0.0001) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	bool operator!= (const Matrix &rhs) {
+		if(rhs.n_row != n_row) return true;
+		if(rhs.n_column != n_column) return true;
+
+		for(int r = 0; r < n_row; r++) {
+			for(int c = 0; c < n_column; c++) {
+				if(fabs(rhs.data[r * n_column + c] - data[r * n_column + c]) > 0.0001) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	double & operator() (int r, int c) {
 		return data[r * this->n_column + c];
 	}
@@ -37,6 +66,10 @@ public:
 
 	double at(int r, int c) {
 		return data[r * n_column + c];
+	}
+
+	void set(int r, int c, double val) {
+		data[r * n_column + c] = val;
 	}
 
 	double *raw_data(void) {
