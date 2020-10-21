@@ -29,8 +29,6 @@ int main(void)
 	Matrix m_tile(N, N);
 	Matrix m_mkl(N, N);
 
-	printf("program has been started, do not leave...\n");
-
 	double start_time, end_time;
 
 	start_time = time();
@@ -53,18 +51,18 @@ int main(void)
 
 	printf("tile multiply is %lfx times faster than naive multiply\n", cost_naive / cost_tile);
 
-	printf("\nmatrix correctness checking:\n");
+	fprintf(stderr, "\nmatrix correctness checking:\n");
 	int naive_tile_diff = matrix_compare(m_naive, m_tile);
 	int tile_mkl_diff = matrix_compare(m_tile, m_mkl);
 	int naive_mkl_diff = matrix_compare(m_naive, m_mkl);
-	printf("%d elements of m_naive and m_tile are differenct\n", naive_tile_diff);
-	printf("%d elements of m_tile and m_mkl are different\n", tile_mkl_diff);
-	printf("%d elements of m_naive and m_mkl are differenct\n", naive_mkl_diff);
+	fprintf(stderr, "%d elements of m_naive and m_tile are differenct\n", naive_tile_diff);
+	fprintf(stderr, "%d elements of m_tile and m_mkl are different\n", tile_mkl_diff);
+	fprintf(stderr, "%d elements of m_naive and m_mkl are differenct\n", naive_mkl_diff);
 
 	if((naive_tile_diff == 0) && (tile_mkl_diff == 0) && (naive_mkl_diff == 0)) {
-		printf("-> correct, all answer are matched!\n");
+		fprintf(stderr, "-> correct, all answer are matched!\n");
 	} else {
-		printf("-> failed, something is wrong!\n");
+		fprintf(stderr, "-> failed, something is wrong!\n");
 	}
 
 #if 0

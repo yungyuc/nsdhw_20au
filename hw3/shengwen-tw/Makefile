@@ -47,7 +47,10 @@ $(SHARED_OBJ): $(SRC) $(PYBIND_SRC)
 	@$(CC) $(CFLAGS) -MMD -MP -c $< $(LDFLAGS) -o $@
 
 test: $(EXECUTABLE) $(SHARED_OBJ)
-	./hw3
+	@echo 'start generating `performance.txt`'
+	@./hw3 > performance.txt
+	@echo ''
+	@echo 'finish generating `performance.txt`'
 
 clean:
 	rm -rf $(EXECUTABLE)
