@@ -3,12 +3,12 @@ SHARED_OBJ=_matrix.so
 CC=g++
 
 #on my pc
-MKL_PATH=/opt/intel/mkl
-MKL_LDFLAGS=-L$(MKL_PATH)/lib/intel64 -lmkl_rt
+#MKL_PATH=/opt/intel/mkl
+#MKL_LDFLAGS=-L$(MKL_PATH)/lib/intel64 -lmkl_rt
 
 #on ec2
-#MKL_PATH=$(HOME)/opt/conda
-#MKL_LDFLAGS=-L$(MKL_PATH)/lib -lmkl_rt
+MKL_PATH=$(HOME)/opt/conda
+MKL_LDFLAGS=-L$(MKL_PATH)/lib -lmkl_rt
 
 CFLAGS=-O3 -Wall -g
 
