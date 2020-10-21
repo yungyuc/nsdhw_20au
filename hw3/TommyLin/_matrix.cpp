@@ -91,7 +91,7 @@ Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const unsigned int 
 
     Matrix ret(mat1.m_nrow, mat2.m_ncol);
     unsigned int remain = ret.m_nrow % 8;
-    size_t i, i_max = remain ? ret.m_nrow - 8: ret.m_nrow;
+    size_t i, i_max = ret.m_nrow - remain;
 
     for (i = 0; i < i_max; i += 8) {
         for (size_t k = 0; k < ret.m_ncol; ++k) {
@@ -118,8 +118,7 @@ Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const unsigned int 
     }
 
     if (remain) {
-        i -= 8;
-        for (; i < ret.m_nrow; ++i) {
+        for (i = i_max; i < ret.m_nrow; ++i) {
             for (size_t k = 0; k < ret.m_ncol; ++k) {
                 double v = 0;
                 for (size_t j = 0; j < mat1.m_ncol; ++j) {
