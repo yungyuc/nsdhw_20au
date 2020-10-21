@@ -5,11 +5,15 @@
 
 #define N 1024
 #define BLOCK_SIZE 64
+#define PADDING_ZEROS 64 //in case block size doesn't fit
 
 class Matrix {
 public:
 	Matrix();
 	Matrix(int _row, int _column) {
+		_row += PADDING_ZEROS;
+		_column += PADDING_ZEROS;
+
 		this->data = new double[_row * _column]();
 		this->n_row = _row;
 		this->n_column = _column;
@@ -23,11 +27,11 @@ public:
 	}
 
 	int row(void) {
-		return this->n_row;
+		return this->n_row - PADDING_ZEROS;
 	}
 
 	int column(void) {
-		return this->n_column;
+		return this->n_column - PADDING_ZEROS;
 	}
 
 	bool operator== (const Matrix &rhs) {
@@ -90,5 +94,6 @@ Matrix multiply_naive(Matrix &mat1, Matrix &mat2);
 Matrix  multiply_tile(Matrix &mat1, Matrix &mat2, int tile_size);
 int matrix_compare(Matrix &mat1, Matrix &mat2);
 Matrix multiply_mkl(Matrix &mat1, Matrix &mat2);
+void print_matrix(const char *prompt, Matrix &mat);
 
 #endif

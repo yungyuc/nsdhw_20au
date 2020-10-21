@@ -48,8 +48,8 @@ int matrix_compare(Matrix &mat1, Matrix &mat2)
 	int difference = 0;
 	double f;
 	
-	for(int r = 0; r < mat1.row(); r++) {
-		for(int c = 0; c < mat1.column(); c++) {
+	for(int r = 0; r < mat1.row() - PADDING_ZEROS; r++) {
+		for(int c = 0; c < mat1.column() - PADDING_ZEROS; c++) {
 			if((f = fabs(mat1.at(r, c) - mat2.at(r, c))) > 0.0001) {
 				difference++;
 				//cout << f << " ("<< r << "," << c << ")" << endl;
@@ -67,17 +67,17 @@ Matrix multiply_mkl(Matrix &mat1, Matrix &mat2)
         cblas_dgemm(CblasRowMajor,
 		    CblasNoTrans,
 		    CblasNoTrans,
-		    mat1.row(),
-                    mat2.column(),
-		    mat1.column(),
+		    mat1.row() + PADDING_ZEROS,
+                    mat2.column() + PADDING_ZEROS,
+		    mat1.column() + PADDING_ZEROS,
 		    1,
 		    mat1.raw_data(),
-		    mat1.column(),
+		    mat1.column() + PADDING_ZEROS,
                     mat2.raw_data(),
-		    mat_result.column(),
+		    mat_result.column() + PADDING_ZEROS,
 		    0,
 		    mat_result.raw_data(),
-                    mat_result.column());
+                    mat_result.column() + PADDING_ZEROS);
 
 	return mat_result;
 }
