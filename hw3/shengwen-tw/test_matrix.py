@@ -9,14 +9,15 @@ def matrix_compare(mat1, mat2):
     assert mat1.nrow == mat2.nrow
     assert mat1.ncol == mat2.ncol
 
-    epsilon = 1e-6 #float comparsion tolerance
+    epsilon = 1e-3 #float comparsion tolerance
 
     error_cnt = 0
 
     for i in range(0, mat1.nrow):
         for j in range(0, mat2.ncol):
             abs_diff = math.fabs(mat1[i, j] - mat2[i, j])
-            if abs_diff > 1e-6:
+            if abs_diff > epsilon:
+                print("%f against %f" %(mat1[i, j], mat2[i, j]))
                 error_cnt = error_cnt + 1
     
     assert error_cnt <= 0
