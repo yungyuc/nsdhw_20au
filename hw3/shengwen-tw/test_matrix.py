@@ -88,7 +88,31 @@ def test_me():
     _matrix.random_matrix(mat2, 10000)
 
     result_naive = _matrix.Matrix(1024, 1024)
+    start_time = timeit.default_timer()
+    _matrix.multiply_naive(mat1, mat2)
+    stop_time = timeit.default_timer()
+    cost_naive = stop_time - start_time;
+
     result_tile = _matrix.Matrix(1024, 1024)
+    start_time = timeit.default_timer()
+    _matrix.multiply_tile(mat1, mat2, 64)
+    stop_time = timeit.default_timer()
+    cost_tile = stop_time - start_time;
+
     result_mkl = _matrix.Matrix(1024, 1024)
+    start_time = timeit.default_timer()
+    _matrix.multiply_mkl(mat1, mat2)
+    stop_time = timeit.default_timer()
+    cost_mkl = stop_time - start_time;
+    
+    print('generating performance.txt...');
+    f = open("performance.txt", "w")
+    f.write("time cost of naive algorithm: %f seconds\n" %(cost_naive));
+    f.write("time cost of tile algorithm: %f seconds\n" %(cost_tile));
+    f.write("time cost of mkl implementation: %f seconds\n" %(cost_mkl));
+    f.write("mkl is %f times faster than naive\n" %(cost_naive / cost_mkl));
+    f.write("tile is %f times faster than naive\n" %(cost_naive / cost_tile));
+    f.close();
+    print('finished.')
 
 test_me()
