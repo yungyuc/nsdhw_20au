@@ -10,9 +10,10 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(_matrix, m) {
 	m.doc() = "ok";
-	m.def("multiply_naive", &multiply_naive, "uber eat");
-	m.def("multiply_tile", &multiply_tile, "food panda");
-	m.def("multiply_mkl", &multiply_mkl, "im just random typing");
+	m.def("multiply_naive", &multiply_naive, "");
+	m.def("multiply_tile", &multiply_tile, "");
+	m.def("multiply_mkl", &multiply_mkl, "");
+	m.def("random_matrix", &random_matrix, "");
 	py::class_<Matrix>(m, "Matrix", py::buffer_protocol())
 	.def(py::init<int, int>())
 	.def_property_readonly("nrow", &Matrix::row)
