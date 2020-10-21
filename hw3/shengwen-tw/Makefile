@@ -2,10 +2,15 @@ EXECUTABLE=hw3
 SHARED_OBJ=_matrix.so
 CC=g++
 
+#on my pc
 MKL_PATH=/opt/intel/mkl
 MKL_LDFLAGS=$(MKL_PATH)/lib/intel64/libmkl_intel_lp64.so \
 	$(MKL_PATH)/lib/intel64/libmkl_sequential.so \
 	$(MKL_PATH)/lib/intel64/libmkl_core.so
+
+#on ec2
+#MKL_PATH=$(HOME)/opt/conda
+#MKL_LDFLAGS=-L$(MKL_PATH)/lib -lmkl_rt
 
 CFLAGS=-O3 -Wall -g
 
