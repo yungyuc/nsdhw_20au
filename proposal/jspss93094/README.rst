@@ -71,13 +71,13 @@ Use make to compile the cpp, it will genarate the files :
 
 Version control :
 
-1. When the function is updated to the certain degree, I will upload the new version both \
+\1. When the function is updated to the certain degree, I will upload the new version both \
 to the google drive and github branch.
-2. when it updated, the contents of updating details will show in the update.txt file.
-3.In order to control the version branch, I will let all versions of the same function save \
+\2. when it updated, the contents of updating details will show in the update.txt file.
+\3.In order to control the version branch, I will let all versions of the same function save \
 in the different directory.
-4. The github branch will just show the function name.
-5. The main branch will always be updated for the version which can be executed definitely.
+\4. The github branch will just show the function name.
+\5. The main branch will always be updated for the version which can be executed definitely.
 
 Schedule
 ========
