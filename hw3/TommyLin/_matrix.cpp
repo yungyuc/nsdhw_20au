@@ -95,7 +95,7 @@ Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const unsigned int 
 
     for (i = 0; i < i_max; i += 8) {
         for (size_t k = 0; k < ret.m_ncol; ++k) {
-            double v[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+            double v[8] = {0};
             for (size_t j = 0; j < mat1.m_ncol; ++j) {
                 v[0] += mat1(i    , j) * mat2(j, k);
                 v[1] += mat1(i + 1, j) * mat2(j, k);
