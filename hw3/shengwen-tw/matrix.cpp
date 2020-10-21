@@ -50,7 +50,7 @@ int matrix_compare(Matrix &mat1, Matrix &mat2)
 	
 	for(int r = 0; r < mat1.row(); r++) {
 		for(int c = 0; c < mat1.column(); c++) {
-			if((f = fabs(mat1.at(r, c) - mat2.at(r, c))) > 0.01) {
+			if((f = fabs(mat1.at(r, c) - mat2.at(r, c))) > 0.0001) {
 				difference++;
 				//cout << f << " ("<< r << "," << c << ")" << endl;
 			}

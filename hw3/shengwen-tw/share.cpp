@@ -21,8 +21,9 @@ PYBIND11_MODULE(_matrix, m) {
 				return m(i.first, i.second);})
 	.def("__setitem__", [](Matrix &m, std::pair<size_t, size_t> i, double val) {
 				return m(i.first, i.second) = val;})
-	.def("__eq__", &Matrix::operator==)
-	.def("__ne__", &Matrix::operator!=);
-
-;
+	.def("__eq__", [](Matrix &m1, Matrix &m2){return m1 == m2;})
+	.def("__ne__", [](Matrix &m1, Matrix &m2){return m1 != m2;})
+	;
+//	.def("__eq__", &Matrix::operator==)
+//	.def("__ne__", &Matrix::operator!=);
 }
