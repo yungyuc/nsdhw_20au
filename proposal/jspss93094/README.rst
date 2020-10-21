@@ -12,8 +12,10 @@ Use C++ with Python to implement the video compression, and the file type can be
 Problem to solve
 ================
 
-Frequently, the videos are taken up much space if we wanted to save it, download it, 
-or do something. It must took a long time to deal with a video. Even its size will be 
+Frequently, the videos are taken up much space if we wanted to save it, download it,
+ 
+or do something. It must took a long time to deal with a video. Even its size will be
+ 
 larger when the resolution is higher.
 
 Some problems I met when I want to compress the video:
@@ -26,6 +28,7 @@ Perspective users
 =================
 
 The person who :
+
 1. Wanted to compress the large video.
 2. Do not want to install the software.
 3. Can not upload the file online because of the large size.
@@ -35,10 +38,12 @@ System architecture
 ===================
 
 It also have many modules can use, like FFMPEG. But I want to realize the 
+
 process and to implement it.
 If some process in Python is better than in C++, I will embed some Python.
 
 I just use C++ to create the function to complie and execute, or the file 
+
 which can be imported in Python.
 
 The function to implement : 
@@ -53,9 +58,11 @@ API description
 ===============
 
 If users want to use my program in the program by themself, it can be easy to 
+
 include the file in C++. Just download my file and include it in your header.
 
 I will also provide the file which can be imported in Python. It can use by 
+
 just call the functions.
 
 Maybe I will make the graphical user interface which is easier to use by the general users.
@@ -71,10 +78,12 @@ Use make to compile the cpp, it will genarate the files :
 
 Version control :
 
-1. When the function is updated to the certain degree, I will upload the new version both \
+1. When the function is updated to the certain degree, I will upload the new version both 
+
    to the google drive and github branch.
-2. when it updated, the contents of updating details will show in the update.txt file.
-3. In order to control the version branch, I will let all versions of the same function save \
+2. When it updated, the contents of updating details will show in the update.txt file.
+3. In order to control the version branch, I will let all versions of the same function save 
+
    in the different directory.
 4. The github branch will just show the function name.
 5. The main branch will always be updated for the version which can be executed definitely.
