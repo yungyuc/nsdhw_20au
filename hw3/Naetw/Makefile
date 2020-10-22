@@ -26,6 +26,7 @@ MKLLINKLINE := \
 
 CXXFLAGS := ${CXXFLAGS} \
     -std=c++17 -O3 -g -m64 \
+	-fsized-deallocation \
 	-ftree-vectorize -funroll-loops -ffast-math \
     -I${MKLROOT}/include \
     ${MKLLINKLINE} -shared -fPIC
