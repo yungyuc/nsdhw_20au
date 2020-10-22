@@ -40,10 +40,13 @@ Ubuntu 18.04 LTS) in ``us-east-1``.  You are not required to use the AMI for
 doing the homework, but the grader uses it to run your code.  If your code
 fails to build or run on it, **you can lose points**.
 
-There are totally 5 points in this homework assignment.  The grader will check
-the result from the ``validate.py`` script.  The grader may attempt to run the
-script with the environment variable ``PRELOAD_MKL`` set, if ``validate.py``
-doesn't pass without it.  Your work is considered pass in either case.
+There are totally 5 points in this homework assignment.  The grader will run on
+a `m5.large` in `us-east-1` and check the result from the ``validate.py``
+script.  The benchmark result may go off on different hardware.  Please test
+your code in the same or a similar environment.  The grader may attempt to run
+the script with the environment variable ``PRELOAD_MKL`` set, if
+``validate.py`` doesn't pass without it.  Your work is considered pass in
+either case.
 
 CI is set up to provide additional guidance.  The grader may reference the CI
 result but will not use it to solely determine your grade.  To get it running,
