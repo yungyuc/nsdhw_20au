@@ -8,8 +8,8 @@ Basic information
 This is an automatically process to a virtual assistant that can take and process orders.
 
 You can use the following command to checkout from repository:
-::
-git clone https://github.com/yenchanglu/takingYourOrder
+
+``git clone https://github.com/yenchanglu/takingYourOrder``
 
 Problem to solve
 ================
