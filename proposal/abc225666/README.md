@@ -1,5 +1,8 @@
 # Agar backend api
 
+[![hackmd-github-sync-badge](https://hackmd.io/RYp6o8DmTr2QNHb7f-hbCg/badge)](https://hackmd.io/RYp6o8DmTr2QNHb7f-hbCg)
+
+
 ## Basic information
 Github repository: https://github.com/abc225666/agar-backend-api
 
