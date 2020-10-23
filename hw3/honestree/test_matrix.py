@@ -5,7 +5,7 @@ import time
 import unittest
 
 smallsize = 100
-largesize = 1000
+largesize = 2048
 
 unittest.util._MAX_LENGTH=2000
 
