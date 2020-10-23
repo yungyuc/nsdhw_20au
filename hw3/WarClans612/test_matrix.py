@@ -7,9 +7,9 @@ from _matrix import Matrix, multiply_naive, multiply_mkl, multiply_tile
 
 def test_multiply_naive():
     for i in range(2):
-        m = np.random.randint(200, 400)
-        n = np.random.randint(200, 400)
-        k = np.random.randint(200, 400)
+        m = np.random.randint(1000, 1100)
+        n = np.random.randint(1000, 1100)
+        k = np.random.randint(1000, 1100)
         np_mat1 = np.random.random((m, k))
         np_mat2 = np.random.random((k, n))
         mat1 = Matrix(np_mat1)
@@ -22,9 +22,9 @@ def test_multiply_naive():
 
 def test_multiply_mkl():
     for i in range(2):
-        m = np.random.randint(200, 400)
-        n = np.random.randint(200, 400)
-        k = np.random.randint(200, 400)
+        m = np.random.randint(1000, 1100)
+        n = np.random.randint(1000, 1100)
+        k = np.random.randint(1000, 1100)
         np_mat1 = np.random.random((m, k))
         np_mat2 = np.random.random((k, n))
         mat1 = Matrix(np_mat1)
@@ -39,9 +39,9 @@ def test_multiply_tile():
     tsize_l = [16, 17, 19]
     for tsize in tsize_l:
         for i in range(2):
-            m = np.random.randint(200, 400)
-            n = np.random.randint(200, 400)
-            k = np.random.randint(200, 400)
+            m = np.random.randint(1000, 1100)
+            n = np.random.randint(1000, 1100)
+            k = np.random.randint(1000, 1100)
             np_mat1 = np.random.random((m, k))
             np_mat2 = np.random.random((k, n))
             mat1 = Matrix(np_mat1)
@@ -53,9 +53,9 @@ def test_multiply_tile():
             assert np.array(tile_ans) == pytest.approx(np.matmul(np_mat1, np_mat2))
 
 def test_performance():
-    m = np.random.randint(500, 501)
-    n = np.random.randint(500, 501)
-    k = np.random.randint(500, 501)
+    m = np.random.randint(1000, 1100)
+    n = np.random.randint(1000, 1100)
+    k = np.random.randint(1000, 1100)
     np_mat1 = np.random.random((m, k))
     np_mat2 = np.random.random((k, n))
     mat1 = Matrix(np_mat1)
