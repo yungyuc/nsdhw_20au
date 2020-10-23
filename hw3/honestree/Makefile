@@ -9,11 +9,11 @@ else
 endif
 
 MKLLINKLINE := \
-	${MKLROOT}/lib/libmkl_def.${MKLEXT} \
-	${MKLROOT}/lib/libmkl_intel_lp64.${MKLEXT} \
-	${MKLROOT}/lib/libmkl_sequential.${MKLEXT} \
-	${MKLROOT}/lib/libmkl_core.${MKLEXT} \
-	${MKLROOT}/lib/libmkl_avx2.${MKLEXT} \
+	${MKLROOT}/libmkl_def.so \
+	${MKLROOT}/libmkl_intel_lp64.so \
+	${MKLROOT}/libmkl_sequential.so} \
+	${MKLROOT}/libmkl_core.so \
+	${MKLROOT}/libmkl_avx2.so \
 	-lpthread -lm -ldl
 
 CXX = g++
