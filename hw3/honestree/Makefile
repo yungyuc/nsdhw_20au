@@ -11,7 +11,7 @@ endif
 MKLLINKLINE := \
 	${MKLROOT}/libmkl_def.so \
 	${MKLROOT}/libmkl_intel_lp64.so \
-	${MKLROOT}/libmkl_sequential.so} \
+	${MKLROOT}/libmkl_sequential.so \
 	${MKLROOT}/libmkl_core.so \
 	${MKLROOT}/libmkl_avx2.so \
 	-lpthread -lm -ldl
