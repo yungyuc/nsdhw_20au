@@ -28,6 +28,13 @@ When a user join the game, a circle should be assigned to him.
 After every user action, I might scan all possible changes and calculate new data for every circle.
 
 ## API description
+I will design detailed API when doing project. At this time, I only simply describe what API will be there.
+- Function when a user joining the game.
+- When a circle eat other circle, calculate new area size of the circle.
+- Moving function of a circle.
+- Checking circle overlapping, if it matches the condition, one of circles will be eaten.
+- Split circle, it will become **2n** circles.
+- Function of sending out circles, it will make the circle become small, and a new freedom circle will be send out to map.
 
 ## Engineering infrastructure
 - Public APIs (Python)
@@ -47,6 +54,7 @@ After every user action, I might scan all possible changes and calculate new dat
   - Build base architecture of project
 - Week 8 (11/2)
   - Implement `Map` class and `User` class
+  - Design how circles will move with specific argument, like speed, split size, eating threshold ...
 - Week 9 (11/9)
   - Implement function of calculating circle growth and movement
 - Week 10 (11/16)
