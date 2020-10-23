@@ -1,12 +1,16 @@
 #include <mkl.h>
-
+#include "StopWatch.hpp"
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
 #include <functional>
 
-#include "StopWatch.hpp"
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
+#include <pybind11/operators.h>
+#include <tuple>
+namespace py = pybind11;
 
 struct Matrix
 {
@@ -20,6 +24,26 @@ public:
         data = new double[row * col];
     }
 
+    bool operator==(Matrix &other)
+    {
+
+        if ((ncol != other.ncol) && (nrow != other.nrow))
+        {
+            return false;
+        }
+        for (size_t i = 0; i < nrow; ++i)
+        {
+            for (size_t j = 0; j < ncol; ++j)
+            {
+                if (data[i * ncol + j] != other(i, j))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     void operator=(Matrix &other)
     {
         if (data)
@@ -30,7 +54,7 @@ public:
         nrow = other.nrow;
         ncol = other.ncol;
         data = new double[nrow * ncol];
-        for (int i = 0; i < nrow * ncol; ++i)
+        for (size_t i = 0; i < nrow * ncol; ++i)
         {
             data[i] = other.data[i];
         }
@@ -44,37 +68,14 @@ public:
             data = nullptr;
         }
     }
+    size_t m_row() const { return nrow; }
+    size_t m_col() const { return ncol; }
     size_t nrow = 0;
     size_t ncol = 0;
-    double *data;
+    double *data = nullptr;
     double operator()(size_t row, size_t col) const { return data[row * ncol + col]; }
     double &operator()(size_t row, size_t col) { return data[row * ncol + col]; }
 };
-
-bool operator==(Matrix const &mat1, Matrix const &mat2)
-{
-
-    if ((mat1.ncol != mat2.ncol) && (mat1.nrow != mat2.nrow))
-    {
-        return false;
-    }
-    for (size_t i = 0; i < mat1.nrow; ++i)
-    {
-        for (size_t j = 0; j < mat1.ncol; ++j)
-        {
-            if (mat1(i, j) != mat2(i, j))
-            {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-bool operator!=(Matrix const &mat1, Matrix const &mat2)
-{
-    return !(mat1 == mat2);
-}
 
 /*
  * Use MKL for the matrix matrix multiplication.
@@ -82,10 +83,13 @@ bool operator!=(Matrix const &mat1, Matrix const &mat2)
 Matrix multiply_mkl(Matrix const &mat1, Matrix const &mat2)
 {
 
-    mkl_set_num_threads(1);
+    if (mat1.ncol != mat2.nrow)
+        throw std::invalid_argument("Input matrix rank didn't match");
 
     Matrix ret(mat1.nrow, mat2.ncol);
-
+    
+    
+    
     cblas_dgemm(
         CblasRowMajor /* const CBLAS_LAYOUT Layout */
         ,
@@ -93,27 +97,27 @@ Matrix multiply_mkl(Matrix const &mat1, Matrix const &mat2)
         ,
         CblasNoTrans /* const CBLAS_TRANSPOSE transb */
         ,
-        mat1.nrow /* const MKL_INT m */
+        mat1.m_row() /* const MKL_INT m */
         ,
-        mat2.ncol /* const MKL_INT n */
+        mat2.m_col() /* const MKL_INT n */
         ,
-        mat1.ncol /* const MKL_INT k */
+        mat1.m_col() /* const MKL_INT k */
         ,
         1.0 /* const double alpha */
         ,
         mat1.data /* const double *a */
         ,
-        mat1.ncol /* const MKL_INT lda */
+        mat1.m_col() /* const MKL_INT lda */
         ,
         mat2.data /* const double *b */
         ,
-        mat2.ncol /* const MKL_INT ldb */
+        mat2.m_col() /* const MKL_INT ldb */
         ,
         0.0 /* const double beta */
         ,
         ret.data /* double * c */
         ,
-        ret.ncol /* const MKL_INT ldc */
+        ret.m_col() /* const MKL_INT ldc */
     );
 
     return ret;
@@ -179,37 +183,22 @@ Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2)
     return ret;
 }
 
-int main(int argc, char **argv)
+PYBIND11_MODULE(_matrix, m)
 {
-    double elapsed;
-    Matrix mat1(2048, 2048);
-    Matrix mat2(2048, 2048);
-    for (int i = 0; i < 2048 * 2048; i++)
-    {
-        mat2.data[i] = i;
-        mat1.data[i] = 2048 * 2048 - 1 - i;
-    }
+    m.def("multiply_naive", &multiply_direct);
+    m.def("multiply_tile", &multiply_tile);
+    m.def("multiply_mkl", &multiply_mkl);
 
-    StopWatch sw;
-
-    std::cout << "multiply_direct" << std::endl;
-    sw.lap();
-    Matrix ret = multiply_direct(mat1, mat2);
-    elapsed = sw.lap();
-    std::cout << "Sequential takes: " << elapsed << " sec" << std::endl;
-
-    std::cout << "multiply_tile" << std::endl;
-    sw.lap();
-    Matrix ret2 = multiply_tile(mat1, mat2);
-    elapsed = sw.lap();
-    std::cout << "Sequential takes: " << elapsed << " sec" << std::endl;
-
-    std::cout << "multiply_mkl" << std::endl;
-    Matrix ret3 = multiply_mkl(mat1, mat2);
-    elapsed = sw.lap();
-    std::cout << "Sequential takes: " << elapsed << " sec" << std::endl;
-
-    return 0;
+    py::class_<Matrix>(m, "Matrix")
+        .def_property_readonly("nrow", &Matrix::m_row)
+        .def_property_readonly("ncol", &Matrix::m_col)
+        .def(py::init<const size_t, const size_t>())
+        .def("__getitem__", [](const Matrix &mat, std::tuple<size_t, size_t> t) -> double {
+            return mat(std::get<0>(t), std::get<1>(t));
+        })
+        .def("__setitem__", [](Matrix &mat, std::tuple<size_t, size_t> t, const double &v) {
+            mat(std::get<0>(t), std::get<1>(t)) = v;
+        })
+        .def("__eq__", &Matrix::operator==);
 }
 
-// vim: set ff=unix fenc=utf8 et sw=4 ts=4 sts=4:
