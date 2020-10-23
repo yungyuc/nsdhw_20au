@@ -15,6 +15,7 @@ CXXFLAGS := -Wl,--no-as-needed
 endif
 
 MKLLINKLINE := \
+	${MKLROOT}/lib/libmkl_def.${MKLEXT} \
 	${MKLROOT}/lib/libmkl_intel_lp64.${MKLEXT} \
 	${MKLROOT}/lib/libmkl_sequential.${MKLEXT} \
 	${MKLROOT}/lib/libmkl_core.${MKLEXT} \
