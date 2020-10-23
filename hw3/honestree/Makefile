@@ -1,12 +1,8 @@
 .PHONY: clean test _matrix
 
-ifneq ($(wildcard /opt/intel/mkl/.),)
-	INCLUDE_DIRS = /opt/intel/mkl/include
-	MKLROOT = /opt/intel/mkl/lib/intel64
-else
-	INCLUDE_DIRS = ${HOME}/opt/conda/include
-	MKLROOT = ${HOME}/opt/conda/lib
-endif
+INCLUDE_DIRS = ${HOME}/opt/conda/include	
+MKLROOT = ${HOME}/opt/conda/lib
+
 
 MKLLINKLINE := \
 	${MKLROOT}/libmkl_def.so \
@@ -17,7 +13,7 @@ MKLLINKLINE := \
 	-lpthread -lm -ldl
 
 CXX = g++
-CXXFLAGS := ${CXXFLAGS}　-Wl,--no-as-needed　\
+CXXFLAGS := -Wl,--no-as-needed \
 	-std=c++17 -O3 -g -m64 -Wall \
 	-I${MKLROOT}/include \
 	${MKLLINKLINE} \
