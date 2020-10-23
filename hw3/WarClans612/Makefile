@@ -22,13 +22,13 @@ MKLLINKLINE := \
 
 CXX = g++
 CXXFLAGS := ${CXXFLAGS} \
-	-std=c++17 -O3 -g -m64 \
+	-std=c++11 -O3 -g -m64 \
 	-Wall -Wextra -Werror -shared \
 	-I${MKLROOT}/include \
 	${MKLLINKLINE} \
 	${FLAGS}
 
-CXXGCOMPILE := -std=c++17 -O3 \
+CXXGCOMPILE := -std=c++11 -O3 \
 	-Wall -Wextra -Werror
 
 CXX = g++
