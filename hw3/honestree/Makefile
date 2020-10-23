@@ -27,11 +27,12 @@ _matrix: _matrix.cpp
 	/home/runner/opt/conda/lib/libmkl_intel_lp64.so \
 	/home/runner/opt/conda/lib/libmkl_sequential.so \
 	/home/runner/opt/conda/lib/libmkl_core.so \
+	/home/runner/opt/conda/lib/libmkl_avx512.so \
 	/home/runner/opt/conda/lib/libmkl_def.so \
 	${PYBIND}
 
 clean:
-	rm -rf *.o *.dSYM/ ${BINS} *.so .pytest_cache __pycache__/
+	rm -rf *.o *.dSYM/ ${BINS} *.so .pytest_cache __pycache__/ performance.txt
 
 test: _matrix
 	pytest

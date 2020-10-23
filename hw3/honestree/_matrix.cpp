@@ -24,26 +24,6 @@ public:
         data = new double[row * col];
     }
 
-    bool operator==(Matrix &other)
-    {
-
-        if ((ncol != other.ncol) && (nrow != other.nrow))
-        {
-            return false;
-        }
-        for (size_t i = 0; i < nrow; ++i)
-        {
-            for (size_t j = 0; j < ncol; ++j)
-            {
-                if (data[i * ncol + j] != other(i, j))
-                {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     void operator=(Matrix &other)
     {
         if (data)
@@ -60,14 +40,6 @@ public:
         }
     }
 
-    ~Matrix()
-    {
-        if (data)
-        {
-            delete[] data;
-            data = nullptr;
-        }
-    }
     size_t m_row() const { return nrow; }
     size_t m_col() const { return ncol; }
     size_t nrow = 0;
@@ -87,9 +59,7 @@ Matrix multiply_mkl(Matrix const &mat1, Matrix const &mat2)
         throw std::invalid_argument("Input matrix rank didn't match");
 
     Matrix ret(mat1.nrow, mat2.ncol);
-    
-    
-    
+
     cblas_dgemm(
         CblasRowMajor /* const CBLAS_LAYOUT Layout */
         ,
@@ -122,6 +92,23 @@ Matrix multiply_mkl(Matrix const &mat1, Matrix const &mat2)
 
     return ret;
 }
+
+bool operator==(Matrix const &mat1, Matrix const &mat2) {
+    if ((mat1.ncol != mat2.ncol) && (mat1.nrow != mat2.ncol)) {
+        return false;
+    }
+
+    for (size_t i = 0; i < mat1.nrow; ++i) {
+        for (size_t j = 0; j < mat1.ncol; ++j) {
+            if (mat1(i, j) != mat2(i, j)) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 
 /*
  * Direct naive matrix matrix multiplication.
@@ -199,6 +186,5 @@ PYBIND11_MODULE(_matrix, m)
         .def("__setitem__", [](Matrix &mat, std::tuple<size_t, size_t> t, const double &v) {
             mat(std::get<0>(t), std::get<1>(t)) = v;
         })
-        .def("__eq__", &Matrix::operator==);
+        .def("__eq__", &operator==);
 }
-
