@@ -24,7 +24,7 @@ PYBIND :=  	-shared -fPIC `python3 -m pybind11 --includes` _matrix.cpp \
 
 _matrix: _matrix.cpp
 	g++ -Wl,--no-as-needed -std=c++17 -O3 -g -m64 -Wall -Wextra -Werror -shared -lpthread -lm -ldl \
-	-I/home/runner/opt/conda/include\
+	-I/home/runner/opt/conda/include \
 	/home/runner/opt/conda/lib/libmkl_intel_lp64.so \
 	/home/runner/opt/conda/lib/libmkl_sequential.so \
 	/home/runner/opt/conda/lib/libmkl_core.so \
