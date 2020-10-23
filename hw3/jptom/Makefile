@@ -33,7 +33,7 @@ PYBIND := -O3 -Wall -shared -std=c++11 \
 	-o _matrix`python3-config --extension-suffix`
 
 
-target: _matrix
+target: 
 	${CXX} ${PYBIND} ${MKLFLAGS}
 
 .PHONY:clean test
