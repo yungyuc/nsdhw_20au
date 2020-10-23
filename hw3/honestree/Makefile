@@ -1,19 +1,11 @@
 .PHONY: clean test _matrix
 
-FLAGS ?=
-
-UNAME_S := $(shell uname -s)
-
-ifeq ($(UNAME_S),Darwin)
-MKLROOT ?= /opt/intel/mkl
-MKLEXT ?= a
-CXXFLAGS :=
-endif
-
-ifeq ($(UNAME_S), Linux)
-MKLROOT ?= ${HOME}/opt/conda
-MKLEXT ?= so
-CXXFLAGS := -Wl,--no-as-needed
+ifneq ($(wildcard /opt/intel/mkl/.),)
+	INCLUDE_DIRS = /opt/intel/mkl/include
+	MKLROOT = /opt/intel/mkl/lib/intel64
+else
+	INCLUDE_DIRS = ${HOME}/opt/conda/include
+	MKLROOT = ${HOME}/opt/conda/lib
 endif
 
 MKLLINKLINE := \
