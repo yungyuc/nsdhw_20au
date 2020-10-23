@@ -8,7 +8,6 @@ Basic information
 This is an automatically process to a virtual assistant that can take and process orders.
 
 You can use the following command to checkout from repository:
-
 ``git clone https://github.com/yenchanglu/takingYourOrder``
 
 Problem to solve
@@ -29,17 +28,17 @@ System architecture
 API description
 ===============
 
-``welcome:: To set up an order and choose language``
+``get_language()`` return language; used to determine an appropriate language
 
-``process_order:: To enter order into POS``
+``int process_order(language)`` return 0: success, return others: failure; used to create an order list and start ordering process
 
-``order_verification:: To check if order is correct`` 
+``int verify_order(index)`` return 0: success, return others: failure and call the function modify_order(index); used to verify the order list is correct or not
 
-``modify_order:: To modify the order``
+``modify_order(index)``, used to modify the order list
 
-``cancel_order:: To cancel the order``
+``bill_please(index)``, used to announce the total
 
-``bill_please:: To announce the total``
+``cancel_order()``, used to cancel the ordering process and exit()
 
 Engineering infrastructure
 ==========================
@@ -63,14 +62,14 @@ Schedule
 
 * W1 (10/19): Planning, software architecture and development
 * W2 (10/26): Studying on speech recognition algorithms
-* W3 (11/2): Implementing the speech recognition module
+* W3 (11/2): Implementing the third-party speech recognition module
 * W4 (11/9): Developing the ordering system
 * W5 (11/16): Improving the performance and user experience
 * W6 (11/23): Integrating voice orders into the system 
 * W7 (11/30): Writing unit tests for C++/Python
-* W8 (12/7): Software testing
-* W9 (12/14): Debugging and optimizing
-* W10 (12/21): Preparing for term project presentation
+* W8 (12/7): Preparing for final presentation and improving system
+* W9 (12/14): Software testing
+* W10 (12/21): Debugging and optimization
 * W11 (12/28): Term project presentation
 
 References
