@@ -20,7 +20,7 @@ CXXFLAGS := -Wl,--no-as-needed \
 	${FLAGS}
 
 PYBIND :=  	-shared -fPIC `python3 -m pybind11 --includes` _matrix.cpp \
-			-o _matrix`python3-config --extension-suffix`
+			-o _matrix.cpython-37m-x86_64-linux-gnu.so
 
 _matrix: _matrix.cpp
 	g++ -Wl,--no-as-needed -std=c++17 -O3 -g -m64 -Wall -Wextra -Werror -shared -lpthread -lm -ldl \
@@ -29,8 +29,6 @@ _matrix: _matrix.cpp
 	/home/runner/opt/conda/lib/libmkl_sequential.so \
 	/home/runner/opt/conda/lib/libmkl_core.so \
 	${PYBIND}
-
-
 
 clean:
 	rm -rf *.o *.dSYM/ ${BINS} *.so .pytest_cache __pycache__/
