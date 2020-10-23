@@ -28,6 +28,8 @@ _matrix: _matrix.cpp
 	/home/runner/opt/conda/lib/libmkl_intel_lp64.so \
 	/home/runner/opt/conda/lib/libmkl_sequential.so \
 	/home/runner/opt/conda/lib/libmkl_core.so \
+	/home/runner/opt/conda/lib/libmkl_avx512 \
+	/home/runner/opt/conda/lib/libmkl_def.so \
 	${PYBIND}
 
 clean:
