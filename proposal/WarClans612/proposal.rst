@@ -91,31 +91,31 @@ API description
 ===============
 
 - SparseMatrix Class
-``SparseMatrix()``
-``SparseMatrix(vector&)``
-``SparseMatrix(vector<vector>&)``
-``SparseMatrix(SparseMatrix&)``
-``void loadSparseMatrix(string)``
-``void saveSparseMatrix(string)``
-``void resetSparseMatrix()``
-
-``const float&  operator()(int, int)``
-``void          operator()(int, int, float)``
-``SparseMatrix& operator=(const SparseMatrix&)``
-``SparseMatrix  operator+(const SparseMatrix&)``
-``SparseMatrix  operator-(const SparseMatrix&)``
-``SparseMatrix  operator*(const float&)``
-``SparseMatrix  operator*(const SparseMatrix&)``
-``SparseMatrix  operator*(const SparseMatrix&)``
-``SparseMatrix  operator/(const SparseMatrix&)``
-
-``addNode(int, float)``
-``removeNode(int)``
-``addEdge(int, float)``
-``removeEdge(int)``
-
-``findIndex(float)``
-``int dim(float)``
+    - ``SparseMatrix()``
+    - ``SparseMatrix(vector&)``
+    - ``SparseMatrix(vector<vector>&)``
+    - ``SparseMatrix(SparseMatrix&)``
+    - ``void loadSparseMatrix(string)``
+    - ``void saveSparseMatrix(string)``
+    - ``void resetSparseMatrix()``
+    - 
+    - ``const float&  operator()(int, int)``
+    - ``void          operator()(int, int, float)``
+    - ``SparseMatrix& operator=(const SparseMatrix&)``
+    - ``SparseMatrix  operator+(const SparseMatrix&)``
+    - ``SparseMatrix  operator-(const SparseMatrix&)``
+    - ``SparseMatrix  operator*(const float&)``
+    - ``SparseMatrix  operator*(const SparseMatrix&)``
+    - ``SparseMatrix  operator*(const SparseMatrix&)``
+    - ``SparseMatrix  operator/(const SparseMatrix&)``
+    - 
+    - ``addNode(int, float)``
+    - ``removeNode(int)``
+    - ``addEdge(int, float)``
+    - ``removeEdge(int)``
+    - 
+    - ``findIndex(float)``
+    - ``int dim(float)``
 
 - Graph Class (currently Wrapper for SparseMatrix Class)
 
@@ -148,7 +148,7 @@ Squashing Bug and Refactoring done in each step.
 References
 ==========
 
-`Sparse Matrix Wikipedia <https://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_column_(CSC_or_CCS)>`__
-`Graph Theory Wikipedia <https://en.wikipedia.org/wiki/Graph_theory#Computer_science>`__
-`Sparse Matrix Calculation <http://www.mathcs.emory.edu/~cheung/Courses/561/Syllabus/3-C/sparse.html>`__
-`Sparse Matrix Scipy <https://docs.scipy.org/doc/scipy/reference/sparse.html>`__
+- `Sparse Matrix Wikipedia <https://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_column_(CSC_or_CCS)>`__
+- `Graph Theory Wikipedia <https://en.wikipedia.org/wiki/Graph_theory#Computer_science>`__
+- `Sparse Matrix Calculation <http://www.mathcs.emory.edu/~cheung/Courses/561/Syllabus/3-C/sparse.html>`__
+- `Sparse Matrix Scipy <https://docs.scipy.org/doc/scipy/reference/sparse.html>`__
