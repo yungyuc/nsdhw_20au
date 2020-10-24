@@ -76,3 +76,21 @@ Matrix multiply_mkl(const Matrix &mt1, const Matrix &mt2) {
               0, mt3.buffer(), mt3.ncol());
   return mt3;
 }
+
+PYBIND11_MODULE(_matrix, m) {
+  m.def("multiply_naive", &multiply_naive);
+  m.def("multiply_tile", &multiply_tile);
+  m.def("multiply_mkl", &multiply_mkl);
+
+  py::class_<Matrix>(m, "Matrix")
+      .def(py::init<size_t, size_t>())
+      .def(py::init<const std::vector<std::vector<double>> &>())
+      .def_property_readonly("nrow", &Matrix::nrow)
+      .def_property_readonly("ncol", &Matrix::ncol)
+      .def("__eq__", &Matrix::operator==)
+      .def("__getitem__",
+           [](const Matrix &m, std::array<double, 2> i) { return m(i[0], i[1]); })
+      .def("__setitem__", [](Matrix &m, std::array<double, 2> i, double v) {
+        m(i[0], i[1]) = v;
+      });
+}
