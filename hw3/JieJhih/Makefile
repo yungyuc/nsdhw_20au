@@ -23,7 +23,7 @@ CFLAGS = -O3 -Wl,--no-as-needed -shared -std=c++11 -fPIC -I$(INCLUDE_DIRS) -ldl 
 all: $(SOFILE)
 
 $(SOFILE): $(SRC)
-	$(C) `python3 -m pybind11 --includes` -o $@ $(CFLAGS)
+	$(C) `python3 -m pybind11 --includes` $< -o $@ $(CFLAGS)
 
 test: $(SOFILE)
 	python3 -m pytest -v -l
