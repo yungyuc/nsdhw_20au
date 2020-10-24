@@ -64,3 +64,15 @@ Matrix multiply_tile(const Matrix &mt1, const Matrix &mt2, size_t t_size) {
               mt3(ii, jj) += mt1(ii, kk) * mt2(kk, jj);
   return mt3;
 }
+
+Matrix multiply_mkl(const Matrix &mt1, const Matrix &mt2) {
+  if (mt1.ncol() != mt2.nrow()) {
+    throw std::out_of_range("The size of Matrix 1 row is not equal to the size of matrix 2 column");
+  }
+
+  Matrix mt3(mt1.nrow(), mt2.ncol());
+  cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, mt1.nrow(), mt2.ncol(),
+              mt1.ncol(), 1, mt1.buffer(), mt1.ncol(), mt2.buffer(), mt2.ncol(),
+              0, mt3.buffer(), mt3.ncol());
+  return mt3;
+}
