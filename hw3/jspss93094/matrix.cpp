@@ -100,11 +100,11 @@ Matrix multiply_naive(const Matrix & mat1, const Matrix & mat2)
 
     Matrix ret(mat1.nrow(), mat2.ncol());
 
-    for (size_t i=0; i<ret.nrow(); ++i)
+    for (size_t i=0; i<ret.nrow(); i++)
     {
-        for (size_t k=0; k<ret.ncol(); ++k)
+        for (size_t k=0; k<ret.ncol(); k++)
         {
-            for (size_t j=0; j<mat1.ncol(); ++j)
+            for (size_t j=0; j<mat1.ncol(); j++)
             {
                 ret(i,k) += mat1(i,j) * mat2(j,k);
             }
