@@ -110,7 +110,7 @@ Algorithms:
 2. Newton's method of optimization (an improved version of gradient descent algorithm)
 
 ``The gradient or Hessian matrix of newton's method actually vary with the sub-problems of the quadratic programming,
-which means there will be several slightly different implementation of newton's method in the project.``
+which means there will be several slightly different implementations of newton's method in the project.``
 
 3. Phase1 method 
 
