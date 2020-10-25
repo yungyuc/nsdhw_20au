@@ -4,7 +4,6 @@
 #include "mkl.h"
 
 #include "_matrix.hpp"
-#include "_tiler.hpp"
 
 // default contructor
 Matrix::Matrix(size_t nrow, size_t ncol)
@@ -94,28 +93,35 @@ Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const int tsize)
 {
     validate_multiplication(mat1, mat2);
 
-    Tiler tiler(mat1, mat2, tsize);
+    const size_t f_row = mat1.m_nrow;
+    const size_t f_col = mat1.m_ncol;
+    const size_t s_col = mat2.m_ncol;
 
-    // New matrix to be returned
-    Matrix ret(mat1.m_nrow, mat2.m_ncol);
+    Matrix ret(f_row, s_col);
 
-    for (size_t it=0, save_i=0; it<tiler.nrow(); it++)
-    {
-        size_t b_row = tiler.mat1()[it][0].nrow();
-        for (size_t kt=0, save_k=0; kt<tiler.ncol(); kt++)
-        {
-            size_t b_col = tiler.mat2()[kt][0].nrow();
-            Matrix value(b_row, b_col);
+    double *mat1_data = mat1.data();
+    double *mat2_data = mat2.data();
+    double *ret_data = ret.data();
+    const size_t tile = tsize;
 
-            for (size_t jt=0; jt<tiler.nmid(); jt++)
-            {
-                tiler.multiply(value, tiler.mat1()[it][jt], tiler.mat2()[kt][jt]);
+    for (size_t i_tile = 0; i_tile < f_row; i_tile += tile) {
+        for (size_t j_tile = 0; j_tile < s_col; j_tile += tile) {
+            for (size_t k_tile = 0; k_tile < f_col; k_tile += tile) {
+                const size_t i_tile_cur = f_row + ((i_tile + tile - f_row) & (i_tile + tile - f_row) >> 31);
+                const size_t j_tile_cur = s_col + ((j_tile + tile - s_col) & (j_tile + tile - s_col) >> 31);
+                const size_t k_tile_cur = f_col + ((k_tile + tile - f_col) & (k_tile + tile - f_col) >> 31);
+                for (size_t i = i_tile; i < i_tile_cur; ++i) {
+                    const size_t index = i * f_row;
+                    for (size_t j = j_tile; j < j_tile_cur; ++j) {
+                        double temp = 0;
+                        for (size_t k = k_tile; k < k_tile_cur; ++k) {
+                            temp += mat1_data[index + k] * mat2_data[k * f_col + j];
+                        }
+                        ret_data[index + j] += temp;
+                    }
+                }
             }
-            value.save(ret, save_i, save_k);
-            save_k += b_col;
         }
-        save_i += b_row;
-    }
-
+    }    
     return ret;
 }

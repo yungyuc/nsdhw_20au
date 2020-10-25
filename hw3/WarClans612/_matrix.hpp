@@ -64,4 +64,4 @@ private:
 void validate_multiplication(const Matrix &mat1, const Matrix &mat2);
 Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2);
 Matrix multiply_mkl(const Matrix &mat1, const Matrix &mat2);
-Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, int lsize);
+Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, int tsize);
