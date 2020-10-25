@@ -188,11 +188,11 @@ W13 (12/7) ~ W14 (12/14)
 
 W15 (12/21)
 
-* presentation prepare
+* Presentation prepare
 
 W16 (12/28) 
 
-* presentation
+* Presentation
 
 References
 ##########
@@ -200,25 +200,25 @@ References
 Multi-links UAVs:
 -----------------
 
-Design, Modeling and Control of an Omni-Directional Aerial Vehicle [paper]
+* Design, Modeling and Control of an Omni-Directional Aerial Vehicle [paper]
 
 https://ieeexplore.ieee.org/document/8962166
 
-Online Motion Planning for Deforming Maneuvering and Manipulation by Multilinked Aerial Robot Based on Differential Kinematics [paper]
+* Online Motion Planning for Deforming Maneuvering and Manipulation by Multilinked Aerial Robot Based on Differential Kinematics [paper]
 
 https://ieeexplore.ieee.org/document/8962166
 
 Robot trajectory generation:
 ----------------------------
 
-Minimum snap trajectory generation and control for quadrotors [paper]
+* Minimum snap trajectory generation and control for quadrotors [paper]
 
 https://ieeexplore.ieee.org/document/5980409
 
-Text book on optimization:
+Textbook on optimization topics:
 --------------------------
 
-Convex Optimization – Boyd and Vandenberghe [book]
+* Convex Optimization – Boyd and Vandenberghe [book]
 
 https://web.stanford.edu/~boyd/cvxbook/
 
