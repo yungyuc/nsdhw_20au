@@ -1,6 +1,7 @@
 // Developer: Wilbert (wilbert.phen@gmail.com)
 
 #include <iostream>
+#include <algorithm>
 #include "mkl.h"
 
 #include "_matrix.hpp"
@@ -40,7 +41,7 @@ Matrix::Matrix(std::vector<std::vector<double>> const & other)
         m_buffer.insert(m_buffer.end(), v.begin(), v.end()); 
 }
 
-void validate_multiplication(const Matrix &mat1, const Matrix &mat2)
+inline void validate_multiplication(const Matrix &mat1, const Matrix &mat2)
 {
     if (mat1.m_ncol != mat2.m_nrow)
     {
@@ -61,12 +62,10 @@ Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2)
     {
         for (size_t k=0; k<ret.ncol(); ++k)
         {
-            double v = 0;
             for (size_t j=0; j<mat1.ncol(); ++j)
             {
-                v += mat1(i,j) * mat2(j,k);
+                ret(i, k) += mat1(i,j) * mat2(j,k);
             }
-            ret(i, k) = v;
         }
     }
     return ret;
@@ -99,21 +98,23 @@ Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const int tsize)
 
     Matrix ret(f_row, s_col);
 
-    const size_t tile = tsize / sizeof(double);
+    const size_t tile = tsize;
 
-    for (size_t i_tile = 0; i_tile < f_row; i_tile += tile) {
-        for (size_t j_tile = 0; j_tile < s_col; j_tile += tile) {
-            for (size_t k_tile = 0; k_tile < f_col; k_tile += tile) {
-                const size_t i_tile_cur = ((i_tile + tile) > f_row) ? f_row : (i_tile + tile);
-                const size_t j_tile_cur = ((j_tile + tile) > s_col) ? s_col : (j_tile + tile);
-                const size_t k_tile_cur = ((k_tile + tile) > f_col) ? f_col : (k_tile + tile);
-                for (size_t i = i_tile; i < i_tile_cur; ++i) {
-                    for (size_t j = j_tile; j < j_tile_cur; ++j) {
-                        double temp = 0;
-                        for (size_t k = k_tile; k < k_tile_cur; ++k) {
-                            temp += mat1(i, k) * mat2(k, j);
+    for (size_t k_tile = 0; k_tile < f_col; k_tile += tile) {
+        const size_t k_tile_cur = std::min( f_col, (k_tile + tile) );
+
+        for (size_t i_tile = 0; i_tile < f_row; i_tile += tile) {
+            const size_t i_tile_cur = std::min( f_row, (i_tile + tile) );
+
+            for (size_t j_tile = 0; j_tile < s_col; j_tile += tile) {
+                const size_t j_tile_cur = std::min( s_col, (j_tile + tile) );
+
+                for (size_t k = k_tile; k < k_tile_cur; ++k) {
+                    for (size_t i = i_tile; i < i_tile_cur; ++i) {
+                        const double left = mat1(i, k);
+                        for (size_t j = j_tile; j < j_tile_cur; ++j) {
+                            ret(i, j) += left * mat2(k, j);
                         }
-                        ret(i, j) += temp;
                     }
                 }
             }
