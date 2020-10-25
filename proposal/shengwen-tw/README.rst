@@ -119,24 +119,36 @@ Algorithms I need:
 Schedule
 ########
 
-W6 (10/19) test program for Intel MKL
+W6 (10/19) ~ W7 (10/26)
 
-W7 (10/26) implement qp solver with no constraints
+* test program, wrapper functions for Intel MKL (finished)
 
-W8 (11/2) implement qp solver with equality constraints only
+* implement no constraint solver. (closed form solution exists, directly solved) (finished)
 
-W9 (11/9) continue of last week
+* implement equality constraints only solver. (closed form solution exists, directly solved) (finished)
 
-W10 (11/16) implement gradient descent method
+* implement inequality constraints only solver. (solve with gradient descent method) (finished)
 
-W11 (11/23) implement newton's of optimization
+W8 (11/2) ~ W9 (11/9)
 
-W12 (11/30) continue of last week
+* implement inequality + equality constraints solver
 
-W13 (12/7) implement log barrier function
+W10 (11/16) ~ W11 (11/23)
 
-W14 (12/14) implement log barrier function
+* implement phase1 method (infeasible start point solver)
 
-W15 (12/21) implement qp solver with inequilty constraints
+W12 (11/30)
 
-W16 (12/28) final presentation
+* deploy GitHub Action for continuous integration
+
+W13 (12/7) ~ W14 (12/14)
+
+* write unit test with pytest
+
+W15 (12/21)
+
+* presentation prepare
+
+W16 (12/28) 
+
+* presentation
