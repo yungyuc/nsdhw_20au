@@ -99,22 +99,21 @@ Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const int tsize)
 
     Matrix ret(f_row, s_col);
 
-    const size_t tile = tsize;
+    const size_t tile = tsize / sizeof(double);
 
     for (size_t i_tile = 0; i_tile < f_row; i_tile += tile) {
         for (size_t j_tile = 0; j_tile < s_col; j_tile += tile) {
             for (size_t k_tile = 0; k_tile < f_col; k_tile += tile) {
-                const size_t i_tile_cur = f_row + ((i_tile + tile - f_row) & (i_tile + tile - f_row) >> 31);
-                const size_t j_tile_cur = s_col + ((j_tile + tile - s_col) & (j_tile + tile - s_col) >> 31);
-                const size_t k_tile_cur = f_col + ((k_tile + tile - f_col) & (k_tile + tile - f_col) >> 31);
+                const size_t i_tile_cur = ((i_tile + tile) > f_row) ? f_row : (i_tile + tile);
+                const size_t j_tile_cur = ((j_tile + tile) > s_col) ? s_col : (j_tile + tile);
+                const size_t k_tile_cur = ((k_tile + tile) > f_col) ? f_col : (k_tile + tile);
                 for (size_t i = i_tile; i < i_tile_cur; ++i) {
-                    const size_t index = i * f_row;
                     for (size_t j = j_tile; j < j_tile_cur; ++j) {
                         double temp = 0;
                         for (size_t k = k_tile; k < k_tile_cur; ++k) {
-                            temp += mat1(index + k) * mat2(k * f_col + j);
+                            temp += mat1(i, k) * mat2(k, j);
                         }
-                        ret(index + j) += temp;
+                        ret(i, j) += temp;
                     }
                 }
             }
