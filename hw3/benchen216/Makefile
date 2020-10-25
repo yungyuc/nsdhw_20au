@@ -45,5 +45,5 @@ clean:
 
 .PHONY: test
 test:
-    pytest -v
+	pytest -v
 

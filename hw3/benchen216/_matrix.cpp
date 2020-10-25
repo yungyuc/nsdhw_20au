@@ -7,7 +7,6 @@
 namespace py = pybind11;
 #include <mkl.h>
 #include <omp.h>
-#include "StopWatch.hpp"
 
 #include <iostream>
 #include <sstream>

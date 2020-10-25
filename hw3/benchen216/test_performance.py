@@ -20,6 +20,24 @@ class MyTest(unittest.TestCase):
                 mat3[it, jt] = 0
 
         return mat1, mat2, mat3
+    
+    def test_match_naive_mkl(self):
+
+        size = 100
+        mat1, mat2, *_ = self.make_matrices(size)
+
+        ret_naive = _matrix.multiply_naive(mat1, mat2)
+        ret_mkl = _matrix.multiply_mkl(mat1, mat2)
+
+        self.assertEqual(size, ret_naive.nrow)
+        self.assertEqual(size, ret_naive.ncol)
+        self.assertEqual(size, ret_mkl.nrow)
+        self.assertEqual(size, ret_mkl.ncol)
+
+        for i in range(ret_naive.nrow):
+            for j in range(ret_naive.ncol):
+                self.assertNotEqual(mat1[i,j], ret_mkl[i,j])
+                self.assertEqual(ret_naive[i,j], ret_mkl[i,j])
 
     def test_match_tile_mkl(self):
 
