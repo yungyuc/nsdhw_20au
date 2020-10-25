@@ -102,25 +102,25 @@ To start solving the quadratic programming problem, we call:
 Engineering infrastructure
 ##########################
 
-Algorithms I need:
+Algorithms:
+-----------
 
 1. Linear algebra functions (Intel MKL): matrix arithmatics, linear system solver, matrix decompositions, etc.
 
 2. Newton's method of optimization (an improved version of gradient descent algorithm)
 
-The gradient or Hessian matrix of newton's method actually vary with the sub-problem of the quadratic programming,
-
-which means there will be several slightly different implementation of newton's method in the project.
+``The gradient or Hessian matrix of newton's method actually vary with the sub-problems of the quadratic programming,
+which means there will be several slightly different implementation of newton's method in the project.``
 
 3. Phase1 method 
 
-The initial point of the optimization may not obay to the equality or inequality constraints.
-
-In this case, it requires optimizer to solve for a feasilbe initial point before starting the optimization.
+``The initial point of the optimization may not obay to the equality or inequality constraints of the problem.
+In this case, it requires optimizer to solve for a feasilbe initial point before starting the optimization.``
 
 4. Barrier method (limiting the searching space of optimization to obay the inequality constraints)
 
 Software tools:
+---------------
 
 1. Pytest
 
@@ -128,7 +128,7 @@ Software tools:
 
 3. Octave/ MATLAB
 
-Though MATLAB may not be treated as a real programming language, it is still useful for me to to do testing during the development.
+``Though MATLAB may not be treated as a real programming language, it is still useful for me to do testing during the development.``
 
 Schedule
 ########
