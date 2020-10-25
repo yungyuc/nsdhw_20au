@@ -19,63 +19,6 @@ public:
         reset_buffer(nrow, ncol);
     }
 
-    Matrix(size_t nrow, size_t ncol, std::vector<double> const & vec)
-      : m_nrow(nrow), m_ncol(ncol)
-    {
-        reset_buffer(nrow, ncol);
-        (*this) = vec;
-    }
-
-    Matrix & operator=(std::vector<double> const & vec)
-    {
-        if (size() != vec.size())
-        {
-            throw std::out_of_range("number of elements mismatch");
-        }
-
-        size_t k = 0;
-        for (size_t i=0; i<m_nrow; ++i)
-        {
-            for (size_t j=0; j<m_ncol; ++j)
-            {
-                (*this)(i,j) = vec[k];
-                ++k;
-            }
-        }
-
-        return *this;
-    }
-
-    Matrix(Matrix const & other)
-      : m_nrow(other.m_nrow), m_ncol(other.m_ncol)
-    {
-        reset_buffer(other.m_nrow, other.m_ncol);
-        for (size_t i=0; i<m_nrow; ++i)
-        {
-            for (size_t j=0; j<m_ncol; ++j)
-            {
-                (*this)(i,j) = other(i,j);
-            }
-        }
-    }
-
-    Matrix & operator=(Matrix const & other)
-    {
-        if (this == &other) { return *this; }
-        if (m_nrow != other.m_nrow || m_ncol != other.m_ncol)
-        {
-            reset_buffer(other.m_nrow, other.m_ncol);
-        }
-        for (size_t i=0; i<m_nrow; ++i)
-        {
-            for (size_t j=0; j<m_ncol; ++j)
-            {
-                (*this)(i,j) = other(i,j);
-            }
-        }
-        return *this;
-    }
-
     Matrix(Matrix && other)
       : m_nrow(other.m_nrow), m_ncol(other.m_ncol)
     {
@@ -83,16 +26,6 @@ public:
         std::swap(m_nrow, other.m_nrow);
         std::swap(m_ncol, other.m_ncol);
         std::swap(m_buffer, other.m_buffer);
-    }
-
-    Matrix & operator=(Matrix && other)
-    {
-        if (this == &other) { return *this; }
-        reset_buffer(0, 0);
-        std::swap(m_nrow, other.m_nrow);
-        std::swap(m_ncol, other.m_ncol);
-        std::swap(m_buffer, other.m_buffer);
-        return *this;
     }
 
     ~Matrix()
@@ -108,8 +41,6 @@ public:
 
     size_t size() const { return m_nrow * m_ncol; }
     double buffer(size_t i) const { return m_buffer[i]; }
-    std::vector<double> buffer_vector() const { return std::vector<double>(m_buffer, m_buffer+size()); }
-
 
     size_t index(size_t row, size_t col) const
     {
@@ -125,7 +56,7 @@ public:
         	m_buffer = new double[nelement]; 
         	for(size_t i = 0; i<nelement; i++)
         	{
-        		m_buffer[i] = 0;
+        		m_buffer[i] = 0.0;
         	}
         }
         else          { m_buffer = nullptr; }
@@ -133,15 +64,15 @@ public:
         m_ncol = ncol;
     }
     
-    double * all_data() {return m_buffer;}
-
+    double * all_data() const {return m_buffer;}
+private:
     size_t m_nrow = 0;
     size_t m_ncol = 0;
     double * m_buffer = nullptr;
 
 };
 
-bool operator== (Matrix & mat1, Matrix & mat2)
+bool operator== (const Matrix & mat1, const Matrix & mat2)
     {
     	if(mat1.nrow() != mat2.nrow() || mat1.ncol() != mat2.ncol()) return false;
     	
@@ -158,7 +89,7 @@ bool operator== (Matrix & mat1, Matrix & mat2)
 /*
  * Naive matrix matrix multiplication.
  */
-Matrix multiply_naive(Matrix & mat1, Matrix & mat2)
+Matrix multiply_naive(const Matrix & mat1, const Matrix & mat2)
 {
     if (mat1.ncol() != mat2.nrow())
     {
@@ -173,12 +104,10 @@ Matrix multiply_naive(Matrix & mat1, Matrix & mat2)
     {
         for (size_t k=0; k<ret.ncol(); ++k)
         {
-            double v = 0;
             for (size_t j=0; j<mat1.ncol(); ++j)
             {
-                v += mat1(i,j) * mat2(j,k);
+                ret(i,k) += mat1(i,j) * mat2(j,k);
             }
-            ret(i,k) = v;
         }
     }
 
@@ -188,7 +117,7 @@ Matrix multiply_naive(Matrix & mat1, Matrix & mat2)
 /*
  * Tiled matrix matrix multiplication.
  */
-Matrix multiply_tile(Matrix & mat1, Matrix & mat2, int tile_width)
+Matrix multiply_tile(const Matrix & mat1, const Matrix & mat2, size_t tile_width)
 {
     if (mat1.ncol() != mat2.nrow())
     {
@@ -198,14 +127,21 @@ Matrix multiply_tile(Matrix & mat1, Matrix & mat2, int tile_width)
     }
 
     Matrix ret(mat1.nrow(), mat2.ncol());
-    //if(tile_width < 0) tile_width = 0;
+    double v;
      
-     for (size_t a = 0; a < mat1.ncol(); a += tile_width) {
+     for (size_t a = 0; a < mat1.nrow(); a += tile_width) {
+     	 size_t a_min = std::min(a + tile_width, mat1.nrow());
          for (size_t b = 0; b < mat2.ncol(); b += tile_width) {
-             for (size_t c = 0; c < mat1.nrow(); c++) {
-                 for (size_t i = a; i < std::min(a + tile_width, mat1.ncol()); i++) {
-                     for (size_t j = b; j < std::min(b + tile_width, mat2.ncol()); j++) {
-                         	ret(c,j) +=  mat1(c,i) * mat2(i,j);
+             size_t b_min = std::min(b + tile_width, mat2.ncol());
+             for (size_t c = 0; c < mat1.ncol(); c += tile_width) {
+                 size_t c_min = std::min(c + tile_width, mat1.ncol());
+                 for (size_t i = a; i < a_min; i++) {
+                     for (size_t j = b; j < b_min; j++) {
+                        v = 0.0;
+                     	for (size_t k = c; k < c_min; k++) {
+                         	v +=  mat1(i,k) * mat2(k,j);
+                        }
+                        ret(i,j) += v;
                      } 
                  }
              }
@@ -218,7 +154,7 @@ Matrix multiply_tile(Matrix & mat1, Matrix & mat2, int tile_width)
 /*
  * dgemm matrix matrix multiplication.
  */
-Matrix multiply_mkl(Matrix & mat1, Matrix & mat2)
+Matrix multiply_mkl(const Matrix & mat1, const Matrix & mat2)
 {
 	if (mat1.ncol() != mat2.nrow())
 	{
