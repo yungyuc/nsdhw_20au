@@ -193,3 +193,38 @@ W15 (12/21)
 W16 (12/28) 
 
 * presentation
+
+References
+##########
+
+Multi-links UAVs:
+-----------------
+
+Design, Modeling and Control of an Omni-Directional Aerial Vehicle [paper]
+
+https://ieeexplore.ieee.org/document/8962166
+
+Online Motion Planning for Deforming Maneuvering and Manipulation by Multilinked Aerial Robot Based on Differential Kinematics [paper]
+
+https://ieeexplore.ieee.org/document/8962166
+
+Robot trajectory generation:
+----------------------------
+
+Minimum snap trajectory generation and control for quadrotors [paper]
+
+https://ieeexplore.ieee.org/document/5980409
+
+Text book on optimization:
+--------------------------
+
+Convex Optimization – Boyd and Vandenberghe [book]
+
+https://web.stanford.edu/~boyd/cvxbook/
+
+How to write good C code:
+-------------------------
+
+The C programming you dont know [series articles, Chinese]
+
+https://hackmd.io/@sysprog/c-programming 
