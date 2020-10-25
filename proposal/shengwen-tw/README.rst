@@ -51,7 +51,7 @@ link: https://www.youtube.com/watch?v=uje6iUBbkwM
 link: https://www.youtube.com/watch?v=sIi80LMLJSY&t=27s
 
 
-Perspective users
+Perspective usersagain
 #################
 
 I will expect the user may have the following backgrounds:
@@ -225,6 +225,6 @@ https://web.stanford.edu/~boyd/cvxbook/
 How to write good C code:
 -------------------------
 
-The C programming you dont know [series articles, Chinese]
+* The C programming you dont know [series articles, Chinese]
 
 https://hackmd.io/@sysprog/c-programming 
