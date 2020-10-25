@@ -36,12 +36,12 @@ BINS := _matrix
 .PHONY: default
 default: ${BINS}
 
-%: %.cpp StopWatch.hpp Makefile
+%: %.cpp
 	${CXX} ${CXXFLAGS} -o _matrix`python3-config --extension-suffix` _matrix.cpp
 
 .PHONY: clean
 clean:
-	rm -rf *.o *.dSYM/ ${BINS} *.so *.txt
+	rm -rf *.o *.dSYM/ ${BINS} *.so *.txt __pycache__
 
 .PHONY: test
 test:
