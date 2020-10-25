@@ -44,6 +44,6 @@ clean:
 	rm -rf *.o *.dSYM/ ${BINS} *.so *.txt __pycache__
 
 .PHONY: test
-test:
-	pytest -v
+test: 
+	make;pytest -v
 
