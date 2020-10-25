@@ -130,6 +130,33 @@ Software tools:
 
 ``Though MATLAB may not be treated as a real programming language, it is still useful for me to do testing during the development.``
 
+Object-Oriented Programming in C
+--------------------------------
+
+Due to historical reasons, C does not support many modern OOP syntax or functions, but that does not block programmers from
+
+writting OOP style code in C.
+
+There are several techniques for writing OOP style C code such as ``encapsulation``, ``polymorphism`` and ``inheritance`` available online, which are good for me to read as references.
+
+In my early implementation, I have data structure types like: **matrix_t**. Correspond to it, I had implemented several interface functions like:
+``matrix_construct()``, ``matrix_new()``, ``matrix_zeros()`` to avoid user doing low level operations like malloc, calloc, etc.
+
+Since C does not have much syntax sugars like C++, I may use macros to expand the language.
+For instance, I had defined such code for matrix initialization:
+
+``#define ELEMENTS(...) (FLOAT []){__VA_ARGS__}``
+
+``matrix_t P;``
+
+``matrix_construct(&P, 2, 2, ELEMENTS(+1, -1, -1, +2));``
+
+and matrix element getter/setter:
+
+``#define matrix_at(mat_ptr, r, c) (mat_ptr)->data[(r * (mat_ptr)->column) + c]``
+
+Other C preprocessor techniques like ``stringification`` and ``string concatenation`` may be applied to help me to simply my code.
+
 Schedule
 ########
 
