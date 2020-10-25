@@ -5,6 +5,7 @@
 
 // default contructor
 Tiler::Tiler(const Matrix &mat1, const Matrix &mat2, size_t tsize)
+    :m_mat1(100, 100), m_mat2(100, 100)
 {
     size_t rem_row1 = mat1.nrow()%tsize; //Remaining block size if not divisible by tsize
     size_t ret_row1 = mat1.nrow() - rem_row1; //Row count of tsize block
@@ -13,7 +14,7 @@ Tiler::Tiler(const Matrix &mat1, const Matrix &mat2, size_t tsize)
 
     for (size_t it=0; it<ret_row1; it+=tsize)
     {
-        std::vector<Matrix> temp;
+        std::vector<Matrix> temp(50);
         for (size_t jt=0; jt<ret_col1; jt+=tsize)
         {
             temp.push_back(load1(mat1, it, jt, tsize, tsize));
@@ -26,7 +27,7 @@ Tiler::Tiler(const Matrix &mat1, const Matrix &mat2, size_t tsize)
     }
     if (rem_row1 != 0)
     {
-        std::vector<Matrix> temp;
+        std::vector<Matrix> temp(50);
         for (size_t jt=0; jt<ret_col1; jt+=tsize)
         {
             temp.push_back(load1(mat1, ret_row1, jt, rem_row1, tsize));
@@ -45,7 +46,7 @@ Tiler::Tiler(const Matrix &mat1, const Matrix &mat2, size_t tsize)
 
     for (size_t it=0; it<ret_row2; it+=tsize)
     {
-        std::vector<Matrix> temp;
+        std::vector<Matrix> temp(50);
         for (size_t jt=0; jt<ret_col2; jt+=tsize)
         {
             temp.push_back(load2(mat2, jt, it, tsize, tsize));
@@ -58,7 +59,7 @@ Tiler::Tiler(const Matrix &mat1, const Matrix &mat2, size_t tsize)
     }
     if (rem_row2 != 0)
     {
-        std::vector<Matrix> temp;
+        std::vector<Matrix> temp(50);
         for (size_t jt=0; jt<ret_col2; jt+=tsize)
         {
             temp.push_back(load2(mat2, jt, ret_row2, rem_row2, tsize));
