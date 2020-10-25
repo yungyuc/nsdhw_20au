@@ -106,44 +106,58 @@ Algorithms I need:
 
 1. Linear algebra functions (Intel MKL): matrix arithmatics, linear system solver, matrix decompositions, etc.
 
-2. Gradient descent algorithm (the easest way to do minimization)
+2. Newton's method of optimization (an improved version of gradient descent algorithm)
 
-3. Newton's method of optimization (an improved version of gradient descent algorithm)
+The gradient or Hessian matrix of newton's method actually vary with the sub-problem of the quadratic programming,
 
-4. Exact line search algorithm (for deciding the step length of gradient descent (slower but precise))
+which means there will be several slightly different implementation of newton's method in the project.
 
-5. Backtrack line search algorithm (for deciding the step length of gradient descent (faster but less preciese))
+3. Phase1 method 
 
-6. Barrier method (limiting the searching space of optimization to obay the inequality constraints)
+The initial point of the optimization may not obay to the equality or inequality constraints.
+
+In this case, it requires optimizer to solve for a feasilbe initial point before starting the optimization.
+
+4. Barrier method (limiting the searching space of optimization to obay the inequality constraints)
+
+Software tools:
+
+1. Pytest
+
+2. GitHub Action
+
+3. Octave/ MATLAB
+
+Though MATLAB may not be treated as a real programming language, it is still useful for me to to do testing during the development.
 
 Schedule
 ########
 
 W6 (10/19) ~ W7 (10/26)
 
-* test program, wrapper functions for Intel MKL (finished)
+* Write test program, wrapper functions for Intel MKL (finished)
 
-* implement no constraint solver. (closed form solution exists, directly solved) (finished)
+* Implement no constraint solver. (closed form solution exists, directly solved) (finished)
 
-* implement equality constraints only solver. (closed form solution exists, directly solved) (finished)
+* Implement equality constraints only solver. (closed form solution exists, directly solved) (finished)
 
-* implement inequality constraints only solver. (solve with gradient descent method) (finished)
+* Implement inequality constraints only solver. (solve with gradient descent method) (finished)
 
 W8 (11/2) ~ W9 (11/9)
 
-* implement inequality + equality constraints solver
+* Implement inequality + equality constraints solver
 
 W10 (11/16) ~ W11 (11/23)
 
-* implement phase1 method (infeasible start point solver)
+* Implement phase1 method
 
 W12 (11/30)
 
-* deploy GitHub Action for continuous integration
+* Deploy GitHub Action for continuous integration
 
 W13 (12/7) ~ W14 (12/14)
 
-* write unit test with pytest
+* Write unit test code (pytest)
 
 W15 (12/21)
 
