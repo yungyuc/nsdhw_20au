@@ -239,7 +239,7 @@ Matrix multiply_naive(Matrix const & mat1, Matrix const & mat2){
 Matrix multiply_tile(Matrix const & mat1, Matrix const & mat2,size_t lsize){
     validate_multiplication(mat1,mat2);
     Matrix ret(mat1.nrow(), mat2.ncol());
-    //ret.zero();
+    ret.zero();
     const size_t nrow1 = mat1.nrow();
     const size_t ncol1 = mat1.ncol();
     const size_t nrow2 = mat2.nrow();

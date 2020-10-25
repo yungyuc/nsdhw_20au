@@ -45,5 +45,5 @@ clean:
 
 .PHONY: test
 test:
-    pytest test_performance.py
+    pytest -v
 
