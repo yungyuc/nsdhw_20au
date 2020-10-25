@@ -99,9 +99,6 @@ Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const int tsize)
 
     Matrix ret(f_row, s_col);
 
-    double *mat1_data = mat1.data();
-    double *mat2_data = mat2.data();
-    double *ret_data = ret.data();
     const size_t tile = tsize;
 
     for (size_t i_tile = 0; i_tile < f_row; i_tile += tile) {
@@ -115,9 +112,9 @@ Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const int tsize)
                     for (size_t j = j_tile; j < j_tile_cur; ++j) {
                         double temp = 0;
                         for (size_t k = k_tile; k < k_tile_cur; ++k) {
-                            temp += mat1_data[index + k] * mat2_data[k * f_col + j];
+                            temp += mat1(index + k) * mat2(k * f_col + j);
                         }
-                        ret_data[index + j] += temp;
+                        ret(index + j) += temp;
                     }
                 }
             }
