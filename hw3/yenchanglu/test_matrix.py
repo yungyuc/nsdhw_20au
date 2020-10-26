@@ -47,7 +47,7 @@ class test_matrix(unittest.TestCase):
             f.write("[Average execution time]\n")
             f.write("multiply_naive: {} secs\n".format("%.4f"%naive_avg))
             f.write("multiply_tile : {} secs\n".format("%.4f"%tile_avg))
-            f.write("multiply_mkl: {} secs\n".formate("%.4f"%mkl_avg))
+            f.write("multiply_mkl  : {} secs\n".format("%.4f"%mkl_avg))
             f.write("The tiling version is {:.1%} faster than naive version\n".format(naive_avg / tile_avg))
             f.write("The mkl version is {:.1%} faster than naive version\n".format(naive_avg / tile_avg))
             f.close()
