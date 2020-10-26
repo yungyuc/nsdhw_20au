@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 import math
-from _matrix import Matrix, multiply_naive, multiply_tile, multiply_mkl
+import _matrix
 
 def exec_time():
     mat1 = Matrix(np.random.random((1151, 1151)))
