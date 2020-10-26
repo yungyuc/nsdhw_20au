@@ -135,15 +135,17 @@ Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, size_t tile_size) {
         }
     }
 
-    for (size_t i = 0; i < mat1.nrow(); i += tile_size) {
-        const size_t index_i = i + tile_size < mat1.nrow() ? i + tile_size : mat1.nrow();
-        for (size_t k = 0; k < mat2.ncol(); k += tile_size) {
-            const size_t index_k = k + tile_size < mat2.ncol() ? k + tile_size : mat2.ncol();
-            for (size_t j = 0; j <  mat1.nrow(); j += tile_size) {
-                const size_t index_j = j + tile_size < mat1.ncol() ? j + tile_size : mat1.ncol();
-                for (size_t tile_i = i; tile_i < index_i; ++tile_i) {
-                    for (size_t tile_k = k; tile_k < index_k; ++tile_k) {
-                        for (size_t tile_j = j; tile_j < index_j; ++tile_j) {
+    const size_t nrow1 = mat1.nrow();
+    const size_t ncol1 = mat1.ncol();
+    const size_t nrow2 = mat2.nrow();
+    const size_t ncol2 = mat2.ncol();
+
+    for (size_t i = 0; i < nrow1(); i += tile_size) {
+        for (size_t k = 0; k < ncol2(); k += tile_size) {
+            for (size_t j = 0; j < nrow1(); j += tile_size) {
+                for (size_t tile_j = j; tile_j < ((tile_size + j) > ncol1 ? ncol1 : (tile_size + j)); ++tile_j) {
+                    for (size_t tile_i = i; tile_i < ((tile_size + i) > nrow1 ? nrow1 : (tile_size + i)); ++tile_i) {
+                        for (size_t tile_k = k; tile_k < ((tile_size + k) > ncol2 ? ncol2 : (tile_size + k)); ++tile_k) {
                             ret(tile_i, tile_k) += mat1(tile_i, tile_j) * mat2(tile_j, tile_k);
                         }
                     }
