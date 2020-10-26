@@ -18,6 +18,8 @@ MKLLINKLINE := \
 	${MKLROOT}/lib/libmkl_intel_lp64.${MKLEXT} \
 	${MKLROOT}/lib/libmkl_sequential.${MKLEXT} \
 	${MKLROOT}/lib/libmkl_core.${MKLEXT} \
+	${MKLROOT}/libmkl_avx512.${MKLEXT} \
+	${MKLROOT}/libmkl_def.${MKLEXT} \
 	-lpthread -lm -ldl
 
 CXX = g++
@@ -27,7 +29,7 @@ CXXFLAGS := ${CXXFLAGS} \
 	`python3 -m pybind11 --includes` _matrix.cpp \
 	-o _matrix`python3-config --extension-suffix` \
 	-I${MKLROOT}/include\
-	${MKLLINKLINE} \
+	${MKLLINKLINE}
 
 .PHONY: module test clean
 module:
