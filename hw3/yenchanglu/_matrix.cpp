@@ -25,12 +25,38 @@ public:
         }
     }
 
+    Matrix(std::vector<std::vector<double>> const &v) {
+        m_nrow = v.size();
+        m_ncol = v[0].size();
+        reset_buffer(m_nrow, m_ncol);
+        for (size_t i = 0; i < m_nrow; ++i) {
+            for (size_t j = 0; j < m_ncol; ++j) {
+                (*this)(i,j) = v[i][j];
+            }
+        }
+    }
+
     ~Matrix() {
         reset_buffer(0, 0);
     }
 
     double   operator() (size_t row, size_t col) const { return m_buffer[index(row, col)]; }
     double & operator() (size_t row, size_t col)       { return m_buffer[index(row, col)]; }
+
+    Matrix &operator=(Matrix const &other) {
+        if (this == &other) {
+            return *this;
+        }
+        if (m_nrow != other.m_nrow || m_ncol != other.m_ncol) {
+            reset_buffer(other.m_nrow, other.m_ncol);
+        }
+        for (size_t i = 0; i < m_nrow; ++i) {
+            for (size_t j = 0; j < m_ncol; ++j) {
+                (*this)(i,j) = other(i,j);
+            }
+        }
+        return *this;
+    }
 
     bool operator==(Matrix const &other) {
         if (this == &other) {
@@ -132,6 +158,7 @@ Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, size_t tile_size) {
     return ret;
 }
 
+
 Matrix multiply_mkl(Matrix const &mat1, Matrix const &mat2) {
     Matrix ret = Matrix(mat1.nrow(), mat2.ncol());
 
@@ -146,8 +173,10 @@ PYBIND11_MODULE(_matrix, m) {
     m.def("multiply_tile", &multiply_tile);
     m.def("multiply_mkl", &multiply_mkl);
 
-    py::class_<Matrix>(m, "Matrix")        
+    py::class_<Matrix>(m, "Matrix", py::buffer_protocol())        
         .def(py::init<size_t, size_t>())
+        .def(py::init<Matrix const &>())
+        .def(py::init<std::vector<std::vector<double>>&>())
         .def_property_readonly("nrow", &Matrix::nrow)
         .def_property_readonly("ncol", &Matrix::ncol)
         .def("__eq__", &Matrix::operator==)
