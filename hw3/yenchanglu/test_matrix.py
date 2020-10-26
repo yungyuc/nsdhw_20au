@@ -15,8 +15,7 @@ class test_matrix(unittest.TestCase):
         mkl_ret = multiply_mkl(mat1, mat2)
         for i in range(naive_ret.nrow):
             for j in range(naive_ret.ncol):
-                assert naive_ret[i,j] == pytest.approx(mkl_ret[i,j], abs=1e-05)
-                assert tile_ret[i,j] == pytest.approx(mkl_ret[i,j], abs=1e-05)
+                assert naive_ret[i,j] == pytest.approx(tile_ret[i,j], abs=1e-05)
 
     def test_performance(self):
         mat1 = Matrix(np.random.random((1151,1151)))
@@ -49,7 +48,7 @@ class test_matrix(unittest.TestCase):
             f.write("multiply_tile : {} secs\n".format("%.4f"%tile_avg))
             f.write("multiply_mkl  : {} secs\n".format("%.4f"%mkl_avg))
             f.write("The tiling version is {:.1%} faster than naive version\n".format(naive_avg / tile_avg))
-            f.write("The mkl version is {:.1%} faster than naive version\n".format(naive_avg / tile_avg))
+            f.write("The mkl version is {:.1%} faster than naive version\n".format(naive_avg / mkl_avg))
             f.close()
 
 if __name__ == "__main__":
