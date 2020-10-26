@@ -4,26 +4,29 @@ import math
 import _matrix
 
 def exec_time():
-    mat1 = Matrix(np.random.random((1151, 1151)))
-    mat2 = Matrix(np.random.random((1151, 1151)))
+    m1 = np.random.random((1151, 1151)))
+    m2 = np.random.random((1151, 1151)))
+
+    mat1 = _matrix.Matrix(m1)
+    mat2 = _matrix.Matrix(m2)
 
     timer_naive = []
     timer_tile = []
     timer_mkl = []
 
-    mat_ans = np.matmul(mat1, mat2)
+    mat_ans = np.matmul(m1, m2)
 
     for i in range(5):
         timer = time.time()
-        mat_naive = multiply_naive(mat1, mat2)
+        mat_naive = _matrix.multiply_naive(mat1, mat2)
         timer_naive.append(time.time() - timer)
 
         timer = time.time()
-        mat_tile = multiply_tile(mat1, mat2, 64)
+        mat_tile = _matrix.multiply_tile(mat1, mat2, 64)
         timer_tile.append(time.time() - timer)
 
         timer = time.time()
-        mat_mkl = multiply_mkl(mat1, mat2)
+        mat_mkl = _matrix.multiply_mkl(mat1, mat2)
         timer_mkl.append(time.time() - timer)
 
         assertTrue(abs(mat_ans - mat_naive) < 0.001)
