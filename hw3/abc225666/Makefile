@@ -12,7 +12,8 @@ MKLLINE := \
 	${MKLROOT}/lib/libmkl_sequential.so \
 	${MKLROOT}/lib/libmkl_core.so \
 	${MKLROOT}/lib/libmkl_avx2.so \
-	${MKLROOT}/lib/libmkl_def.so
+	${MKLROOT}/lib/libmkl_def.so \
+	-Wl,--no-as-neeeded
 
 $(TARGET): _matrix.cpp
 	g++ -O3 -Wall -shared -std=c++11 -fPIC `python3 -m pybind11 --includes` _matrix.cpp -o _matrix`python3-config --extension-suffix` ${MKLLINE}
