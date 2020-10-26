@@ -136,19 +136,16 @@ Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, size_t tile_size) {
     }
 
     for (size_t i = 0; i < mat1.nrow(); i += tile_size) {
-        size_t index_i = i + tile_size < mat1.nrow() ? i + tile_size : mat1.nrow();
+        const size_t index_i = i + tile_size < mat1.nrow() ? i + tile_size : mat1.nrow();
         for (size_t k = 0; k < mat2.ncol(); k += tile_size) {
-            size_t index_k = k + tile_size < mat2.ncol() ? k + tile_size : mat2.ncol();
+            const size_t index_k = k + tile_size < mat2.ncol() ? k + tile_size : mat2.ncol();
             for (size_t j = 0; j <  mat1.nrow(); j += tile_size) {
-                size_t index_j = j + tile_size < mat1.ncol() ? j + tile_size : mat1.ncol();
-
+                const size_t index_j = j + tile_size < mat1.ncol() ? j + tile_size : mat1.ncol();
                 for (size_t tile_i = i; tile_i < index_i; ++tile_i) {
                     for (size_t tile_k = k; tile_k < index_k; ++tile_k) {
-                        double v = 0;
                         for (size_t tile_j = j; tile_j < index_j; ++tile_j) {
-                            v += mat1(tile_i, tile_j) * mat2(tile_j, tile_k);
+                            ret(tile_i, tile_k) += mat1(tile_i, tile_j) * mat2(tile_j, tile_k);
                         }
-                        ret(tile_i, tile_k) += v;
                     }
                 }
             }
