@@ -26,7 +26,6 @@ CXXFLAGS := ${CXXFLAGS} \
 	-Wall -Wextra -Werror -shared -fPIC \
 	-I${MKLROOT}/include\
 	${MKLLINKLINE} \
-	${FLAGS}
 
 SUFFIX = $(shell python3-config --extension-suffix)
 MODULE = _matrix$(SUFFIX)
