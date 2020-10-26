@@ -24,19 +24,16 @@ CXX = g++
 CXXFLAGS := ${CXXFLAGS} \
 	-std=c++17 -O3 -g -m64 \
 	-Wall -Wextra -Werror -shared -fPIC \
+	-o _matrix`python3-config --extension-suffix` \
 	-I${MKLROOT}/include\
 	${MKLLINKLINE} \
 
-SUFFIX = $(shell python3-config --extension-suffix)
-MODULE = _matrix$(SUFFIX)
+.PHONY: module test clean
+module: _matrix.cpp
+	$(CXX) $(CXXFLAGS)
 
-$(MODULE): _matrix.cpp
-	$(CXX) $(CXXFLAGS) `python3 -m pybind11 --includes` $< -o $@
-
-.PHONY: clean
 clean:
 	rm -rf *.so __pycache__ .pytest_cache performance.txt
 
-.PHONY: test
-test: $(MODULE)
+test: module
 	pytest
