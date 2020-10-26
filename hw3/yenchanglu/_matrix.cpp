@@ -2,7 +2,7 @@
 #include <pybind11/operators.h>
 #include <vector>
 #include <stdexcept>
-#include "mkl.h"
+#include <mkl.h>
 
 namespace py = pybind11;
 

@@ -32,7 +32,7 @@ SUFFIX = $(shell python3-config --extension-suffix)
 MODULE = _matrix$(SUFFIX)
 
 $(MODULE): _matrix.cpp
-	$(CXX) $(CXXFLAGS) `$(PY) -m pybind11 --includes` $< -o $@
+	$(CXX) $(CXXFLAGS) `python3 -m pybind11 --includes` $< -o $@
 
 .PHONY: clean
 clean:
