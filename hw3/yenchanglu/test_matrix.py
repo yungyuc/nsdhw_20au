@@ -4,8 +4,8 @@ import math
 import _matrix
 
 def exec_time():
-    m1 = np.random.random((1151, 1151)))
-    m2 = np.random.random((1151, 1151)))
+    m1 = np.random.random((1151, 1151))
+    m2 = np.random.random((1151, 1151))
 
     mat1 = _matrix.Matrix(m1)
     mat2 = _matrix.Matrix(m2)
