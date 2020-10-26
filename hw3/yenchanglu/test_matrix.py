@@ -14,8 +14,6 @@ def exec_time():
     timer_tile = []
     timer_mkl = []
 
-    mat_ans = np.matmul(m1, m2)
-
     for i in range(5):
         timer = time.time()
         mat_naive = _matrix.multiply_naive(mat1, mat2)
@@ -28,11 +26,6 @@ def exec_time():
         timer = time.time()
         mat_mkl = _matrix.multiply_mkl(mat1, mat2)
         timer_mkl.append(time.time() - timer)
-
-        assertTrue(abs(mat_ans - mat_naive) < 0.001)
-        assertTrue(abs(mat_ans - mat_tile) < 0.001)
-        assertTrue(abs(mat_ans - mat_mkl) < 0.001)
-
 
     with open("performance.txt", "w") as f:
         f.write("Average execution time\n")
