@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 import math
-import _matrix import Matrix, multiply_naive, multiply_tile, multiply_mkl
+from _matrix import Matrix, multiply_naive, multiply_tile, multiply_mkl
 
 def test_naive():
     m = np.random.randint(600, 1151)
