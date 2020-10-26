@@ -5,6 +5,7 @@
 #include <vector>
 #include <stdexcept>
 #include <mkl.h>
+#include <algorithm>
 
 namespace py = pybind11;
 
@@ -139,14 +140,21 @@ Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, size_t tile_size) {
     const size_t ncol1 = mat1.ncol();
     const size_t ncol2 = mat2.ncol();
 
+    double v;
+
     for (size_t i = 0; i < nrow1; i += tile_size) {
+        size_t i_min = std::min(i + tile_size, nrow1);
         for (size_t k = 0; k < ncol2; k += tile_size) {
+            size_t k_min = std::min(k + tile_size, ncol2);
             for (size_t j = 0; j < nrow1; j += tile_size) {
-                for (size_t tile_j = j; tile_j < ((tile_size + j) > ncol1 ? ncol1 : (tile_size + j)); ++tile_j) {
-                    for (size_t tile_i = i; tile_i < ((tile_size + i) > nrow1 ? nrow1 : (tile_size + i)); ++tile_i) {
-                        for (size_t tile_k = k; tile_k < ((tile_size + k) > ncol2 ? ncol2 : (tile_size + k)); ++tile_k) {
-                            ret(tile_i, tile_k) += mat1(tile_i, tile_j) * mat2(tile_j, tile_k);
+                size_t j_min = std::min(j + tile_size, ncol1);
+                for (size_t tile_i = i; i < i_min; ++tile_i) {
+                    for (size_t tile_k = k; k < k_min; ++tile_k) {
+                        v = 0.0;
+                        for (size_t tile_j = j; tile_j < j_min; ++tile_j) {
+                            v += mat1(tile_i, tile_j) * mat2(tile_j, tile_k);
                         }
+                        ret(tile_i,tile_k) += v;
                     }
                 }
             }
