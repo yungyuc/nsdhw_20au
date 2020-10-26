@@ -10,7 +10,11 @@ def exec_time():
     mat1 = _matrix.Matrix(m1)
     mat2 = _matrix.Matrix(m2)
 
-    timer_naive = []
+    mat_ret = _matrix.multiply_naive(mat1, mat2)
+
+    assert np.array(mat_ret) == pytest.approx(np.matmul(m1,m2))
+
+    '''timer_naive = []
     timer_tile = []
     timer_mkl = []
 
@@ -34,4 +38,4 @@ def exec_time():
         f.write("multiply_mkl: {} secs\n".formate("%.4f"%np.average(timer_mkl)))
         f.write("The tiling version is {:.1%} faster than naive version\n".format(timer_naive / timer_tile))
         f.write("The mkl version is {:.1%} faster than naive version\n".format(timer_naive / timer_mkl))
-        f.close()
+        f.close()'''
