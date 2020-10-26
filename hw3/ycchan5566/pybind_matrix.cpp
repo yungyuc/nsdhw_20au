@@ -1,6 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <iostream>
+#include <mkl.h>
 #include <vector>
 
 namespace py = pybind11;
@@ -35,7 +36,6 @@ public:
     size_t nrow() const { return m_nrow; }
     size_t ncol() const { return m_ncol; }
 
-private:
 
     size_t m_nrow;
     size_t m_ncol;
@@ -59,8 +59,59 @@ Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2) {
     return ans;
 }
 
+Matrix multiply_tile(Matrix &mat1, Matrix &mat2, int tile_size) {
+  Matrix mat3(mat1.nrow(), mat2.ncol());
+
+  for (int i = 0; i < mat1.nrow(); i += tile_size) {
+    for (int j = 0; j < mat2.ncol(); j += tile_size) {
+
+      int start = mat1.nrow() < i + tile_size ? mat1.nrow() : i + tile_size;
+      int end = mat2.ncol() < j + tile_size ? mat2.ncol() : j + tile_size;
+
+      for (int k = 0; k < mat1.ncol(); k += tile_size) {
+        int ret_edge = mat1.ncol() < k + tile_size ? mat1.ncol() : k + tile_size;
+        for (int kk = k; kk < ret_edge; kk++) {
+          for (int ii = i; ii < start; ii++) {
+            for (int jj = j; jj < end; jj++) {
+              mat3(ii, jj) += mat1(ii, kk) * mat2(kk, jj);
+            }
+          }
+        }
+      }
+    }
+  }
+  return mat3;
+}
+
+Matrix * multiply_mkl(const Matrix & mat1, const Matrix & mat2)
+{
+	mkl_set_num_threads(1);
+
+	Matrix * ret = new Matrix(mat1.nrow(), mat2.ncol());
+
+	cblas_dgemm(
+		CblasRowMajor,
+		CblasNoTrans,
+		CblasNoTrans,
+		mat1.nrow(),
+		mat2.ncol(),
+		mat1.ncol(),
+		1.0,
+		mat1.m_buffer.data(),
+		mat1.ncol(),
+		mat2.m_buffer.data(),
+		mat2.ncol(),
+		0.0,
+		(*ret).m_buffer.data(),
+		(*ret).ncol()
+		);
+	return ret;
+}
+
 PYBIND11_MODULE(_matrix, m) {
     m.def("multiply_naive", &multiply_naive);
+    m.def("multiply_tile", &multiply_tile);
+    m.def("multiply_mkl", &multiply_mkl);
     py::class_<Matrix>(m, "Matrix", py::buffer_protocol())
         .def(py::init<size_t, size_t>())
         .def(py::init<size_t, size_t, std::vector<double>&>())
