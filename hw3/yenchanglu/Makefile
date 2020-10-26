@@ -24,12 +24,13 @@ CXX = g++
 CXXFLAGS := ${CXXFLAGS} \
 	-std=c++17 -O3 -g -m64 \
 	-Wall -Wextra -Werror -shared -fPIC \
+	`python3 -m pybind11 --includes` _matrix.cpp \
 	-o _matrix`python3-config --extension-suffix` \
 	-I${MKLROOT}/include\
 	${MKLLINKLINE} \
 
 .PHONY: module test clean
-module: _matrix.cpp
+module:
 	$(CXX) $(CXXFLAGS)
 
 clean:
