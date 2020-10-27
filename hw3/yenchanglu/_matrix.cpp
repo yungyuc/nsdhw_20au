@@ -109,6 +109,10 @@ private:
 };
 
 Matrix multiply_naive(Matrix const &mat1, Matrix const &mat2) {
+    if (mat1.ncol() != mat2.nrow()) {
+        throw std::out_of_range("Incorrect dimensions for matrix multiplication");
+    }
+
     Matrix ret(mat1.nrow(), mat2.ncol());
 
     for (size_t i = 0; i < ret.nrow(); ++i) {
@@ -130,11 +134,6 @@ Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, size_t tile_size) {
     }
 
     Matrix ret(mat1.nrow(), mat2.ncol());
-    for (size_t i = 0; i < mat1.nrow(); ++i) {
-        for (size_t j = 0; j < mat2.ncol(); ++j) {
-            ret(i,j) = 0;
-        }
-    }
 
     const size_t nrow1 = mat1.nrow();
     const size_t ncol1 = mat1.ncol();
