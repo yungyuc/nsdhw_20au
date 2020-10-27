@@ -5,7 +5,6 @@
 #include <vector>
 #include <stdexcept>
 #include <mkl.h>
-#include <algorithm>
 
 namespace py = pybind11;
 
@@ -116,15 +115,16 @@ Matrix multiply_naive(Matrix const &mat1, Matrix const &mat2) {
         throw std::out_of_range("Incorrect dimensions for matrix multiplication");
     }
 
-    Matrix ret(mat1.nrow(), mat2.ncol());
+    size_t nrow = mat1.nrow();
+    size_t ncol = mat2.ncol();
 
-    for (size_t i = 0; i < ret.nrow(); ++i) {
-        for (size_t k = 0; k < ret.ncol(); ++k) {
-            double v = 0;
+    Matrix ret(nrow, ncol);
+
+    for (size_t i = 0; i < nrow; ++i) {
+        for (size_t k = 0; k < ncol; ++k) {
             for (size_t j = 0; j < mat1.ncol(); ++j) {
-                v += mat1(i,j) * mat2(j,k);
+                ret(i,k) += mat1(i,j) * mat2(j,k);
             }
-            ret(i,k) = v;
         }
     }
 
@@ -138,23 +138,15 @@ Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, size_t tile_size) {
 
     Matrix ret(mat1.nrow(), mat2.ncol());
 
-    const size_t nrow1 = mat1.nrow();
-    const size_t ncol1 = mat1.ncol();
-    const size_t ncol2 = mat2.ncol();
-
-    for (size_t i = 0; i < nrow1; i += tile_size) {
-        size_t i_min = std::min(i + tile_size, nrow1);
-        for (size_t k = 0; k < ncol2; k += tile_size) {
-            size_t k_min = std::min(k + tile_size, ncol2);
-            for (size_t j = 0; j < ncol1; j += tile_size) {
-                size_t j_min = std::min(j + tile_size, ncol1);
-                for (size_t tile_i = i; tile_i < i_min; ++tile_i) {
-                    for (size_t tile_k = k; tile_k < k_min; ++tile_k) {
-                        double v = 0;
-                        for (size_t tile_j = j; tile_j < j_min; ++tile_j) {
-                            v += mat1(tile_i, tile_j) * mat2(tile_j, tile_k);
+    for (size_t i = 0; i < mat1.nrow(); i += tile_size) {
+        for (size_t k = 0; k < mat2.ncol(); k += tile_size) {
+            for (size_t j = 0; j <  mat1.ncol(); j += tile_size) {
+                // multiply_naive()
+                for (size_t tile_j = j; tile_j < ((j + tile_size) > mat1.ncol() ? mat1.ncol() : (j + tile_size)); ++tile_j) {
+                    for (size_t tile_i = i; tile_i < ((i + tile_size) > mat1.nrow() ? mat1.nrow() : (i + tile_size)); ++tile_i) {
+                        for (size_t tile_k = k; tile_k < ((k + tile_size) > mat2.ncol() ? mat2.ncol() : (k + tile_size)); ++tile_k) {
+                            ret(tile_i, tile_k) += mat1(tile_i, tile_j) * mat2(tile_j, tile_k);
                         }
-                        ret(tile_i, tile_k) += v;
                     }
                 }
             }
