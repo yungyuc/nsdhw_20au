@@ -96,6 +96,9 @@ private:
         const size_t nelement = nrow * ncol;
         if (nelement) {
             m_buffer = new double[nelement];
+            for (size_t i = 0; i < nelement; ++i) {
+                m_buffer[i] = 0.0;
+            }
         } else {
             m_buffer = nullptr;
         }
@@ -139,8 +142,6 @@ Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, size_t tile_size) {
     const size_t ncol1 = mat1.ncol();
     const size_t ncol2 = mat2.ncol();
 
-    double v;
-
     for (size_t i = 0; i < nrow1; i += tile_size) {
         size_t i_min = std::min(i + tile_size, nrow1);
         for (size_t k = 0; k < ncol2; k += tile_size) {
@@ -149,11 +150,11 @@ Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, size_t tile_size) {
                 size_t j_min = std::min(j + tile_size, ncol1);
                 for (size_t tile_i = i; tile_i < i_min; ++tile_i) {
                     for (size_t tile_k = k; tile_k < k_min; ++tile_k) {
-                        v = 0.0;
+                        double v = 0;
                         for (size_t tile_j = j; tile_j < j_min; ++tile_j) {
                             v += mat1(tile_i, tile_j) * mat2(tile_j, tile_k);
                         }
-                        ret(tile_i,tile_k) += v;
+                        ret(tile_i, tile_k) += v;
                     }
                 }
             }
