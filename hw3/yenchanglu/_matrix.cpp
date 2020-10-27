@@ -146,7 +146,7 @@ Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, size_t tile_size) {
         size_t i_min = std::min(i + tile_size, nrow1);
         for (size_t k = 0; k < ncol2; k += tile_size) {
             size_t k_min = std::min(k + tile_size, ncol2);
-            for (size_t j = 0; j < nrow1; j += tile_size) {
+            for (size_t j = 0; j < ncol1; j += tile_size) {
                 size_t j_min = std::min(j + tile_size, ncol1);
                 for (size_t tile_i = i; i < i_min; ++tile_i) {
                     for (size_t tile_k = k; k < k_min; ++tile_k) {
