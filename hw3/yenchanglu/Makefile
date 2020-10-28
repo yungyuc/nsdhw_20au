@@ -26,6 +26,7 @@ MKLLINKLINE := \
 CXX = g++
 CXXFLAGS := ${CXXFLAGS} \
 	-std=c++17 -O3 -g -m64 \
+	-ftree-vectorize -funroll-loops -ffast-math \
 	-Wall -Wextra -Werror -shared -fPIC \
 	`python3 -m pybind11 --includes` _matrix.cpp \
 	-o _matrix`python3-config --extension-suffix` \

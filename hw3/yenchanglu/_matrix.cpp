@@ -131,6 +131,13 @@ Matrix multiply_naive(Matrix const &mat1, Matrix const &mat2) {
     return ret;
 }
 
+inline size_t edge(size_t n, size_t ori) {
+    if (n > ori) {
+        return ori;
+    }
+    return n;
+}
+
 Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, size_t tile_size) {
     if (mat1.ncol() != mat2.nrow()) {
         throw std::out_of_range("Incorrect dimensions for matrix multiplication");
@@ -142,9 +149,9 @@ Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, size_t tile_size) {
         for (size_t k = 0; k < mat2.ncol(); k += tile_size) {
             for (size_t j = 0; j <  mat1.ncol(); j += tile_size) {
                 // multiply_naive()
-                for (size_t tile_j = j; tile_j < ((j + tile_size) > mat1.ncol() ? mat1.ncol() : (j + tile_size)); ++tile_j) {
-                    for (size_t tile_i = i; tile_i < ((i + tile_size) > mat1.nrow() ? mat1.nrow() : (i + tile_size)); ++tile_i) {
-                        for (size_t tile_k = k; tile_k < ((k + tile_size) > mat2.ncol() ? mat2.ncol() : (k + tile_size)); ++tile_k) {
+                for (size_t tile_j = j; tile_j < edge(j + tile_size, mat1.ncol()); ++tile_j) {
+                    for (size_t tile_i = i; tile_i < edge(i + tile_size, mat1.nrow()); ++tile_i) {
+                        for (size_t tile_k = k; tile_k < edge(k + tile_size,mat2.ncol()); ++tile_k) {
                             ret(tile_i, tile_k) += mat1(tile_i, tile_j) * mat2(tile_j, tile_k);
                         }
                     }
