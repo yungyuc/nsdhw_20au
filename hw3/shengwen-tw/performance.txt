@@ -1,5 +1,0 @@
-time cost of naive algorithm: 2.635152 seconds
-time cost of tile algorithm: 0.583517 seconds
-time cost of mkl implementation: 0.040870 seconds
-mkl is 64.476645 times faster than naive
-tile is 4.515977 times faster than naive
