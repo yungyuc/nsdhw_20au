@@ -7,24 +7,41 @@
 
 namespace py = pybind11;
 
+
+struct ByteCounterImpl
+{
+    std::size_t allocated;
+    std::size_t deallocated;
+}; /* end struct ByteCounterImpl */
+
+
+ByteCounterImpl g_impl = {0, 0};
+
+
 class Matrix {
 
 public:
     // default contructor
     Matrix(size_t nrow, size_t ncol)
         : m_nrow(nrow), m_ncol(ncol), m_buffer(nrow * ncol, 0) {
+        m_impl->allocated += sizeof(double) * nrow * ncol;
+        m_need_deallocate = true;
         std::fill(m_buffer.begin(), m_buffer.end(), 0);
     }
 
     // copy constructor
     Matrix(Matrix const & other)
         : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0) {
+        m_impl->allocated += sizeof(double) * m_nrow * m_ncol;
+        m_need_deallocate = true;
         std::copy(other.m_buffer.begin(), other.m_buffer.end(), m_buffer.begin());
     }
 
     // move constructor
     Matrix(Matrix && other)
         : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0) {
+        other.m_need_deallocate = false;
+        m_need_deallocate = true;
         other.m_buffer.swap(m_buffer);
     }
 
@@ -34,7 +51,10 @@ public:
             m_buffer.insert(m_buffer.end(), v.begin(), v.end());
     }
 
-    ~Matrix() = default; // default destructor
+    ~Matrix() {
+        if (m_need_deallocate)
+            m_impl->deallocated += sizeof(double) * m_nrow * m_ncol;
+    }
 
     friend Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2);
     friend Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const unsigned int tsize);
@@ -59,6 +79,8 @@ private:
     size_t m_nrow;
     size_t m_ncol;
     std::vector<double> m_buffer;
+    bool m_need_deallocate = false;
+    ByteCounterImpl *m_impl = &g_impl;
 };
 
 Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2)
@@ -149,10 +171,17 @@ Matrix multiply_mkl(const Matrix &mat1, const Matrix &mat2)
     return ret;
 };
 
+std::size_t bytes() { return (g_impl.allocated - g_impl.deallocated); }
+std::size_t allocated() { return g_impl.allocated; }
+std::size_t deallocated() { return g_impl.deallocated; }
+
 PYBIND11_MODULE(_matrix, m) {
     m.def("multiply_naive", &multiply_naive);
     m.def("multiply_tile", &multiply_tile);
     m.def("multiply_mkl", &multiply_mkl);
+    m.def("bytes", &bytes);
+    m.def("allocated", &allocated);
+    m.def("deallocated", &deallocated);
     py::class_<Matrix>(m, "Matrix", py::buffer_protocol())
         .def(py::init<size_t, size_t>())
         .def(py::init<Matrix const &>())
