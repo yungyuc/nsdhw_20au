@@ -15,7 +15,7 @@ struct ByteCounterImpl
     std::size_t refcount = 0;
 }; /* end struct ByteCounterImpl */
 
-ByteCounterImpl g_impl = {0, 0, 0};
+ByteCounterImpl g_impl = {};
 
 /**
  * One instance of this counter is shared among a set of allocators.
@@ -180,7 +180,7 @@ public:
 
     // move constructor
     Matrix(Matrix && other)
-        : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0) {
+        : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer() {
         other.m_buffer.swap(m_buffer);
     }
 
