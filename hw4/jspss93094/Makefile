@@ -9,7 +9,7 @@ CXXFLAGS :=
 endif
 
 ifeq ($(UNAME_S), Linux)
-MKLROOT ?= ${HOME}/opt/intel/mkl
+MKLROOT ?= ${HOME}/opt/conda
 MKLEXT ?= so
 CXXFLAGS := -Wl,--no-as-needed
 endif
