@@ -19,7 +19,7 @@ MKLLINKLINE := \
 	${MKLROOT}/lib/libmkl_sequential.${MKLEXT} \
 	${MKLROOT}/lib/libmkl_core.${MKLEXT} \
 	${MKLROOT}/lib/libmkl_avx2.${MKLEXT} \
-    ${MKLROOT}/lib/libmkl_def.${MKLEXT} \
+	${MKLROOT}/lib/libmkl_def.${MKLEXT} \
 	-lpthread -lm -ldl
 
 CXX = g++
