@@ -10,7 +10,6 @@ endif
 
 ifeq ($(UNAME_S),Linux)
 MKLROOT ?= ${HOME}/opt/conda
-#MKLROOT ?= /opt/intel/mkl
 MKLEXT ?= so
 CXXFLAGS := -Wl,--no-as-needed
 endif
@@ -39,7 +38,7 @@ $(LIBRARY): _matrix.cpp
 	${CXX} ${CXXFLAGS} $? -o $@
 
 clean:
-	rm -Rf $(LIBRARY) performance.txt __pycache__ .pytest_cache
+	rm -Rf $(LIBRARY) __pycache__ .pytest_cache
 
 test: $(LIBRARY)
-	python3 -m py.test -v -l
+	../validate.py
