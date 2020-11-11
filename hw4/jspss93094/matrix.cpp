@@ -184,10 +184,7 @@ public:
         std::swap(m_buffer, other.m_buffer);
     }
 
-    ~Matrix()
-    {
-        reset_buffer(0, 0);
-    }
+    ~Matrix() {}
 
     double   operator() (size_t row, size_t col) const { return m_buffer[index(row, col)]; }
     double & operator() (size_t row, size_t col)       { return m_buffer[index(row, col)]; }
