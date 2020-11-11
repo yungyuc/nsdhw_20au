@@ -5,11 +5,6 @@
 #include <iomanip>
 #include <stdexcept>
 #include <mkl.h>
-
-//#include <cstdlib>
-//#include <new>
-//#include <memory>
-//#include <limits>
 #include <vector>
 
 namespace py = pybind11;
