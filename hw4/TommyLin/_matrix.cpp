@@ -15,7 +15,6 @@ struct ByteCounterImpl
     std::size_t refcount = 0;
 }; /* end struct ByteCounterImpl */
 
-ByteCounterImpl g_impl = {};
 
 /**
  * One instance of this counter is shared among a set of allocators.
@@ -83,13 +82,11 @@ public:
     void increase(std::size_t amount)
     {
         m_impl->allocated += amount;
-        g_impl.allocated += amount;
     }
 
     void decrease(std::size_t amount)
     {
         m_impl->deallocated += amount;
-        g_impl.deallocated += amount;
     }
 
     std::size_t bytes() const { return m_impl->allocated - m_impl->deallocated; }
@@ -163,24 +160,26 @@ struct MyAllocator
 }; /* end struct MyAllocator */
 
 
+static MyAllocator<double> allocator;
+
 class Matrix {
 
 public:
     // default contructor
     Matrix(size_t nrow, size_t ncol)
-        : m_nrow(nrow), m_ncol(ncol), m_buffer(nrow * ncol, 0) {
+        : m_nrow(nrow), m_ncol(ncol), m_buffer(nrow * ncol, 0, allocator) {
         std::fill(m_buffer.begin(), m_buffer.end(), 0);
     }
 
     // copy constructor
     Matrix(Matrix const & other)
-        : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0) {
+        : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0, allocator) {
         std::copy(other.m_buffer.begin(), other.m_buffer.end(), m_buffer.begin());
     }
 
     // move constructor
     Matrix(Matrix && other)
-        : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer() {
+        : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(allocator) {
         other.m_buffer.swap(m_buffer);
     }
 
@@ -305,9 +304,9 @@ Matrix multiply_mkl(const Matrix &mat1, const Matrix &mat2)
     return ret;
 };
 
-std::size_t bytes() { return (g_impl.allocated - g_impl.deallocated); }
-std::size_t allocated() { return g_impl.allocated; }
-std::size_t deallocated() { return g_impl.deallocated; }
+std::size_t bytes() { return allocator.counter.bytes(); }
+std::size_t allocated() { return allocator.counter.allocated(); }
+std::size_t deallocated() { return allocator.counter.deallocated(); }
 
 PYBIND11_MODULE(_matrix, m) {
     m.def("multiply_naive", &multiply_naive);
