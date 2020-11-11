@@ -125,27 +125,16 @@ static MyAllocator<double> alloc;
 class Matrix {
 public:
     Matrix(size_t nrow, size_t ncol)
-      : m_nrow(nrow), m_ncol(ncol) {
+      : m_nrow(nrow), m_ncol(ncol), m_buffer(alloc) {
         reset_buffer(nrow, ncol);
     }
 
     Matrix(Matrix const &other)
-      : m_nrow(other.m_nrow), m_ncol(other.m_ncol) {
+      : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(alloc) {
         reset_buffer(other.m_nrow, other.m_ncol);
         for (size_t i = 0; i < m_nrow; ++i) {
             for (size_t j = 0; j < m_ncol; ++j) {
                 (*this)(i,j) = other(i,j);
-            }
-        }
-    }
-
-    Matrix(std::vector<std::vector<double>> const &v) {
-        m_nrow = v.size();
-        m_ncol = v[0].size();
-        reset_buffer(m_nrow, m_ncol);
-        for (size_t i = 0; i < m_nrow; ++i) {
-            for (size_t j = 0; j < m_ncol; ++j) {
-                (*this)(i,j) = v[i][j];
             }
         }
     }
@@ -156,21 +145,6 @@ public:
 
     double   operator() (size_t row, size_t col) const { return m_buffer[index(row, col)]; }
     double & operator() (size_t row, size_t col)       { return m_buffer[index(row, col)]; }
-
-    Matrix &operator=(Matrix const &other) {
-        if (this == &other) {
-            return *this;
-        }
-        if (m_nrow != other.m_nrow || m_ncol != other.m_ncol) {
-            reset_buffer(other.m_nrow, other.m_ncol);
-        }
-        for (size_t i = 0; i < m_nrow; ++i) {
-            for (size_t j = 0; j < m_ncol; ++j) {
-                (*this)(i,j) = other(i,j);
-            }
-        }
-        return *this;
-    }
 
     bool operator==(Matrix const &other) {
         if (this == &other) {
@@ -194,36 +168,25 @@ public:
     size_t size() const { return m_nrow * m_ncol; }
 
     double buffer(size_t i) const { return m_buffer[i]; }
-    double *data() const { return m_buffer; }
+    double *data() { return m_buffer.data(); }
 
-    std::vector<double> buffer_vector() const { return std::vector<double>(m_buffer, m_buffer + size()); }
+    std::vector<double> buffer_vector() const { return std::vector<double>(m_buffer.data(), m_buffer.data() + size()); }
 
 private:
     size_t index(size_t row, size_t col) const {
         return row + col * m_nrow;
     }
     void reset_buffer(size_t nrow, size_t ncol) {
-        if (m_buffer) {
-            delete[] m_buffer;
-        }
         const size_t nelement = nrow * ncol;
-        if (nelement) {
-            m_buffer = new double[nelement];
-            for (size_t i = 0; i < nelement; ++i) {
-                m_buffer[i] = 0.0;
-            }
-        } else {
-            m_buffer = nullptr;
-        }
+        m_buffer.reserve(nelement);
+        m_buffer.clear();
         m_nrow = nrow;
         m_ncol = ncol;
     }
 
     size_t m_nrow = 0;
     size_t m_ncol = 0;
-    double *m_buffer = nullptr;
-
-    ByteCounterImpl * m_impl;
+    std::vector<double, MyAllocator<double>> m_buffer;
 };
 
 Matrix multiply_naive(Matrix const &mat1, Matrix const &mat2) {
@@ -283,7 +246,7 @@ Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, size_t tile_size) {
 Matrix multiply_mkl(Matrix const &mat1, Matrix const &mat2) {
     Matrix ret = Matrix(mat1.nrow(), mat2.ncol());
 
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, mat1.nrow(), mat2.ncol(), mat1.ncol(), 1, mat1.data(), mat1.ncol(), mat2.data(), mat2.ncol(), 0, ret.data(), mat2.ncol());
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, mat1.nrow(), mat2.ncol(), mat1.ncol(), 1, mat1.m_buffer.data(), mat1.ncol(), mat2.m_buffer.data(), mat2.ncol(), 0, ret.data(), mat2.ncol());
 
     return ret;
 }
@@ -303,8 +266,6 @@ PYBIND11_MODULE(_matrix, m) {
 
     py::class_<Matrix>(m, "Matrix", py::buffer_protocol())        
         .def(py::init<size_t, size_t>())
-        .def(py::init<Matrix const &>())
-        .def(py::init<std::vector<std::vector<double>>&>())
         .def_property_readonly("nrow", &Matrix::nrow)
         .def_property_readonly("ncol", &Matrix::ncol)
         .def("__eq__", &Matrix::operator==)
