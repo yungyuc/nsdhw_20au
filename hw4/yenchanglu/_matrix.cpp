@@ -245,7 +245,7 @@ Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, size_t tile_size) {
 Matrix multiply_mkl(Matrix const &mat1, Matrix const &mat2) {
     Matrix ret = Matrix(mat1.nrow(), mat2.ncol());
 
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, mat1.nrow(), mat2.ncol(), mat1.ncol(), 1, mat1.m_buffer.data(), mat1.ncol(), mat2.m_buffer.data(), mat2.ncol(), 0, ret.data(), mat2.ncol());
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, mat1.nrow(), mat2.ncol(), mat1.ncol(), 1, mat1.m_buffer.data(), mat1.ncol(), mat2.m_buffer.data(), mat2.ncol(), 0, ret.m_buffer.data(), mat2.ncol());
 
     return ret;
 }
