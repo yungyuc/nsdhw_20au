@@ -129,19 +129,15 @@ public:
         reset_buffer(nrow, ncol);
     }
 
-    Matrix(Matrix const &other)
+    Matrix(Matrix && other)
       : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(alloc) {
-        reset_buffer(other.m_nrow, other.m_ncol);
-        for (size_t i = 0; i < m_nrow; ++i) {
-            for (size_t j = 0; j < m_ncol; ++j) {
-                (*this)(i,j) = other(i,j);
-            }
-        }
+        reset_buffer(0, 0);
+        std::swap(m_nrow, other.m_nrow);
+        std::swap(m_ncol, other.m_ncol);
+        std::swap(m_buffer, other.m_buffer);
     }
 
-    ~Matrix() {
-        reset_buffer(0, 0);
-    }
+    ~Matrix() {}
 
     double   operator() (size_t row, size_t col) const { return m_buffer[index(row, col)]; }
     double & operator() (size_t row, size_t col)       { return m_buffer[index(row, col)]; }
@@ -167,8 +163,7 @@ public:
     size_t ncol() const { return m_ncol; }
     size_t size() const { return m_nrow * m_ncol; }
 
-    double buffer(size_t i) const { return m_buffer[i]; }
-    double *data() { return m_buffer.data(); }
+    double *buffer() { return m_buffer.data(); }
 
     std::vector<double> buffer_vector() const { return std::vector<double>(m_buffer.data(), m_buffer.data() + size()); }
 
@@ -243,9 +238,12 @@ Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, size_t tile_size) {
 
 
 Matrix multiply_mkl(Matrix const &mat1, Matrix const &mat2) {
+    if (mat1.ncol() != mat2.nrow()) {
+        throw std::out_of_range("Incorrect dimensions for matrix multiplication");
+    }
     Matrix ret = Matrix(mat1.nrow(), mat2.ncol());
 
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, mat1.nrow(), mat2.ncol(), mat1.ncol(), 1, mat1.m_buffer.data(), mat1.ncol(), mat2.m_buffer.data(), mat2.ncol(), 0, ret.m_buffer.data(), mat2.ncol());
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, mat1.nrow(), mat2.ncol(), mat1.ncol(), 1, mat1.m_buffer.data(), mat1.ncol(), mat2.m_buffer.data(), mat2.ncol(), 0, ret.buffer(), mat2.ncol());
 
     return ret;
 }
@@ -265,7 +263,7 @@ PYBIND11_MODULE(_matrix, m) {
 
     py::class_<Matrix>(m, "Matrix", py::buffer_protocol())        
         .def(py::init<size_t, size_t>())
-        .def("data", &Matrix::data)
+        .def("buffer", &Matrix::buffer)
         .def("size", &Matrix::size)
         .def_property_readonly("nrow", &Matrix::nrow)
         .def_property_readonly("ncol", &Matrix::ncol)
