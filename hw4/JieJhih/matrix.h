@@ -14,14 +14,8 @@ struct ByteCounterImpl
     size_t deallocated = 0;
     size_t refcount = 0;
 
-}; /* end struct ByteCounterImpl */
+};
 
-/**
- * One instance of this counter is shared among a set of allocators.
- *
- * The counter keeps track of the bytes allocated and deallocated, and report
- * those two numbers in addition to bytes that remain allocated.
- */
 class ByteCounter
 {
 
@@ -153,4 +147,50 @@ struct MyAllocator
 
 };
 
+static MyAllocator<double> myallocator;
+
+class Matrix {
+
+public:
+
+    Matrix(size_t nrow, size_t ncol) : m_nrow(nrow), m_ncol(ncol), m_buffer(myallocator)
+    {
+        reset(nrow, ncol);
+    }
+
+    Matrix(Matrix && other) : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(myallocator)
+    {
+        std::swap(m_nrow, other.m_nrow);
+        std::swap(m_ncol, other.m_ncol);
+        std::swap(m_buffer, other.m_buffer);
+    }
+
+    ~Matrix() { reset(0, 0); }
+
+    size_t nrow() const { return m_nrow; }
+    size_t ncol() const { return m_ncol; }
+    size_t size() const { return m_nrow * m_ncol; }
+
+    double   operator() (size_t row, size_t col) const { return m_buffer[row + col * m_nrow]; }
+    double & operator() (size_t row, size_t col)       { return m_buffer[row + col * m_nrow]; }
+    bool operator==(Matrix const &other) {
+        if (m_nrow != other.m_nrow || m_ncol != other.m_ncol) {
+            return false;
+        }
+        return true;
+    }
+
+    void reset(size_t nrow, size_t ncol)
+    {
+        m_buffer.resize(nrow * ncol);
+        m_nrow = nrow;
+        m_ncol = ncol;
+    }
+
+    double * all() {return m_buffer.data();}
+
+    size_t m_nrow = 0;
+    size_t m_ncol = 0;
+    std::vector<double, MyAllocator<double>> m_buffer;
+};
 #endif
