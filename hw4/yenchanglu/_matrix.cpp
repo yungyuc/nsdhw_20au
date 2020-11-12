@@ -172,7 +172,6 @@ public:
 
     std::vector<double> buffer_vector() const { return std::vector<double>(m_buffer.data(), m_buffer.data() + size()); }
 
-private:
     size_t index(size_t row, size_t col) const {
         return row + col * m_nrow;
     }
@@ -266,6 +265,8 @@ PYBIND11_MODULE(_matrix, m) {
 
     py::class_<Matrix>(m, "Matrix", py::buffer_protocol())        
         .def(py::init<size_t, size_t>())
+        .def("data", &Matrix::data)
+        .def("size", &Matrix::size)
         .def_property_readonly("nrow", &Matrix::nrow)
         .def_property_readonly("ncol", &Matrix::ncol)
         .def("__eq__", &Matrix::operator==)
