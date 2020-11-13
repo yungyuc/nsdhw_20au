@@ -29,7 +29,7 @@ MKLFLAGS := ${CXXFLAGS} \
 CXX := g++
 
 PYBIND := -O3 -Wall -shared -std=c++11 \
-	-fPIC `python3 -m pybind11 --includes` pybind_matrix.cpp \
+	-fPIC `python3 -m pybind11 --includes` matrix.cpp \
 	-o _matrix`python3-config --extension-suffix`
 
 
