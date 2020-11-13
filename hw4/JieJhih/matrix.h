@@ -187,8 +187,6 @@ public:
         m_ncol = ncol;
     }
 
-    double * all() {return m_buffer.data();}
-
     size_t m_nrow = 0;
     size_t m_ncol = 0;
     std::vector<double, MyAllocator<double>> m_buffer;
