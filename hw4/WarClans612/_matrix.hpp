@@ -1,6 +1,8 @@
 // Developer: Wilbert (wilbert.phen@gmail.com)
 
-#pragma once
+#ifndef __MATRIX_H
+#define __MATRIX_H
+
 #include <iostream>
 #include <vector>
 
@@ -57,7 +59,7 @@ private:
 
     size_t m_nrow;
     size_t m_ncol;
-    std::vector<double> m_buffer;
+    std::vector<double, MyAllocator<double>> m_buffer;
 
 };
 
@@ -65,3 +67,9 @@ void validate_multiplication(const Matrix &mat1, const Matrix &mat2);
 Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2);
 Matrix multiply_mkl(const Matrix &mat1, const Matrix &mat2);
 Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, int tsize);
+
+std::size_t bytes();
+std::size_t allocated();
+std::size_t deallocated();
+
+#endif

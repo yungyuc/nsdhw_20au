@@ -4,18 +4,24 @@
 #include <algorithm>
 #include "mkl.h"
 
+#include "alloc.hpp"
+static MyAllocator<double> my_allocator;
+std::size_t bytes() { return my_allocator.counter.bytes(); }
+std::size_t allocated() { return my_allocator.counter.allocated(); }
+std::size_t deallocated() { return my_allocator.counter.deallocated(); }
+
 #include "_matrix.hpp"
 
 // default contructor
 Matrix::Matrix(size_t nrow, size_t ncol)
-    : m_nrow(nrow), m_ncol(ncol), m_buffer(nrow * ncol, 0)
+    : m_nrow(nrow), m_ncol(ncol), m_buffer(nrow * ncol, 0, my_allocator)
 {
 
 }
 
 // copy constructor
 Matrix::Matrix(Matrix const & other)
-    : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer((other.m_nrow) * (other.m_ncol), 0)
+    : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer((other.m_nrow) * (other.m_ncol), 0, my_allocator)
 {
     for(size_t i=0; i < m_nrow; ++i)
     {
@@ -29,7 +35,7 @@ Matrix::Matrix(Matrix const & other)
 
 // move constructor
 Matrix::Matrix(Matrix && other)
-    : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0)
+    : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0, my_allocator)
 {
     other.m_buffer.swap(m_buffer);
 }
