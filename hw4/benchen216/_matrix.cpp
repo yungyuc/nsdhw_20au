@@ -2,9 +2,9 @@
 // Created by ben on 2020/11/9.
 //
 
-//#include <pybind11/pybind11.h>
-//#include <pybind11/stl.h>
-//namespace py = pybind11;
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
+namespace py = pybind11;
 #include <mkl.h>
 #include <iostream>
 #include <sstream>
@@ -17,6 +17,14 @@
 #include <memory>
 #include <limits>
 #include <atomic>
+struct ByteCounterImpl
+{
+
+    size_t allocated = 0;
+    size_t deallocated = 0;
+    size_t refcount = 0;
+
+}; /* end struct ByteCounterImpl */
 
 /**
  * One instance of this counter is shared among a set of allocators.
@@ -24,26 +32,17 @@
  * The counter keeps track of the bytes allocated and deallocated, and report
  * those two numbers in addition to bytes that remain allocated.
  */
-struct ByteCounterImpl
-{
-
-    std::atomic_size_t allocated = 0;
-    std::atomic_size_t deallocated = 0;
-    std::atomic_size_t refcount = 0;
-
-}; /* end struct ByteCounterImpl */
-
 class ByteCounter
 {
 
 public:
 
     ByteCounter()
-            : m_impl(new ByteCounterImpl)
+      : m_impl(new ByteCounterImpl)
     { incref(); }
 
     ByteCounter(ByteCounter const & other)
-            : m_impl(other.m_impl)
+      : m_impl(other.m_impl)
     { incref(); }
 
     ByteCounter & operator=(ByteCounter const & other)
@@ -59,7 +58,7 @@ public:
     }
 
     ByteCounter(ByteCounter && other)
-            : m_impl(other.m_impl)
+      : m_impl(other.m_impl)
     { incref(); }
 
     ByteCounter & operator=(ByteCounter && other)
@@ -139,10 +138,7 @@ struct MyAllocator
     MyAllocator() = default;
 
     template <class U> constexpr
-    MyAllocator(const MyAllocator<U> & other) noexcept
-    {
-        counter = other.counter;
-    }
+    MyAllocator(const MyAllocator<U> & other) noexcept : counter(other.counter) {}
 
     T * allocate(std::size_t n)
     {
@@ -175,45 +171,35 @@ struct MyAllocator
 
 }; /* end struct MyAllocator */
 
-template <class T, class U>
-bool operator==(const MyAllocator<T> & a, const MyAllocator<U> & b)
-{
-    return a.counter == b.counter;
-}
-
-template <class T, class U>
-bool operator!=(const MyAllocator<T> & a, const MyAllocator<U> & b)
-{
-    return !(a == b);
-}
-
-template <class T>
-std::ostream & operator << (std::ostream & out, const MyAllocator<T> & alloc)
-{
-    out << "allocator: bytes = " << alloc.counter.bytes();
-    out << " allocated = " << alloc.counter.allocated();
-    out << " deallocated = " << alloc.counter.deallocated();
-    return out;
-}
+static MyAllocator<double> alloc;
 struct Matrix {
+    public:
+    double * mydata() { return m_buffer.data(); }
+   const double * mydata() const { return m_buffer.data(); }
     ~Matrix() { reset_buffer(0, 0); }
 
-    Matrix(size_t nrow, size_t ncol) : m_nrow(nrow), m_ncol(ncol) {
+Matrix(size_t nrow, size_t ncol)
+      : m_nrow(nrow), m_ncol(ncol), m_buffer(alloc)
+    {
         reset_buffer(nrow, ncol);
+    }
+
+    Matrix(Matrix && other)
+      : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(alloc)
+    {
+        reset_buffer(0, 0);
+        std::swap(m_nrow, other.m_nrow);
+        std::swap(m_ncol, other.m_ncol);
+        std::swap(m_buffer, other.m_buffer);
     }
 
     Matrix(size_t nrow, size_t ncol, std::vector<double> const &vec)
-            : m_nrow(nrow), m_ncol(ncol) {
-        reset_buffer(nrow, ncol);
-        (*this) = vec;
-    }
-    Matrix(size_t nrow, size_t ncol, std::vector<double,MyAllocator<size_t>> const &vec)
-            : m_nrow(nrow), m_ncol(ncol) {
+            : m_nrow(nrow), m_ncol(ncol), m_buffer(alloc) {
         reset_buffer(nrow, ncol);
         (*this) = vec;
     }
 
-    Matrix(Matrix const &other) : m_nrow(other.m_nrow), m_ncol(other.m_ncol) {
+    Matrix(Matrix const &other) : m_nrow(other.m_nrow), m_ncol(other.m_ncol) , m_buffer(alloc){
         reset_buffer(other.m_nrow, other.m_ncol);
         for (size_t i = 0; i < m_nrow; ++i) {
             for (size_t j = 0; j < m_ncol; ++j) {
@@ -223,21 +209,6 @@ struct Matrix {
     }
 
     Matrix &operator=(std::vector<double> const &vec) {
-        if (size() != vec.size()) {
-            throw std::out_of_range("number of elements mismatch");
-        }
-
-        size_t k = 0;
-        for (size_t i = 0; i < m_nrow; ++i) {
-            for (size_t j = 0; j < m_ncol; ++j) {
-                (*this)(i, j) = vec[k];
-                ++k;
-            }
-        }
-
-        return *this;
-    }
-    Matrix &operator=(std::vector<double,MyAllocator<size_t>> const &vec) {
         if (size() != vec.size()) {
             throw std::out_of_range("number of elements mismatch");
         }
@@ -313,9 +284,9 @@ struct Matrix {
 
     size_t size() const { return m_nrow * m_ncol; }
     double buffer(size_t i) const { return m_buffer[i]; }
-    std::vector<double> buffer_vector() const {
-        return std::vector<double>(m_buffer, m_buffer + size());
-    }
+    //std::vector<double> buffer_vector() const {
+    //    return std::vector<double>(m_buffer, m_buffer + size());
+    //}
 
     Matrix transpose() const;
 
@@ -330,27 +301,22 @@ struct Matrix {
         }
     }
     void reset_buffer(size_t nrow, size_t ncol) {
-        if (m_buffer) {
-            delete[] m_buffer;
-        }
         const size_t nelement = nrow * ncol;
-        if (nelement) {
-            m_buffer = new double[nelement];
-        } else {
-            m_buffer = nullptr;
-        }
+        m_buffer.reserve(nelement);
+         m_buffer.clear();
         m_nrow = nrow;
         m_ncol = ncol;
     }
 
-    friend Matrix multiply_naive(Matrix const &mat1, Matrix const &mat2);
-    friend Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const size_t tile_size);
-    friend Matrix multiply_mkl(Matrix const &mat1, Matrix const &mat2);
-    friend bool operator==(Matrix const &mat1, Matrix const &mat2);
+
+    //friend Matrix multiply_naive(Matrix const &mat1, Matrix const &mat2);
+    //friend Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const size_t tile_size);
+    //friend Matrix multiply_mkl(Matrix const &mat1, Matrix const &mat2);
+    //friend bool operator==(Matrix const &mat1, Matrix const &mat2);
 
     size_t m_nrow = 0;
     size_t m_ncol = 0;
-    double *m_buffer = nullptr;
+    std::vector<double, MyAllocator<double>> m_buffer;
 };
 
 Matrix Matrix::transpose() const {
@@ -471,12 +437,12 @@ Matrix multiply_mkl(Matrix const & mat1, Matrix const & mat2){
             , mat2.ncol() /* const MKL_INT n */
             , mat1.ncol() /* const MKL_INT k */
             , 1.0 /* const double alpha */
-            , mat1.m_buffer /* const double *a */
+            , mat1.mydata() /* const double *a */
             , mat1.ncol() /* const MKL_INT lda */
-            , mat2.m_buffer /* const double *b */
+            , mat2.mydata() /* const double *b */
             , mat2.ncol() /* const MKL_INT ldb */
             , 0.0 /* const double beta */
-            , ret.m_buffer /* double * c */
+            , ret.mydata() /* double * c */
             , ret.ncol() /* const MKL_INT ldc */
     );
 
@@ -487,44 +453,34 @@ Matrix multiply_mkl(Matrix const & mat1, Matrix const & mat2){
 
 
 
-int main(int argc, char ** argv)
-{MyAllocator<size_t> alloc;
-    std::vector<double,MyAllocator<size_t>> vect4(alloc);
-    vect4.push_back(1);
-    vect4.push_back(1);
-    vect4.push_back(1);
-    vect4.push_back(1);
-    Matrix mat1(2, 2, vect4);
-    //Matrix mat2(3, 2, std::vector<double>{1, 2, 3, 4, 5, 6});
+size_t bytes() { return alloc.counter.bytes(); }
+size_t allocated() { return alloc.counter.allocated(); }
+size_t deallocated() { return alloc.counter.deallocated(); }
 
-    //Matrix mat3 = mat1 * mat2;
-    std::cout << "matrix A (2x3):" << mat1.size() << std::endl;
-    //std::cout << "matrix B (3x2):" << mat2 << std::endl;
-    //std::cout << "result matrix C (2x2) = AB:" << mat3 << std::endl;
+PYBIND11_MODULE(_matrix, m) {
+	m.doc() = "pybind11 example plugin";
+	m.def("multiply_naive", & multiply_naive);
+	m.def("multiply_tile", & multiply_tile);
+	m.def("multiply_mkl", & multiply_mkl);
+	m.def("bytes", & bytes);
+	m.def("allocated", & allocated);
+	m.def("deallocated", & deallocated);
+	py::class_<Matrix>(m, "Matrix")
+	.def(py::init<size_t, size_t>())
+	.def("size", &Matrix::size)
+	.def_property_readonly("nrow", &Matrix::nrow)
+	.def_property_readonly("ncol", &Matrix::ncol)
+	.def("__eq__", &operator==)
+	.def("__getitem__", [](const Matrix & mat, std::pair<size_t, size_t> t)
+	{
+		return mat(t.first, t.second);
+	})
+	.def("__setitem__", [](Matrix & mat, std::pair<size_t, size_t> t, float v)
+	{
+		mat(t.first, t.second) = v;
+	})
+	;
 
-/*
-
-    std::cout << alloc << std::endl;
-
-    for (size_t it=0; it<1024; ++it)
-    {
-        vec1.push_back(it);
-    }*/
-    std::cout << alloc << std::endl;
-    std::vector<size_t, MyAllocator<size_t>> vec1(alloc);
-    std::vector<size_t, MyAllocator<size_t>>(alloc).swap(vec1);
-    std::cout << alloc << std::endl;
-
-    std::vector<size_t, MyAllocator<size_t>> vec2(1024, alloc);
-    std::cout << alloc << std::endl;
-
-    std::vector<size_t, MyAllocator<size_t>> vec3(std::move(vec2));
-    std::cout << alloc << std::endl;
-
-    std::vector<size_t, MyAllocator<size_t>>(alloc).swap(vec3);
-    std::cout << alloc << std::endl;
-
-    return 0;
 }
 
 /*
