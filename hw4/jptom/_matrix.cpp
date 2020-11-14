@@ -6,28 +6,149 @@
 #include <mkl.h>
 #include <stdexcept>
 #include <functional>
+#include <vector>
 
 namespace py=pybind11;
+
+struct ByteCounterImpl
+{
+	size_t allocated = 0;
+	size_t deallocated = 0;
+	size_t refcount = 0;
+};
+
+class ByteCounter
+{
+public:
+	ByteCounter():m_impl(new ByteCounterImpl) { incref(); }
+	ByteCounter(ByteCounter const & other) :m_impl(other.m_impl) { incref(); }
+	ByteCounter & operator=(ByteCounter const & other)
+	{
+		if ( &other != this)
+		{
+			decref();
+			m_impl = other.m_impl;
+			incref();
+		}
+
+		return *this;
+	}
+	ByteCounter(ByteCounter && other):m_impl(other.m_impl) { other.decref(); }
+	ByteCounter & operator=(ByteCounter && other)
+	{
+		if ( &other != this){
+			decref();
+			m_impl = other.m_impl;
+		}
+
+		return *this;
+	}
+	~ByteCounter() { decref(); }
+
+	void swap(ByteCounter & other)
+	{
+		std::swap(m_impl, other.m_impl);
+	}
+	void increase(size_t amount)
+	{
+		m_impl->allocated += amount;
+	}
+	void decrease(size_t amount)
+	{
+		m_impl->deallocated += amount;
+	}
+	size_t bytes() const { return m_impl->allocated - m_impl->deallocated; }
+	size_t allocated() const { return m_impl->allocated; }
+	size_t deallocated() const { return m_impl->deallocated; }
+
+private:
+	void incref() { ++m_impl->refcount; }
+	void decref()
+	{
+		if (nullptr == m_impl) {}
+		else if (1 == m_impl->refcount)
+		{
+			delete m_impl;
+			m_impl = nullptr;
+		}
+		else
+		{
+			--m_impl->refcount;
+		}
+	}
+
+	ByteCounterImpl * m_impl;
+};
+
+template <class T>
+struct MyAllocator
+{
+	using value_type = T;
+
+	MyAllocator() = default;
+
+	template <class U> constexpr
+	MyAllocator(const MyAllocator<U> & other) noexcept: counter(other.counter)
+	{
+		//counter = other.counter;
+	}
+
+	T * allocate(std::size_t n)
+	{
+		if (n > std::numeric_limits<size_t>::max() / sizeof(T))
+		{
+			throw std::bad_alloc();
+		}
+		const size_t bytes = n*sizeof(T);
+		T * p = static_cast<T *>(std::malloc(bytes));
+		if (p)
+		{
+			counter.increase(bytes);
+			return p;
+		}
+		else
+		{
+			throw std::bad_alloc();
+		}
+	}
+
+	void deallocate(T * p, size_t n) noexcept
+	{
+		std::free(p);
+		const size_t bytes = n*sizeof(T);
+		counter.decrease(bytes);
+	}
+
+	ByteCounter counter;
+
+};
+
+template <class T, class U>
+bool operator==(const MyAllocator<T> & a, const MyAllocator<U> & b)
+{
+	return a.counter == b.counter;
+}
+
+template <class T, class U>
+bool operator !=(const MyAllocator<T> & a, const MyAllocator<U> & b)
+{
+	return a.counter != b.counter;
+}
+
+static MyAllocator<double> allocator;
 
 struct Matrix
 {
 public:
-	Matrix(const size_t nrow,const size_t ncol) : m_nrow(nrow), m_ncol(ncol)
-	{
-		reset_buffer(nrow, ncol);
-	}
+    Matrix(size_t nrow, size_t ncol)
+        : m_nrow(nrow), m_ncol(ncol), m_buffer(nrow * ncol, 0, allocator) {
+        std::fill(m_buffer.begin(), m_buffer.end(), 0);
+    }
 
-	Matrix(Matrix const & other) : m_nrow(other.m_nrow), m_ncol(other.m_ncol)
-	{
-		reset_buffer(other.m_nrow, other.m_ncol);
-		for (size_t i=0; i<m_nrow; ++i)
-		{
-			for (size_t j=0; j<m_ncol; ++j)
-			{
-				(*this)(i, j) = other(i, j);
-			}
-		}
-	}
+    // copy constructor
+    Matrix(Matrix const & other): m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0, allocator) {
+        std::copy(other.m_buffer.begin(), other.m_buffer.end(), m_buffer.begin());
+    }
 
 	Matrix & operator=(Matrix const & other)
 	{
@@ -38,11 +159,9 @@ public:
 		}
 		for (size_t i=0; i<m_nrow; ++i)
 		{
-			for (size_t j=0; j<m_ncol; ++j)
-			{
-				(*this)(i,j) = other(i,j);
-			}
+			m_buffer[i] = other.m_buffer[i];
 		}
+
 		return *this;
 	}
 
@@ -100,7 +219,7 @@ public:
 		return ( flag ? true : false );
 	}
 
-	void init(const double v) {for (size_t i=0; i<m_nrow*m_ncol; ++i) { m_buffer[i] = v; } }
+	void fill(const double v) {for (size_t i=0; i<m_nrow*m_ncol; ++i) { m_buffer[i] = v; } }
 
 public:
 
@@ -112,17 +231,18 @@ public:
 
 	void reset_buffer(const size_t nrow,const size_t ncol)
 	{
-		if (m_buffer) { delete[] m_buffer; }
 		const size_t nelement = nrow * ncol;
-		if (nelement) { m_buffer = new double[nelement]; }
-		else          { m_buffer = nullptr; }
-		m_nrow = nrow;
-		m_ncol = ncol;
+		if (nelement) {
+			m_buffer.reserve(nelement);
+			m_buffer.clear();
+			m_nrow = nrow;
+			m_ncol = ncol;
+		}
 	}
 
 	size_t m_nrow = 0;
 	size_t m_ncol = 0;
-	double * m_buffer = nullptr;
+	std::vector<double, MyAllocator<double>> m_buffer;
 };
 
 /*
@@ -196,7 +316,6 @@ Matrix * multiply_tile(const Matrix & mat1, const Matrix & mat2, const size_t ts
 	Matrix colmat2 = Matrix(mat2.nrow(), mat2.ncol());
 
 	Matrix * ret = new Matrix(mat1.nrow(), mat2.ncol());
-	(*ret).init(0.0);
 
 	const size_t nrow1 = mat1.nrow();
 	const size_t ncol1 = mat1.ncol();
@@ -306,16 +425,20 @@ Matrix * multiply_mkl(const Matrix & mat1, const Matrix & mat2)
 		mat2.ncol(),
 		mat1.ncol(),
 		1.0,
-		mat1.m_buffer,
+		mat1.m_buffer.data(),
 		mat1.ncol(),
-		mat2.m_buffer,
+		mat2.m_buffer.data(),
 		mat2.ncol(),
 		0.0,
-		(*ret).m_buffer,
+		(*ret).m_buffer.data(),
 		(*ret).ncol()
 		);
 	return ret;
 }
+
+size_t bytes() { return allocator.counter.bytes(); }
+size_t allocated() { return allocator.counter.allocated(); }
+size_t deallocated() { return allocator.counter.deallocated(); }
 
 PYBIND11_MODULE(_matrix, m)
 {
@@ -323,6 +446,9 @@ PYBIND11_MODULE(_matrix, m)
 	m.def("multiply_naive", & multiply_naive, "naive method");
 	m.def("multiply_tile", & multiply_tile, "Tiling solution");
 	m.def("multiply_mkl", & multiply_mkl, "use mkl");
+	m.def("bytes", &bytes);
+	m.def("allocated", &allocated);
+	m.def("deallocated", &deallocated);
 	py::class_<Matrix>(m, "Matrix")
 		.def(py::init<const size_t, const size_t>())
 		.def_property_readonly("nrow", &Matrix::nrow)
