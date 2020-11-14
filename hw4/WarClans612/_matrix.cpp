@@ -5,23 +5,22 @@
 #include "mkl.h"
 
 #include "alloc.hpp"
+#include "_matrix.hpp"
+
 static MyAllocator<double> my_allocator;
 std::size_t bytes() { return my_allocator.counter.bytes(); }
 std::size_t allocated() { return my_allocator.counter.allocated(); }
 std::size_t deallocated() { return my_allocator.counter.deallocated(); }
 
-#include "_matrix.hpp"
-
 // default contructor
 Matrix::Matrix(size_t nrow, size_t ncol)
     : m_nrow(nrow), m_ncol(ncol), m_buffer(nrow * ncol, 0, my_allocator)
 {
-
 }
 
 // copy constructor
 Matrix::Matrix(Matrix const & other)
-    : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer((other.m_nrow) * (other.m_ncol), 0, my_allocator)
+    : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0, my_allocator)
 {
     for(size_t i=0; i < m_nrow; ++i)
     {
@@ -35,19 +34,19 @@ Matrix::Matrix(Matrix const & other)
 
 // move constructor
 Matrix::Matrix(Matrix && other)
-    : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0, my_allocator)
+    : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(my_allocator)
 {
     other.m_buffer.swap(m_buffer);
 }
 
 Matrix::Matrix(std::vector<std::vector<double>> const & other)
-    : m_nrow(other.size()), m_ncol(other[0].size())
+    : m_nrow(other.size()), m_ncol(other[0].size()), m_buffer(other.size() * other[0].size(), 0, my_allocator)
 {
     for(const auto &v: other)
         m_buffer.insert(m_buffer.end(), v.begin(), v.end()); 
 }
 
-inline void validate_multiplication(const Matrix &mat1, const Matrix &mat2)
+inline void validate_multiplication(Matrix const &mat1, Matrix const &mat2)
 {
     if (mat1.m_ncol != mat2.m_nrow)
     {
@@ -57,7 +56,7 @@ inline void validate_multiplication(const Matrix &mat1, const Matrix &mat2)
     }
 }
 
-Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2)
+Matrix multiply_naive(Matrix const &mat1, Matrix const &mat2)
 {
     validate_multiplication(mat1, mat2);
 
@@ -77,7 +76,7 @@ Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2)
     return ret;
 };
 
-Matrix multiply_mkl(const Matrix &mat1, const Matrix &mat2)
+Matrix multiply_mkl(Matrix const &mat1, Matrix const &mat2)
 {
     validate_multiplication(mat1, mat2);
 
@@ -94,7 +93,7 @@ Matrix multiply_mkl(const Matrix &mat1, const Matrix &mat2)
     return ret;
 };
 
-Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const int tsize)
+Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, const int tsize)
 {
     validate_multiplication(mat1, mat2);
 

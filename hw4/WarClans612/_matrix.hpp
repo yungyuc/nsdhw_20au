@@ -15,7 +15,7 @@ public:
     Matrix(Matrix && other);
     Matrix(std::vector<std::vector<double>> const & other);
 
-    ~Matrix() = default; // default destructor
+    ~Matrix() = default;
 
     friend void validate_multiplication(const Matrix &mat1, const Matrix &mat2);
     friend Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2);
@@ -63,10 +63,10 @@ private:
 
 };
 
-void validate_multiplication(const Matrix &mat1, const Matrix &mat2);
-Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2);
-Matrix multiply_mkl(const Matrix &mat1, const Matrix &mat2);
-Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, int tsize);
+void validate_multiplication(Matrix const &mat1, Matrix const &mat2);
+Matrix multiply_naive(Matrix const &mat1, Matrix const &mat2);
+Matrix multiply_mkl(Matrix const &mat1, Matrix const &mat2);
+Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, int tsize);
 
 std::size_t bytes();
 std::size_t allocated();
