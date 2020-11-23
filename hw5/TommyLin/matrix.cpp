@@ -7,19 +7,18 @@
 Matrix::Matrix(size_t nrow, size_t ncol)
     : m_nrow(nrow), m_ncol(ncol), m_buffer(nrow * ncol, 0)
 {
-    std::fill(m_buffer.begin(), m_buffer.end(), 0);
 }
 
 // copy constructor
 Matrix::Matrix(Matrix const & other)
-    : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0)
+    : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer()
 {
     std::copy(other.m_buffer.begin(), other.m_buffer.end(), m_buffer.begin());
 }
 
 // move constructor
 Matrix::Matrix(Matrix && other)
-    : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0)
+    : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer()
 {
     other.m_buffer.swap(m_buffer);
 }
