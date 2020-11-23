@@ -20,12 +20,15 @@ MKLLINKLINE := \
 	${MKLROOT}/lib/libmkl_core.${MKLEXT} \
 	-lpthread -lm -ldl
 
+NUMPYINC := $(shell python3 -c "import numpy; print(numpy.get_include())")
+
 CXX = g++
 CXXFLAGS := ${CXXFLAGS} \
 	-std=c++17 -O3 -g -m64 \
 	-Wall -Wextra -shared \
 	-fPIC `python3 -m pybind11 --includes` \
 	-I${MKLROOT}/include \
+	-I$(NUMPYINC) \
 	-I./ \
 	${FLAGS}
 LDFLAGS = ${MKLLINKLINE}
