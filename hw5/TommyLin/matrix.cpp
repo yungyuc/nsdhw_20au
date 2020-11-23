@@ -1,4 +1,3 @@
-#include <vector>
 #include <stdexcept>
 #include "mkl.h"
 #include "matrix.hpp"
