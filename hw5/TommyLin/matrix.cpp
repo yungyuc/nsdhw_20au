@@ -1,61 +1,36 @@
 #include <vector>
 #include <stdexcept>
 #include "mkl.h"
+#include "matrix.hpp"
 
+// default contructor
+Matrix::Matrix(size_t nrow, size_t ncol)
+    : m_nrow(nrow), m_ncol(ncol), m_buffer(nrow * ncol, 0)
+{
+    std::fill(m_buffer.begin(), m_buffer.end(), 0);
+}
 
-class Matrix {
+// copy constructor
+Matrix::Matrix(Matrix const & other)
+    : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0)
+{
+    std::copy(other.m_buffer.begin(), other.m_buffer.end(), m_buffer.begin());
+}
 
-public:
-    // default contructor
-    Matrix(size_t nrow, size_t ncol)
-        : m_nrow(nrow), m_ncol(ncol), m_buffer(nrow * ncol, 0) {
-        std::fill(m_buffer.begin(), m_buffer.end(), 0);
-    }
+// move constructor
+Matrix::Matrix(Matrix && other)
+    : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0)
+{
+    other.m_buffer.swap(m_buffer);
+}
 
-    // copy constructor
-    Matrix(Matrix const & other)
-        : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0) {
-        std::copy(other.m_buffer.begin(), other.m_buffer.end(), m_buffer.begin());
-    }
+Matrix::Matrix(std::vector<std::vector<double>> const & other)
+    : m_nrow(other.size()), m_ncol(other[0].size())
+{
+    for(const auto &v: other)
+        m_buffer.insert(m_buffer.end(), v.begin(), v.end());
+}
 
-    // move constructor
-    Matrix(Matrix && other)
-        : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0) {
-        other.m_buffer.swap(m_buffer);
-    }
-
-    Matrix(std::vector<std::vector<double>> const & other)
-        : m_nrow(other.size()), m_ncol(other[0].size()) {
-        for(const auto &v: other)
-            m_buffer.insert(m_buffer.end(), v.begin(), v.end());
-    }
-
-    ~Matrix() = default; // default destructor
-
-    friend Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2);
-    friend Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, const unsigned int tsize);
-    friend Matrix multiply_mkl(const Matrix &mat1, const Matrix &mat2);
-
-    size_t index(size_t row, size_t col) const { return row*m_ncol + col; }
-    double   operator() (size_t row, size_t col) const { return m_buffer.at( index(row, col) ); }
-    double & operator() (size_t row, size_t col)       { return m_buffer.at( index(row, col) ); }
-
-    bool operator == (Matrix const &other) const {
-        if (this == &other) return true;
-        if (m_nrow != other.m_nrow || m_ncol != other.m_ncol) return false;
-        if (m_buffer == other.m_buffer) return true;
-        else return false;
-    }
-
-    double *data() { return m_buffer.data(); }
-    size_t nrow() const { return m_nrow; }
-    size_t ncol() const { return m_ncol; }
-
-private:
-    size_t m_nrow;
-    size_t m_ncol;
-    std::vector<double> m_buffer;
-};
 
 Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2)
 {
