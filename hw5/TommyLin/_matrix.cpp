@@ -44,7 +44,7 @@ public:
     double   operator() (size_t row, size_t col) const { return m_buffer.at( index(row, col) ); }
     double & operator() (size_t row, size_t col)       { return m_buffer.at( index(row, col) ); }
 
-    bool operator == (Matrix const &other) {
+    bool operator == (Matrix const &other) const {
         if (this == &other) return true;
         if (m_nrow != other.m_nrow || m_ncol != other.m_ncol) return false;
         if (m_buffer == other.m_buffer) return true;
