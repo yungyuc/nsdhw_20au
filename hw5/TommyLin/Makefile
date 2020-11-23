@@ -31,7 +31,7 @@ CXXFLAGS := ${CXXFLAGS} \
 LDFLAGS = ${MKLLINKLINE}
 
 TARGET = _matrix
-OBJS = _matrix.o ../mod.o
+OBJS = matrix.o ../mod.o
 LIBRARY = $(TARGET)$(shell python3-config --extension-suffix)
 
 .PHONY: clean test
