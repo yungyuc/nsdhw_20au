@@ -29,6 +29,7 @@ CXXFLAGS := ${CXXFLAGS} \
 	-fsized-deallocation \
 	-ftree-vectorize -funroll-loops -ffast-math \
     -I${MKLROOT}/include \
+	-I./ \
     ${MKLLINKLINE} -shared -fPIC
 
 BIN := _matrix
@@ -36,8 +37,8 @@ BIN := _matrix
 .PHONY: default
 default: ${BIN}.*.so
 
-${BIN}.*.so: $(BIN).cpp
-	$(CXX) $(CXXFLAGS) `$(PYTHON) -m pybind11 --includes` $< -o $(BIN)`$(PYTHON)-config --extension-suffix`
+${BIN}.*.so: matrix.hpp
+	$(CXX) $(CXXFLAGS) `$(PYTHON) -m pybind11 --includes` ../mod.cpp -o $(BIN)`$(PYTHON)-config --extension-suffix`
 
 .PHONY: clean
 clean:
