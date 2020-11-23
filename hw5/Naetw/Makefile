@@ -1,6 +1,7 @@
 CXX = clang++
 
 PYTHON = python3
+NUMPY_PATH := $(shell ${PYTHON} -c "import numpy; print(numpy.get_include())")
 
 UNAME_S := $(shell uname -s)
 
@@ -29,6 +30,7 @@ CXXFLAGS := ${CXXFLAGS} \
 	-fsized-deallocation \
 	-ftree-vectorize -funroll-loops -ffast-math \
     -I${MKLROOT}/include \
+	-I${NUMPY_PATH} \
 	-I./ \
     ${MKLLINKLINE} -shared -fPIC
 
