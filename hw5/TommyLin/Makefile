@@ -10,7 +10,6 @@ endif
 
 ifeq ($(UNAME_S),Linux)
 MKLROOT ?= ${HOME}/opt/conda
-#MKLROOT ?= /opt/intel/mkl
 MKLEXT ?= so
 CXXFLAGS := -Wl,--no-as-needed
 endif
@@ -24,22 +23,24 @@ MKLLINKLINE := \
 CXX = g++
 CXXFLAGS := ${CXXFLAGS} \
 	-std=c++17 -O3 -g -m64 \
-	-Wall -Wextra -Werror -shared \
+	-Wall -Wextra -shared \
 	-fPIC `python3 -m pybind11 --includes` \
 	-I${MKLROOT}/include \
-	${MKLLINKLINE} \
+	-I./ \
 	${FLAGS}
+LDFLAGS = ${MKLLINKLINE}
 
 TARGET = _matrix
+OBJS = _matrix.o ../mod.o
 LIBRARY = $(TARGET)$(shell python3-config --extension-suffix)
 
 .PHONY: clean test
-$(LIBRARY): _matrix.cpp
-	echo $@
-	${CXX} ${CXXFLAGS} $? -o $@
+$(LIBRARY): $(OBJS)
+	${CXX} ${CXXFLAGS} $(LDFLAGS) $? -o $@
 
 clean:
-	rm -Rf $(LIBRARY) performance.txt __pycache__ .pytest_cache
+	@rm -Rfv $(LIBRARY) __pycache__ .pytest_cache
+	@rm -Rfv $(OBJS)
 
 test: $(LIBRARY)
-	python3 -m py.test -v -l
+	../validate.py
