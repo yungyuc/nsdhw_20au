@@ -128,10 +128,10 @@ Matrix multiply_tile(const Matrix & mat1, const Matrix & mat2, size_t tile_width
              size_t b_min = std::min(b + tile_width, mat2.ncol());
              for (size_t c = 0; c < mat1.ncol(); c += tile_width) {
                  size_t c_min = std::min(c + tile_width, mat1.ncol());
-                 for (size_t i = a; i < a_min; i++) {
-                     for (size_t j = b; j < b_min; j++) {
+                 for (size_t i = a; i < a_min; ++i) {
+                     for (size_t j = b; j < b_min; ++j) {
                         double v = 0.0;
-                     	for (size_t k = c; k < c_min; k++) {
+                     	for (size_t k = c; k < c_min; ++k) {
                          	v +=  mat1(i,k) * mat2(k,j);
                         }
                         ret(i,j) += v;
