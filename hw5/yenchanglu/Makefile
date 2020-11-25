@@ -35,8 +35,8 @@ CXXFLAGS := ${CXXFLAGS} \
 .PHONY: default
 default: _matrix
 _matrix: matrix.hpp
-        $(CXX) ../mod.cpp $(CXXFLAGS) -o $@`python3-config --extension-suffix`
+	$(CXX) ../mod.cpp $(CXXFLAGS) -o $@`python3-config --extension-suffix`
 
 .PHONY: clean
 clean:
-        rm -rf *.so
+	rm -rf *.so
