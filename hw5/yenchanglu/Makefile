@@ -30,6 +30,7 @@ CXXFLAGS := ${CXXFLAGS} \
 	-Wall -Wextra -Werror -shared -fPIC `python3 -m pybind11 --includes` \
 	-I${NUMPY_PATH} \
 	-I ./ \
+	-I${MKLROOT}/include \
 	${MKLLINKLINE}
 
 .PHONY: default
