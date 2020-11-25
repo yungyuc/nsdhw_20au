@@ -27,7 +27,7 @@ CXX = clang++
 CXXFLAGS := ${CXXFLAGS} \
 	-std=c++17 -O3 -g -m64 \
 	-ftree-vectorize -funroll-loops -ffast-math \
-	-Wall -Wextra -Werror -shared -fPIC `python3 -m pybind11 --includes` \
+	-Wall -shared -fPIC `python3 -m pybind11 --includes` \
 	-I${NUMPY_PATH} \
 	-I ./ \
 	-I${MKLROOT}/include \
