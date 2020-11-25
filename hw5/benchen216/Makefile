@@ -20,8 +20,8 @@ MKLLINKLINE := \
 	${MKLROOT}/lib/libmkl_sequential.${MKLEXT} \
 	${MKLROOT}/lib/libmkl_core.${MKLEXT} \
 	${MKLROOT}/lib/libmkl_sequential.${MKLEXT} \
-	-lpthread -lm -ldl -fPIC
-PYBINDLIB := `python3 -m pybind11 --includes`
+	-lpthread -lm -ldl
+
 CXX = g++
 CXXFLAGS := -O3 -Wall -shared -std=c++17 \
 	-fPIC `python3 -m pybind11 --includes` ../mod.cpp \
