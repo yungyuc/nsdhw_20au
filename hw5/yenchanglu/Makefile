@@ -23,7 +23,7 @@ MKLLINKLINE := \
 	${MKLROOT}/lib/libmkl_def.${MKLEXT} \
 	-lpthread -lm -ldl
 
-CXX = clang++
+CXX = g++
 CXXFLAGS := ${CXXFLAGS} \
 	-std=c++17 -O3 -g -m64 \
 	-ftree-vectorize -funroll-loops -ffast-math \
