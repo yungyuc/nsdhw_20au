@@ -39,20 +39,20 @@ PYBINDFLAGS := \
 	-fPIC `python3 -m pybind11 --includes`
 
 .PHONY: _matlink
-_matlink: _matrix mod.o _matrix.o
-	$(CXX) -shared -o _matrix`python3-config --extension-suffix` mod.o _matrix.o
-_matrix: mod.cpp
+_matlink: matrix mod.o matrix.o
+	$(CXX) -shared -o matrix`python3-config --extension-suffix` mod.o matrix.o
+matrix: mod.cpp
 	${CXX} $< ${CXXFLAGS} $(PYBINDFLAGS) -o $@`python3-config --extension-suffix`
 
 mod.o: mod.cpp
 	$(CXX) -c $< ${CXXGCOMPILE} $(PYBINDFLAGS) -o $@ -fPIC
 
-_matrix.o: _matrix.cpp _matrix.hpp Makefile
+matrix.o: matrix.cpp matrix.hpp Makefile
 	$(CXX) -c $< ${CXXGCOMPILE} -I${MKLROOT}/include -o $@ -fPIC
 
 .PHONY: clean
 clean: 
-	rm -rf _matrix *.so *.o performance.txt __pycache__/ .pytest_cache/ .cache/
+	rm -rf matrix *.so *.o performance.txt __pycache__/ .pytest_cache/ .cache/
 
 .PHONY: test
 test: clean _matlink Makefile

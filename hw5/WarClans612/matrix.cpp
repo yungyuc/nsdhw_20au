@@ -5,7 +5,7 @@
 #include "mkl.h"
 
 #include "alloc.hpp"
-#include "_matrix.hpp"
+#include "matrix.hpp"
 
 static MyAllocator<double> my_allocator;
 std::size_t bytes() { return my_allocator.counter.bytes(); }

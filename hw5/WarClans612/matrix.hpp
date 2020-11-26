@@ -23,10 +23,10 @@ public:
     friend Matrix multiply_tile(const Matrix &mat1, const Matrix &mat2, int lsize);
 
     size_t index(size_t row, size_t col) const { return row*m_ncol + col; }
-    double   operator() (size_t row, size_t col) const { return m_buffer.at( index(row, col) ); }
-    double & operator() (size_t row, size_t col)       { return m_buffer.at( index(row, col) ); }
-    double   operator() (size_t idx) const { return m_buffer.at( idx ); }
-    double & operator() (size_t idx)       { return m_buffer.at( idx ); }
+    double   operator() (size_t row, size_t col) const { return m_buffer[ index(row, col) ]; }
+    double & operator() (size_t row, size_t col)       { return m_buffer[ index(row, col) ]; }
+    double   operator() (size_t idx) const { return m_buffer[ idx ]; }
+    double & operator() (size_t idx)       { return m_buffer[ idx ]; }
 
     bool operator== (Matrix const &other)
     {
@@ -62,6 +62,20 @@ private:
     std::vector<double, MyAllocator<double>> m_buffer;
 
 };
+
+bool operator== (const Matrix& mat1, const Matrix& mat2)
+{
+    if(mat1.nrow() != mat2.nrow() || mat1.ncol() != mat2.ncol()) return false;
+
+    for(size_t i = 0; i<mat1.nrow(); i++)
+    {
+        for(size_t j = 0; j<mat1.ncol(); j++)
+        {
+            if(mat1(i,j) != mat2(i,j)) return false;
+        }
+    }
+    return true;
+}
 
 void validate_multiplication(Matrix const &mat1, Matrix const &mat2);
 Matrix multiply_naive(Matrix const &mat1, Matrix const &mat2);
