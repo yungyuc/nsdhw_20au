@@ -28,11 +28,11 @@ public:
     double   operator() (size_t idx) const { return m_buffer[ idx ]; }
     double & operator() (size_t idx)       { return m_buffer[ idx ]; }
 
-    bool operator== (Matrix const &other)
+    bool operator== (const Matrix& mat1, const Matrix& mat2)
     {
-        if (this == &other) return true;
-        if (m_nrow != other.m_nrow || m_ncol != other.m_ncol) return false;
-        if (m_buffer == other.m_buffer) return true;
+        if (&mat1 == &mat2) return true;
+        if (mat1.m_nrow != mat2.m_nrow || mat1.m_ncol != mat2.m_ncol) return false;
+        if (mat1.m_buffer == mat2.m_buffer) return true;
         else return false;
     }
 
@@ -59,23 +59,9 @@ private:
 
     size_t m_nrow;
     size_t m_ncol;
-    std::vector<double, MyAllocator<double>> m_buffer;
+    std::vector<double> m_buffer;
 
 };
-
-bool operator== (const Matrix& mat1, const Matrix& mat2)
-{
-    if(mat1.nrow() != mat2.nrow() || mat1.ncol() != mat2.ncol()) return false;
-
-    for(size_t i = 0; i<mat1.nrow(); i++)
-    {
-        for(size_t j = 0; j<mat1.ncol(); j++)
-        {
-            if(mat1(i,j) != mat2(i,j)) return false;
-        }
-    }
-    return true;
-}
 
 void validate_multiplication(Matrix const &mat1, Matrix const &mat2);
 Matrix multiply_naive(Matrix const &mat1, Matrix const &mat2);
