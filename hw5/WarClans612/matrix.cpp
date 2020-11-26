@@ -4,7 +4,6 @@
 #include <algorithm>
 #include "mkl.h"
 
-#include "alloc.hpp"
 #include "matrix.hpp"
 
 // default contructor
@@ -29,7 +28,7 @@ Matrix::Matrix(Matrix const & other)
 
 // move constructor
 Matrix::Matrix(Matrix && other)
-    : m_nrow(other.m_nrow), m_ncol(other.m_ncol)
+    : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0)
 {
     other.m_buffer.swap(m_buffer);
 }

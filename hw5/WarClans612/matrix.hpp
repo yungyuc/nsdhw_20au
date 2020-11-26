@@ -28,11 +28,11 @@ public:
     double   operator() (size_t idx) const { return m_buffer[ idx ]; }
     double & operator() (size_t idx)       { return m_buffer[ idx ]; }
 
-    bool operator== (const Matrix& mat1, const Matrix& mat2)
+    bool operator== (Matrix const &other) const
     {
-        if (&mat1 == &mat2) return true;
-        if (mat1.m_nrow != mat2.m_nrow || mat1.m_ncol != mat2.m_ncol) return false;
-        if (mat1.m_buffer == mat2.m_buffer) return true;
+        if (this == &other) return true;
+        if (m_nrow != other.m_nrow || m_ncol != other.m_ncol) return false;
+        if (m_buffer == other.m_buffer) return true;
         else return false;
     }
 

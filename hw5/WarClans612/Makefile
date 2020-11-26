@@ -28,7 +28,7 @@ CXXFLAGS := ${CXXFLAGS} \
 	-shared \
 	-I${MKLROOT}/include \
 	-I${NUMPYROOT} \
-	${MKLLINKLINE} \
+	#${MKLLINKLINE} \
 	${FLAGS}
 
 CXXGCOMPILE := -std=c++17 -O3 \
@@ -40,7 +40,7 @@ PYBINDFLAGS := \
 
 .PHONY: _matlink
 _matlink: matrix mod.o matrix.o
-	$(CXX) -shared -o matrix`python3-config --extension-suffix` mod.o matrix.o
+	$(CXX) -shared -o _matrix`python3-config --extension-suffix` mod.o matrix.o
 matrix: mod.cpp
 	${CXX} $< ${CXXFLAGS} $(PYBINDFLAGS) -o $@`python3-config --extension-suffix`
 
