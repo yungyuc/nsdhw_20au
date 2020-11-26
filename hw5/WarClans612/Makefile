@@ -14,6 +14,8 @@ MKLEXT ?= so
 CXXFLAGS := -Wl,--no-as-needed
 endif
 
+NUMPYROOT := $(shell python -c "import numpy; print(numpy.get_include())")
+
 MKLLINKLINE := \
 	${MKLROOT}/lib/libmkl_intel_lp64.${MKLEXT} \
 	${MKLROOT}/lib/libmkl_sequential.${MKLEXT} \
@@ -23,13 +25,14 @@ MKLLINKLINE := \
 CXX = g++
 CXXFLAGS := ${CXXFLAGS} \
 	-std=c++17 -O3 -g -m64 \
-	-Wall -Wextra -Werror -shared \
+	-shared \
 	-I${MKLROOT}/include \
+	-I${NUMPYROOT} \
 	${MKLLINKLINE} \
 	${FLAGS}
 
 CXXGCOMPILE := -std=c++17 -O3 \
-	-Wall -Wextra -Werror
+	-I${NUMPYROOT}
 
 CXX = g++
 PYBINDFLAGS := \
