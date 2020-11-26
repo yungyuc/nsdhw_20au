@@ -22,7 +22,7 @@ SOFILE = $(MODULE)$(shell python3-config --extension-suffix)
 all: $(SOFILE)
 
 $(SOFILE): ../mod.cpp matrix.cc matrix.hpp
-	$(CXX) `python3 -m pybind11 --includes` matrix.cc ../mod.cpp -o $@ $(CXXFLAGS) -I./
+	$(CXX) `python3 -m pybind11 --includes` -I`python3 -c "import numpy; print(numpy.get_include())"` matrix.cc ../mod.cpp -o $@ $(CXXFLAGS) -I./
 
 test: $(SOFILE)
 	pytest
