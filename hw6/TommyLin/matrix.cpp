@@ -24,7 +24,7 @@ public:
 
     // move constructor
     Matrix(Matrix && other)
-        : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0) {
+        : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer() {
         other.m_buffer.swap(m_buffer);
     }
 
@@ -169,6 +169,14 @@ PYBIND11_MODULE(_matrix, m) {
                 { sizeof(double) * m.ncol(), sizeof(double) }
             );
         })
+        .def_property("array", [] (Matrix &m) {
+            return py::array_t<double>(
+                { m.nrow(), m.ncol() },
+                { sizeof(double) * m.ncol(), sizeof(double)},
+                m.data(),
+                py::cast(m)
+            );
+        }, nullptr)
         .def("__eq__", &Matrix::operator==)
         .def("__setitem__", [](Matrix &mat1, std::pair<size_t, size_t> i, float v) {
             mat1(i.first, i.second) = v;
