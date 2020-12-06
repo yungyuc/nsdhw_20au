@@ -7,24 +7,179 @@
 
 namespace py = pybind11;
 
+
+struct ByteCounterImpl
+{
+    std::size_t allocated = 0;
+    std::size_t deallocated = 0;
+    std::size_t refcount = 0;
+}; /* end struct ByteCounterImpl */
+
+
+/**
+ * One instance of this counter is shared among a set of allocators.
+ *
+ * The counter keeps track of the bytes allocated and deallocated, and report
+ * those two numbers in addition to bytes that remain allocated.
+ */
+class ByteCounter
+{
+
+public:
+
+    ByteCounter()
+      : m_impl(new ByteCounterImpl)
+    {
+        incref();
+    }
+
+    ByteCounter(ByteCounter const & other)
+      : m_impl(other.m_impl)
+    {
+        incref();
+    }
+
+    ByteCounter & operator=(ByteCounter const & other)
+    {
+        if (&other != this)
+        {
+            decref();
+            m_impl = other.m_impl;
+            incref();
+        }
+
+        return *this;
+    }
+
+    ByteCounter(ByteCounter && other)
+      : m_impl(other.m_impl)
+    {
+        incref();
+    }
+
+    ByteCounter & operator=(ByteCounter && other)
+    {
+        if (&other != this)
+        {
+            decref();
+            m_impl = other.m_impl;
+            incref();
+        }
+
+        return *this;
+    }
+
+    ~ByteCounter()
+    {
+        decref();
+    }
+
+    void swap(ByteCounter & other)
+    {
+        std::swap(m_impl, other.m_impl);
+    }
+
+    void increase(std::size_t amount)
+    {
+        m_impl->allocated += amount;
+    }
+
+    void decrease(std::size_t amount)
+    {
+        m_impl->deallocated += amount;
+    }
+
+    std::size_t bytes() const { return m_impl->allocated - m_impl->deallocated; }
+    std::size_t allocated() const { return m_impl->allocated; }
+    std::size_t deallocated() const { return m_impl->deallocated; }
+    /* This is for debugging. */
+    std::size_t refcount() const { return m_impl->refcount; }
+
+private:
+
+    void incref() { ++m_impl->refcount; }
+
+    void decref()
+    {
+        if (nullptr == m_impl) {
+            // Do nothing.
+        } else if (1 == m_impl->refcount) {
+            delete m_impl;
+            m_impl = nullptr;
+        } else {
+            --m_impl->refcount;
+        }
+    }
+
+    ByteCounterImpl * m_impl;
+
+}; /* end class ByteCounter */
+
+template <class T>
+struct MyAllocator
+{
+
+    using value_type = T;
+
+    // Just use the default constructor of ByteCounter for the data member
+    // "counter".
+    MyAllocator() = default;
+
+    template <class U> constexpr
+    MyAllocator(const MyAllocator<U> & other) noexcept
+    {
+        counter = other.counter;
+    }
+
+    T * allocate(std::size_t n)
+    {
+        if (n > std::numeric_limits<std::size_t>::max() / sizeof(T))
+        {
+            throw std::bad_alloc();
+        }
+        const std::size_t bytes = n*sizeof(T);
+        T * p = static_cast<T *>(std::malloc(bytes));
+        if (p) {
+            counter.increase(bytes);
+            return p;
+        } else {
+            throw std::bad_alloc();
+        }
+    }
+
+    void deallocate(T* p, std::size_t n) noexcept
+    {
+        std::free(p);
+
+        const std::size_t bytes = n*sizeof(T);
+        counter.decrease(bytes);
+    }
+
+    ByteCounter counter;
+
+}; /* end struct MyAllocator */
+
+
+static MyAllocator<double> allocator;
+
 class Matrix {
 
 public:
     // default contructor
     Matrix(size_t nrow, size_t ncol)
-        : m_nrow(nrow), m_ncol(ncol), m_buffer(nrow * ncol, 0) {
+        : m_nrow(nrow), m_ncol(ncol), m_buffer(nrow * ncol, 0, allocator) {
         std::fill(m_buffer.begin(), m_buffer.end(), 0);
     }
 
     // copy constructor
     Matrix(Matrix const & other)
-        : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0) {
+        : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(other.m_nrow * other.m_ncol, 0, allocator) {
         std::copy(other.m_buffer.begin(), other.m_buffer.end(), m_buffer.begin());
     }
 
     // move constructor
     Matrix(Matrix && other)
-        : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer() {
+        : m_nrow(other.m_nrow), m_ncol(other.m_ncol), m_buffer(allocator) {
         other.m_buffer.swap(m_buffer);
     }
 
@@ -58,7 +213,7 @@ public:
 private:
     size_t m_nrow;
     size_t m_ncol;
-    std::vector<double> m_buffer;
+    std::vector<double, MyAllocator<double>> m_buffer;
 };
 
 Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2)
@@ -149,10 +304,17 @@ Matrix multiply_mkl(const Matrix &mat1, const Matrix &mat2)
     return ret;
 };
 
+std::size_t bytes() { return allocator.counter.bytes(); }
+std::size_t allocated() { return allocator.counter.allocated(); }
+std::size_t deallocated() { return allocator.counter.deallocated(); }
+
 PYBIND11_MODULE(_matrix, m) {
     m.def("multiply_naive", &multiply_naive);
     m.def("multiply_tile", &multiply_tile);
     m.def("multiply_mkl", &multiply_mkl);
+    m.def("bytes", &bytes);
+    m.def("allocated", &allocated);
+    m.def("deallocated", &deallocated);
     py::class_<Matrix>(m, "Matrix", py::buffer_protocol())
         .def(py::init<size_t, size_t>())
         .def(py::init<Matrix const &>())
