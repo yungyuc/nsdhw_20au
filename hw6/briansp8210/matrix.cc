@@ -1,10 +1,10 @@
 
 #include "matrix.h"
 
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-
 #include <algorithm>
+#include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
+#include <pybind11/stl.h>
 
 #include "mkl.h"
 
@@ -107,6 +107,9 @@ PYBIND11_MODULE(_matrix, m) {
       .def(py::init<const std::vector<std::vector<double>> &>())
       .def_property_readonly("nrow", &Matrix::nrow)
       .def_property_readonly("ncol", &Matrix::ncol)
+      .def_property_readonly("array", [](Matrix &e) {
+          return py::array_t<double>({ e.nrow(), e.ncol() }, { e.ncol() * sizeof(double), sizeof(double) }, e.buffer(), py::cast(e));
+      })
       .def("__eq__", &Matrix::operator==)
       .def("__getitem__",
            [](const Matrix &m, std::array<int, 2> i) { return m(i[0], i[1]); })
