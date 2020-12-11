@@ -15,7 +15,7 @@ MKLLINKLINE := \
 	${MKLROOT}/libmkl_core.so \
 	${MKLROOT}/libmkl_avx2.so 
 
-SOURCE = matrix.cpp mod.cpp
+SOURCE = _matrix.cpp 
 BINDLIBRARY = _matrix`python3-config --extension-suffix` 
 
 CXX = g++
