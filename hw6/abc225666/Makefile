@@ -1,10 +1,10 @@
 TARGET = _matrix$(shell python3-config --extension-suffix)
 
-MKLROOT = /opt/intel/mkl/lib/intel64
-MKLINCLUDEROOT = /opt/intel/mkl
+#MKLROOT = /opt/intel/mkl/lib/intel64
+#MKLINCLUDEROOT = /opt/intel/mkl
 
-#MKLROOT = ${HOME}/opt/conda/lib
-#MKLINCLUDEROOT = ${HOME}/opt/conda
+MKLROOT = ${HOME}/opt/conda/lib
+MKLINCLUDEROOT = ${HOME}/opt/conda
 
 MKLLINE := \
 	-Wl,--no-as-needed \
