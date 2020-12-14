@@ -154,9 +154,9 @@ Time table
     - https://github.com/benchen216/logic-gate-sim
   * - 13
     - 09:05 - 09:30
-    -
-    -
-    -
+    - Wilbert
+    - Sparse Graph Library
+    - https://github.com/WarClans612/Sparse-Graph-Library
   * - 14
     - 09:30 - 09:55
     -
