@@ -67,6 +67,10 @@ List of projects
     - Taking Your Order
     - Leon Lu
     - https://github.com/yenchanglu/takingYourOrder
+  * -
+    - Hao-Hsiang Kuo
+    - Hydrogen Electron Orbital Simulator
+    - https://github.com/honestree/HEOS
 
 Time table
 ==========
@@ -110,7 +114,7 @@ Time table
     -
     -
   * - 7
-    - 09:30 - 09:45
+    - 09:30 - 09:55
     -
     -
     -
@@ -125,14 +129,14 @@ Time table
     - Github
   * - 8
     - 07:00 - 07:25
-    -
-    -
-    -
+    - Hao-Hsiang Kuo
+    - Hydrogen Electron Orbital Simulator
+    - https://github.com/honestree/HEOS
   * - 9
     - 07:25 - 07:50
-    -
-    -
-    -
+    - Tommy Lin
+    - focus-stacking
+    - https://github.com/TommyLin/focus-stacking
   * - 10
     - 07:50 - 08:15
     -
@@ -150,6 +154,11 @@ Time table
     -
   * - 13
     - 09:05 - 09:30
+    -
+    -
+    -
+  * - 14
+    - 09:30 - 09:55
     -
     -
     -
