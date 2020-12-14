@@ -1,58 +1,71 @@
-Packet Analyzer
+Visual cryptography
 ==========================
-Packet Analyzer is a tool to capture the packets and make it visualize.
-To capture the packets I use C++ to write a eBPF program, which makes the speed of capture packets is really fast. (Please follow [Packet flow in Netfilter and General Networking](https://upload.wikimedia.org/wikipedia/commons/3/37/Netfilter-packet-flow.svg)) 
-After get a bunch of packets, we use python to visualize those packets.
+
 
 Basic Information
 =================
+Visual cryptography is a cryptographic technique which allows visual information (pictures, text, etc.) to be encrypted in such a way that the decrypted information appears as a visual image.
 
-GitHub repository:
-https://github.com/JieJhih/Packet-Analyzer.git
+Every pixel from the secret image is encoded into multiple subpixels in each share image using a matrix to determine the color of the pixels. In the (2,N) case a white pixel in the secret image is encoded using a matrix from the following set, where each row gives the subpixel pattern for one of the components:
+
+{all permutations of the columns of} : ![visual cryptography1](https://wikimedia.org/api/rest_v1/media/math/render/svg/ca8afb67adfa8bb7cf09a3891fcd042323242cc1)
+
+While a black pixel in the secret image is encoded using a matrix from the following set:
+{all permutations of the columns of} : ![visual cryptography1](https://wikimedia.org/api/rest_v1/media/math/render/svg/43d5fafd9a9be33cd64a516642e32ee659fb7eeb)
+
+![visual cryptography](example.gif)
+
+GitHub repository: https://github.com/JieJhih/visual-cryptography.git
 
 Problem To Solve
 ================
 
-A server will receive a bunch of packets every day, sometimes system administrator need to analyze each kind of packet (TCP? UDP? Specific IP?) occupy how many percent in daily. Using eBPF program is faster than other userspace tools, cooperate with Python could make data visible.
+- Python have several libraries to manipulate images, but is to slow when computing pixels of two images
+- Offloading to C++ when computing pixels of two images
 
 Perspective users
 =================
-1. System administrator who want to maintain server's health.
-2. Data scientists who want to analyze the client agent, and packets peak or off-peak hours.
+1. People who want to send high security images 
+2. Developer who want generate share 1 and share 2 images by CLI faster
 
 System architecture
 =================
 
-1. Capture the packets from eBPF program.
-2. Send packets information to Python.
-3. Organize a bunch of information of packets.
-4. Show the statistic using Python GUI tool.
+-  Users will provide the image path to CLI
+-  `Parser` will check the input whether it's validate, also convert the image to standard matrix format
+-  `Processor` will computing the origin image to share 1 and share 2 image
+- `Generator` overlapping share 1 and share 2 images
+- Output `result.png` for validation
 
 API decription
 =================
-1. Packet pool buffers.
-2. Input filter type.
-3. Output result
-4. Time recording.
+- This project will provide a completed CLI frontend for user to provide image path
+- Other program can call C++ API `Generate(const Matrix &mat)` to consume this service
 
 Engineering infrastructure
 =================
-1. Basic packet syntax parser
-2. Basic packet data structure
-3. Packets record usage
+* Build tool
+  * Make
+* Testing tool
+  * google test: testing C++ core components
+  * pytest: testing the format reply from C++ API
+* Version Control
+  * Git
+* Documentation
+  * Plan to write comments for core components
 
 Schedule
 =================
 
-- week 7 written eBPF program in C++
-- week 8 Design packet data structure
-- week 9 implement filter function to filter different type of packets
-- week 10 implement input parser
-- week 11 implement GUI to show packets usage
-- week 12 implement packets pool buffer in eBPF program
+- week 9 implement `Parser`
+- week 10 implement `Processor`
+- week 11 implement `Generator`
+- week 12 implement C++ array to numpy array tansformer
+- week 13 Complete unit testing
+- week 14 Try to optimize the computing speed
+- week 15 Prepare for oral presentation
+- week 16 Present my project
 
 References
 =================
-1. https://zh.wikipedia.org/wiki/BPF
-2. https://www.ithome.com.tw/news/139519
-3. https://hackmd.io/@sysprog/linux-ebpf?type=view
+-  http://en.wikipedia.org/wiki/Visual_cryptography
