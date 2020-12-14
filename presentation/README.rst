@@ -149,9 +149,9 @@ Time table
     - https://github.com/yenchanglu/takingYourOrder
   * - 12
     - 08:40 - 09:05
-    -
-    -
-    -
+    - Benjamin Chen
+    - logic gate circuit simulation
+    - https://github.com/benchen216/logic-gate-sim
   * - 13
     - 09:05 - 09:30
     -
