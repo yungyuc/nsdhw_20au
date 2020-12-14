@@ -61,8 +61,8 @@ List of projects
     - https://github.com/emjames/open-data-center-environment
   * -
     - Chieh-Chih Chang
-    - Packet Analyzer
-    - https://github.com/JieJhih/Packet-Analyzer
+    - Visual cryptography
+    - https://github.com/JieJhih/visual-cryptography
   * -
     - Taking Your Order
     - Leon Lu
@@ -105,9 +105,9 @@ Time table
     -
   * - 5
     - 08:40 - 09:05
-    -
-    -
-    -
+    - Chieh-Chih Chang
+    - Visual cryptography
+    - https://github.com/JieJhih/visual-cryptography
   * - 6
     - 09:05 - 09:30
     -
@@ -159,7 +159,7 @@ Time table
     - https://github.com/WarClans612/Sparse-Graph-Library
   * - 14
     - 09:30 - 09:55
-    -
-    -
-    -
+    - Brian
+    - Pedometer
+    - https://github.com/briansp8210/pedometer
 
