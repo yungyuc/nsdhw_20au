@@ -139,9 +139,9 @@ Time table
     - https://github.com/TommyLin/focus-stacking
   * - 10
     - 07:50 - 08:15
-    -
-    -
-    -
+    - Yi-Yang Chao
+    - A-simple-ray-tracer
+    - https://github.com/Naetw/A-simple-ray-tracer
   * - 11
     - 08:15 - 08:40
     -
