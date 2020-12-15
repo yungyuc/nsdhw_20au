@@ -144,8 +144,8 @@ Time table
     - https://github.com/Naetw/A-simple-ray-tracer
   * - 11
     - 08:15 - 08:40
-    - Taking Your Order
     - Leon Lu
+    - Taking Your Order
     - https://github.com/yenchanglu/takingYourOrder
   * - 12
     - 08:40 - 09:05
