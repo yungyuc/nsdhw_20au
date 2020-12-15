@@ -100,9 +100,9 @@ Time table
     -
   * - 4
     - 08:15 - 08:40
-    -
-    -
-    -
+    - Tomoya Sagae
+    - Kalman filter
+    - https://github.com/jptom/study-probablistic-robotics/tree/main/nsd-term-project
   * - 5
     - 08:40 - 09:05
     - Chieh-Chih Chang
