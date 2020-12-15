@@ -113,7 +113,7 @@ Time table
     - Yao-Chia Chan
     - Physics Engine
     - https://github.com/ycchan5566/Physics-Engine
-  * - (7)
+  * -
     - N/A
     -
     -
