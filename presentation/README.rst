@@ -75,7 +75,7 @@ List of projects
 Time table
 ==========
 
-.. list-table:: 12/28 7:00-9:50
+.. list-table:: 12/28 7:00-9:30
   :header-rows: 1
 
   * - ID
@@ -110,16 +110,16 @@ Time table
     - https://github.com/JieJhih/visual-cryptography
   * - 6
     - 09:05 - 09:30
-    -
-    -
-    -
-  * - 7
-    - 09:30 - 09:55
+    - Yao-Chia Chan
+    - Physics Engine
+    - https://github.com/ycchan5566/Physics-Engine
+  * - (7)
+    - N/A
     -
     -
     -
 
-.. list-table:: 1/4 7:00-9:50
+.. list-table:: 1/4 7:00-9:55
   :header-rows: 1
 
   * - ID
