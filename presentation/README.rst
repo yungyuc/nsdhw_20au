@@ -5,10 +5,7 @@ Term project presentation
 The grading guideline for the term project is at
 https://github.com/yungyuc/nsd/blob/master/notebook/20au_nctu/term_project.ipynb .
 
-List of projects
-================
-
-.. list-table:: All projects
+.. list-table:: Unscheduled projects
   :header-rows: 1
 
   * -
