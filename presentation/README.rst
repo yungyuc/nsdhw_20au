@@ -20,10 +20,6 @@ https://github.com/yungyuc/nsd/blob/master/notebook/20au_nctu/term_project.ipynb
     - Ting-Rui Wang
     - Agar backend api
     - https://github.com/abc225666/agar-backend-api
-  * -
-    - Sheng-Wen Cheng
-    - libqpsolver
-    - https://github.com/shengwen-tw/libqpsolver
 
 Time table
 ==========
@@ -38,9 +34,9 @@ Time table
     - Github
   * - 1
     - 07:00 - 07:25
-    -
-    -
-    -
+    - Sheng-Wen Cheng
+    - libqpsolver
+    - https://github.com/shengwen-tw/libqpsolver
   * - 2
     - 07:25 - 07:50
     -
