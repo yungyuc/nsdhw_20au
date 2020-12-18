@@ -5,22 +5,6 @@ Term project presentation
 The grading guideline for the term project is at
 https://github.com/yungyuc/nsd/blob/master/notebook/20au_nctu/term_project.ipynb .
 
-.. list-table:: Unscheduled projects
-  :header-rows: 1
-
-  * -
-    - Presenter name
-    - Subject
-    - Github
-  * -
-    - Chiao-Feng Cheng
-    - Video Compression
-    - https://github.com/jspss93094/nsd_TermProject
-  * -
-    - Ting-Rui Wang
-    - Agar backend api
-    - https://github.com/abc225666/agar-backend-api
-
 Time table
 ==========
 
@@ -39,14 +23,14 @@ Time table
     - https://github.com/shengwen-tw/libqpsolver
   * - 2
     - 07:25 - 07:50
-    -
-    -
-    -
+    - Ting-Rui Wang
+    - Agar backend api
+    - https://github.com/abc225666/agar-backend-api
   * - 3
     - 07:50 - 08:15
-    -
-    -
-    -
+    - Chiao-Feng Cheng
+    - Video Compression
+    - https://github.com/jspss93094/nsd_TermProject
   * - 4
     - 08:15 - 08:40
     - Tomoya Sagae
