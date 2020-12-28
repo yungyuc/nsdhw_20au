@@ -33,9 +33,9 @@ Time table
     - https://github.com/jspss93094/nsd_TermProject
   * - 4
     - 08:15 - 08:40
-    - Tomoya Sagae
-    - Kalman filter
-    - https://github.com/jptom/study-probablistic-robotics/tree/main/nsd-term-project
+    - Tomoya Sagae (pushed back)
+    -
+    -
   * - 5
     - 08:40 - 09:05
     - Chieh-Chih Chang
@@ -95,4 +95,18 @@ Time table
     - Brian
     - Pedometer
     - https://github.com/briansp8210/pedometer
+
+.. list-table:: 1/11 7:00-9:30 (make-up session and Q&A)
+  :header-rows: 1
+
+  * - ID
+    - Time
+    - Presenter name
+    - Subject
+    - Github
+  * - 15
+    - 07:00 - 07:25
+    - Tomoya Sagae
+    - Kalman filter
+    - https://github.com/jptom/study-probablistic-robotics/tree/main/nsd-term-project
 
