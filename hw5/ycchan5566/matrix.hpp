@@ -23,13 +23,6 @@ public:
     double   operator() (size_t row, size_t col) const { return m_buffer[row*m_ncol + col]; }
     double & operator() (size_t row, size_t col)       { return m_buffer[row*m_ncol + col]; }
 
-    bool operator == (Matrix const &other) {
-        if (this == &other) return true;
-        if (m_nrow != other.m_nrow || m_ncol != other.m_ncol) return false;
-        if (m_buffer == other.m_buffer) return true;
-        else return false;
-    }
-
     size_t nrow() const { return m_nrow; }
     size_t ncol() const { return m_ncol; }
 
