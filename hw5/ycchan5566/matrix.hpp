@@ -22,6 +22,7 @@ public:
     // No bound check.
     double   operator() (size_t row, size_t col) const { return m_buffer[row*m_ncol + col]; }
     double & operator() (size_t row, size_t col)       { return m_buffer[row*m_ncol + col]; }
+    bool operator==(const Matrix &other) const;
 
     size_t nrow() const { return m_nrow; }
     size_t ncol() const { return m_ncol; }

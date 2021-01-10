@@ -1,6 +1,20 @@
 #include <mkl.h>
 #include "matrix.hpp"
 
+bool Matrix::operator==(const Matrix &other) const {
+  if (m_nrow != other.m_nrow || m_ncol != other.m_ncol) {
+    return false;
+  }
+  for (size_t i = 0; i < m_nrow; ++i) {
+    for (size_t j = 0; j < m_ncol; ++j) {
+      if ((*this)(i, j) != other(i, j)) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
 Matrix multiply_naive(const Matrix &mat1, const Matrix &mat2) {
     size_t nr = mat1.nrow();
     size_t nc = mat2.ncol();
